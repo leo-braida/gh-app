@@ -44,8 +44,17 @@ function Navbar(props) {
           <ul className='navbar-nav'>
             <NavbarItem
               render='true'
-              href=''
+              href='/listagem-tipos-quarto'
               label='Tipos de Quartos'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-servicos'
+              label='Tipos de servicos'
               />
           </ul>
          </div>
