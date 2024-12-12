@@ -11,6 +11,7 @@ import ListagemReservas from './views/listagem-reservas';
 import ListagemHospedagens from './views/listagem-hospedagens';
 import ListagemGrupos from './views/listagem-grupos';
 import ListagemAgendamentos from './views/listagem-agendamentos';
+import ListagemTrabalhadores from './views/listagem-trabalhadores';
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
 
@@ -66,6 +67,10 @@ function Rotas(props){
         <Route
           path='/listagem-agendamentos/:idParam?'
           element={<ListagemAgendamentos />}
+        />
+        <Route
+          path='/listagem-trabalhadores/:idParam?'
+          element={<ListagemTrabalhadores />}
         />
       </Routes>
     </BrowserRouter>
