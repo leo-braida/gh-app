@@ -58,6 +58,15 @@ function Navbar(props) {
               />
           </ul>
          </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-itens'
+              label='Itens'
+              />
+          </ul>
+         </div>
         <div className='collapse navbar-collapse' id='navbarResponsive'>
           <ul className='navbar-nav'>
             <NavbarItem
