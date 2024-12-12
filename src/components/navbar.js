@@ -67,6 +67,42 @@ function Navbar(props) {
               />
           </ul>
          </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-quartos'
+              label='Quartos'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-hospedes'
+              label='Hospedes'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-reservas'
+              label='Reservas'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-hospedagens'
+              label='Hospedagens'
+              />
+          </ul>
+         </div>
         <div className='collapse navbar-collapse' id='navbarResponsive'>
           <ul className='navbar-nav'>
             <NavbarItem
