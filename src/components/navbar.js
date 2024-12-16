@@ -44,8 +44,89 @@ function Navbar(props) {
           <ul className='navbar-nav'>
             <NavbarItem
               render='true'
-              href=''
+              href='/listagem-tipos-quarto'
               label='Tipos de Quartos'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-servicos'
+              label='Serviços'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-itens'
+              label='Itens'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-quartos'
+              label='Quartos'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-hospedes'
+              label='Hóspedes'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-reservas'
+              label='Reservas'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-hospedagens'
+              label='Hospedagens'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-grupos'
+              label='Grupos'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-agendamentos'
+              label='Agendamentos'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-trabalhadores'
+              label='Trabalhadores'
               />
           </ul>
          </div>
