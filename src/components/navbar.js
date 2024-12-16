@@ -54,7 +54,7 @@ function Navbar(props) {
             <NavbarItem
               render='true'
               href='/listagem-servicos'
-              label='Tipos de servicos'
+              label='Serviços'
               />
           </ul>
          </div>
@@ -81,7 +81,7 @@ function Navbar(props) {
             <NavbarItem
               render='true'
               href='/listagem-hospedes'
-              label='Hospedes'
+              label='Hóspedes'
               />
           </ul>
          </div>

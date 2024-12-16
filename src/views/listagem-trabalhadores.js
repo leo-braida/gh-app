@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL3 } from '../config/axios';
+import { BASE_URL2 } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/trabalhadores`;
+const baseURL = `${BASE_URL2}/trabalhadores`;
 
 function ListagemTrabalhadores() {
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ function ListagemTrabalhadores() {
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
+                    <th scope='col'>Cargo</th>
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Ações</th>
                   </tr>
@@ -63,6 +64,7 @@ function ListagemTrabalhadores() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
+                      <td>{dado.cargo}</td>
                       <td>{dado.telefone}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
