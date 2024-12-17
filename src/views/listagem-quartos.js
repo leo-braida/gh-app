@@ -15,6 +15,7 @@ import axios from 'axios';
 import { BASE_URL_TIPOQUARTOS } from '../config/axios';
 
 const baseURLQuarto = `${BASE_URL_TIPOQUARTOS}/quartos`;
+
 const baseURLTipoDeQuartos = `${BASE_URL_TIPOQUARTOS}/tipoDeQuartos`;
 const baseURLTipoDoQuarto = `${BASE_URL_TIPOQUARTOS}/tipoDoQuarto`;
 
@@ -91,9 +92,6 @@ function ListagemQuartos() {
                               </div>
                             );
                           })}
-                      </td>
-
-                      <td>
                       </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
