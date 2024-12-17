@@ -12,11 +12,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_QUARTOS } from '../config/axios';
+import { BASE_URL_TIPOQUARTOS } from '../config/axios';
 
-const baseURLQuarto = `${BASE_URL_QUARTOS}/quartos`;
-const baseURLTipoDeQuartos = `${BASE_URL_QUARTOS}/tipoDeQuartos`;
-const baseURLTipoDoQuarto = `${BASE_URL_QUARTOS}/tipoDoQuarto`;
+const baseURLQuarto = `${BASE_URL_TIPOQUARTOS}/quartos`;
+const baseURLTipoDeQuartos = `${BASE_URL_TIPOQUARTOS}/tipoDeQuartos`;
+const baseURLTipoDoQuarto = `${BASE_URL_TIPOQUARTOS}/tipoDoQuarto`;
 
 
 function ListagemQuartos() {
