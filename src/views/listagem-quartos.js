@@ -12,9 +12,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL1 } from '../config/axios';
+import { BASE_URL_QUARTOS } from '../config/axios';
 
-const baseURL = `${BASE_URL1}/quartos`;
+const baseURLQuarto = `${BASE_URL_QUARTOS}/quartos`;
+const baseURLTipoDeQuartos = `${BASE_URL_QUARTOS}/tipoDeQuartos`;
+const baseURLTipoDoQuarto = `${BASE_URL_QUARTOS}/tipoDoQuarto`;
+
 
 function ListagemQuartos() {
   const navigate = useNavigate();
@@ -29,10 +32,22 @@ function ListagemQuartos() {
 
   const [dados, setDados] = React.useState(null);
 
+  const [tiposDeQuartos, setTiposDeQuarto] = React.useState(null);
+  const [tipoDoQuarto, setTipoDoQuarto] = React.useState(null);
+
+
+
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setDados(response.data);
-    });
+    Promise.all([
+    axios.get(baseURLQuarto),
+    axios.get(baseURLTipoDeQuartos),
+    axios.get(baseURLTipoDoQuarto)
+    ])
+    .then((responses) => {
+        setDados(responses[0].data);
+        setTiposDeQuarto(responses[1].data);
+        setTipoDoQuarto(responses[2].data);
+      })
   }, []);
 
   if (!dados) return null;
@@ -55,6 +70,7 @@ function ListagemQuartos() {
                   <tr>
                     <th scope='col'>Situação</th>
                     <th scope='col'>Número</th>
+                    <th scope='col'>Tipo</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -64,6 +80,21 @@ function ListagemQuartos() {
                     <tr key={dado.id}>
                       <td>{dado.situacao}</td>
                       <td>{dado.numero}</td>
+                      <td>
+                        {tipoDoQuarto
+                          .filter((tipos) => tipos.idQuarto === dado.id)
+                          .map((tipos) => {
+                            const tipoDeQuarto = tiposDeQuartos.find((h) => h.id === tipos.idTipoDeQuarto);
+                            return (
+                              <div key={tipos.id}>
+                                {tipoDeQuarto.tipo}
+                              </div>
+                            );
+                          })}
+                      </td>
+
+                      <td>
+                      </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
