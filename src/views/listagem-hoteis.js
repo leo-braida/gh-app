@@ -12,14 +12,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_TRABALHADORES } from '../config/axios';
+import { BASE_URL_HOTEIS } from '../config/axios';
 
-const baseURL = `${BASE_URL_TRABALHADORES}/trabalhadores`;
-const baseURLHoteis = `${BASE_URL_TRABALHADORES}/hoteis`;
-const baseURLHotelDoTrabalhador = `${BASE_URL_TRABALHADORES}/hotelDoTrabalhador`;
+const baseURL = `${BASE_URL_HOTEIS}/hoteis`;
 
-
-function ListagemTrabalhadores() {
+function ListagemHoteis() {
   const navigate = useNavigate();
 
   /*const cadastrar = () => {
@@ -31,21 +28,11 @@ function ListagemTrabalhadores() {
   };*/
 
   const [dados, setDados] = React.useState(null);
-  const [hoteis, setHoteis] = React.useState(null);
-  const [hotelDoTrabalhador, setHotelDoTrabalhador] = React.useState(null);
 
   React.useEffect(() => {
-    Promise.all([
-    axios.get(baseURL),
-    axios.get(baseURLHoteis),
-    axios.get(baseURLHotelDoTrabalhador)
-    
-    ])
-    .then((responses) => {
-        setDados(responses[0].data);
-        setHoteis(responses[1].data);
-        setHotelDoTrabalhador(responses[2].data);
-      })
+    axios.get(baseURL).then((response) => {
+      setDados(response.data);
+    });
   }, []);
 
   if (!dados) return null;
@@ -61,15 +48,14 @@ function ListagemTrabalhadores() {
                 className='btn btn-warning'
                 //onClick={() => cadastrar()}
                 >
-                Novo trabalhador
+                Novo hotel
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Cargo</th>
-                    <th scope='col'>Telefone</th>
-                    <th scope='col'>Hotel do Trabalhador</th>
+                    <th scope='col'>CEP</th>
+                    <th scope='col'>Email</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -78,21 +64,8 @@ function ListagemTrabalhadores() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.cargo}</td>
-                      <td>{dado.telefone}</td>
-                      <td>
-                        {hotelDoTrabalhador
-                          .filter((hotelTrabalhador) => hotelTrabalhador.idHotel === dado.id)
-                          .map((hotelTrabalhador) => {
-                            const hotel = hoteis.find(h => h.id === hotelTrabalhador.idHotel);
-                            return (
-                              <div key={hotelTrabalhador.id}>
-                                {hotel?.nome || "Hotel não encontrado"}
-                              </div>
-                            );
-                          })}
-                      </td>
-
+                      <td>{dado.cep}</td>
+                      <td>{dado.email}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -122,4 +95,4 @@ function ListagemTrabalhadores() {
   );
 }
 
-export default ListagemTrabalhadores;
+export default ListagemHoteis;

@@ -48,7 +48,7 @@ function ListagemTiposCama() {
                 className='btn btn-warning'
                 //onClick={() => cadastrar()}
                 >
-                Novo tipo de quarto
+                Novo tipo de cama
               </button>
               <table className='table table-hover'>
                 <thead>

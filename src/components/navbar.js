@@ -35,7 +35,7 @@ function Navbar(props) {
           <ul className='navbar-nav'>
             <NavbarItem
               render='true'
-              href=''
+              href='/listagem-hoteis'
               label='Hotéis'
               />
           </ul>
@@ -100,15 +100,6 @@ function Navbar(props) {
               render='true'
               href='/listagem-hospedagens'
               label='Hospedagens'
-              />
-          </ul>
-         </div>
-         <div className='collapse navbar-collapse' id='navbarResponsive'>
-          <ul className='navbar-nav'>
-            <NavbarItem
-              render='true'
-              href='/listagem-grupos'
-              label='Grupos'
               />
           </ul>
          </div>
