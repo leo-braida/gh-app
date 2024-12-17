@@ -164,7 +164,6 @@ function ListagemHospedagens() {
                           })
                         }
                       </td>
-                      <td>{hospedes.find((hospede) => hospede.id === dado.idHospede).nome}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
