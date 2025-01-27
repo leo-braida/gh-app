@@ -2,8 +2,6 @@ import React from 'react';
 
 import Card from '../components/card';
 
-import { mensagemSucesso, mensagemErro } from '../components/toastr';
-
 
 
 import { useNavigate } from 'react-router-dom';
@@ -14,43 +12,22 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
+import { BASE_URL_HOTEIS } from '../config/axios';
 
-const baseURL = `${BASE_URL}/tipoDeCama`;
+const baseURL = `${BASE_URL_HOTEIS}/hoteis`;
 
-function ListagemTiposCama() {
+function ListagemHoteis() {
   const navigate = useNavigate();
 
-  const cadastrar = () => {
-    navigate(`/cadastro-tipo-cama`);
-  };
+  /*const cadastrar = () => {
+    navigate('/cadastro-tipoDeCama');
+  };*/
 
-  const editar = (id) => {
-    navigate(`/cadastro-tipo-cama/${id}`);
-  };
+  /*const editar = (id) => {
+    navigate('/cadastro/tipoDeCama/${id}');
+  };*/
 
   const [dados, setDados] = React.useState(null);
-  
-  async function excluir(id) {
-    let data = JSON.stringify({ id });
-    let url = `${baseURL}/${id}`;
-    console.log(url)
-    await axios
-      .delete(url, data, {
-        headers: { 'Content-Type': 'application/json' },
-    })
-    .then(function (response) {
-      mensagemSucesso(`Tipo de cama excluído com sucesso!`);
-      setDados(
-        dados.filter((dado) => {
-          return dado.id !== id;
-        })
-      );
-    })
-    .catch(function (error) {
-      mensagemErro(`Erro ao excluir tipo de cama`);
-    });
-  }
 
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -62,24 +39,23 @@ function ListagemTiposCama() {
 
   return (
     <div className='container'>
-      <Card title='Listagem dos Tipos de Camas'>
+      <Card title='Listagem de trabalhadores'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
               <button
                 type='button'
                 className='btn btn-warning'
-                onClick={() => cadastrar()}
+                //onClick={() => cadastrar()}
                 >
-                Novo tipo de cama
+                Novo hotel
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Tipo</th>
-                    <th scope='col'>Quantidade de camas</th>
-                    <th scope='col'>Quantidade de adultos</th>
-                    <th scope='col'>Quantidade de crianças</th>
+                    <th scope='col'>Nome</th>
+                    <th scope='col'>CEP</th>
+                    <th scope='col'>Email</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -87,22 +63,21 @@ function ListagemTiposCama() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.tipo}</td>
-                      <td>{dado.quantidade}</td>
-                      <td>{dado.quantidadeAdultos}</td>
-                      <td>{dado.quantidadeCriancas}</td>
+                      <td>{dado.nome}</td>
+                      <td>{dado.cep}</td>
+                      <td>{dado.email}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
-                            onClick={() => editar(dado.id)}
+                            //onClick={() => editar(dado.id)}
                           >
                             <EditIcon />
                           </IconButton>
                           
                           <IconButton
                             aria-label='delete'
-                            onClick={() => excluir(dado.id)}
+                            //onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>
@@ -120,4 +95,4 @@ function ListagemTiposCama() {
   );
 }
 
-export default ListagemTiposCama;
+export default ListagemHoteis;

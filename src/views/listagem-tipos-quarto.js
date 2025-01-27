@@ -33,8 +33,7 @@ function ListagemTiposQuarto() {
 
   const [dados, setDados] = React.useState(null);
   
-  // coisas novas (e possíveis besteiras) que o Léo fez
-  
+   
   const [tiposDeCama, setTiposDeCama] = React.useState(null);
   const [tiposCamaNoQuarto, setTiposCamaNoQuarto] = React.useState(null);
   const [itens, setItens] = React.useState(null);

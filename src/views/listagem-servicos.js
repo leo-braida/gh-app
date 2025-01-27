@@ -14,7 +14,7 @@ import { BASE_URL3 } from '../config/axios';
 
 const baseURL = `${BASE_URL3}/agendas`;
 const baseURLGrupos = `${BASE_URL3}/gruposPorAgenda`;
-const baseURLAgendamentos = `${BASE_URL3}/agendamentos`;
+const baseURLHorarios = `${BASE_URL3}/horarios`;
 const baseURLTrabalhadores = `${BASE_URL3}/trabalhadores`;
 const baseURLServicos = `${BASE_URL3}/servicos`;
 
@@ -32,7 +32,7 @@ function ListagemServicos() {
   const [dados, setDados] = React.useState(null);
 
   const [grupos, setGrupos] = React.useState(null);
-  const [agendamentos, setAgendamentos] = React.useState(null);
+  const [horarios, setHorarios] = React.useState(null);
   const [trabalhadores, setTrabalhadores] = React.useState(null);
   const [servicos, setServicos] = React.useState(null);
   
@@ -40,14 +40,14 @@ function ListagemServicos() {
     Promise.all([
     axios.get(baseURL),
     axios.get(baseURLGrupos),
-    axios.get(baseURLAgendamentos),
+    axios.get(baseURLHorarios),
     axios.get(baseURLTrabalhadores),
     axios.get(baseURLServicos)
     ])
     .then((responses) => {
         setDados(responses[0].data);
         setGrupos(responses[1].data);
-        setAgendamentos(responses[2].data);
+        setHorarios(responses[2].data);
         setTrabalhadores(responses[3].data);
         setServicos(responses[4].data);
       })
@@ -74,7 +74,7 @@ function ListagemServicos() {
                     <th scope='col'>Serviço</th>
                     <th scope='col'>Descrição do serviço</th>
                     <th scope='col'>Dias</th>
-                    <th scope='col'>Horário</th>
+                    <th scope='col'>Horários</th>
                     <th scope='col'>Funcionários</th>
                     <th scope='col'>Ações</th>
                   </tr>
@@ -97,7 +97,16 @@ function ListagemServicos() {
                         {dado.dias}
                       </td>
                       <td>
-                        {dado.horarioInicio} - {dado.horarioFim}
+                        {horarios
+                          .filter((horario) => horario.idAgenda === dado.id)
+                          .map((horario) => {
+                            return(
+                              <div key={horario.id}>
+                                {horario.horarioInicio} - {horario.horarioFim}
+                              </div>
+                            )
+                          })
+                        }
                       </td>
                       <td>
                         {grupos

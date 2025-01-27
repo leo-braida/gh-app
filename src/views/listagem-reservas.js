@@ -12,9 +12,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL1 } from '../config/axios';
+import { BASE_URL_RESERVAS } from '../config/axios';
 
-const baseURL = `${BASE_URL1}/reservas`;
+const baseURL = `${BASE_URL_RESERVAS}/reservas`;
+const baseURLHospede = `${BASE_URL_RESERVAS}/hospedes`
+const baseURLHospedeNaReserva = `${BASE_URL_RESERVAS}/hospedesNaReserva`
+const baseURLTipoDeQuartoNaReserva = `${BASE_URL_RESERVAS}/tipoDeQuartosNaReserva`
+const baseURLTipoDeQuarto = `${BASE_URL_RESERVAS}/tipoDeQuartos`
+
 
 function ListagemReservas() {
   const navigate = useNavigate();
@@ -29,10 +34,27 @@ function ListagemReservas() {
 
   const [dados, setDados] = React.useState(null);
 
+  const [hospedes, setHospedes] = React.useState(null);
+  const [hospedesNaReserva, setHospedesNaReserva] = React.useState(null);
+  const [tipoDeQuartosNaReserva, setTipoDeQuartosNaReserva] = React.useState(null);
+  const [tipoDeQuartos, setTipoDeQuarto] = React.useState(null);
+
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setDados(response.data);
-    });
+    Promise.all([
+    axios.get(baseURL),
+    axios.get(baseURLHospede),
+    axios.get(baseURLHospedeNaReserva),
+    axios.get(baseURLTipoDeQuartoNaReserva),
+    axios.get(baseURLTipoDeQuarto)
+    
+    ])
+    .then((responses) => {
+        setDados(responses[0].data);
+        setHospedes(responses[1].data);
+        setHospedesNaReserva(responses[2].data);
+        setTipoDeQuartosNaReserva(responses[3].data);
+        setTipoDeQuarto(responses[4].data);
+      })
   }, []);
 
   if (!dados) return null;
@@ -48,13 +70,15 @@ function ListagemReservas() {
                 className='btn btn-warning'
                 //onClick={() => cadastrar()}
                 >
-                Novo quarto
+                Nova reserva
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th scope='col'>Data de chegada</th>
                     <th scope='col'>Data de saída</th>
+                    <th scope='col'>Hóspedes na Reserva</th>
+                    <th scope='col'>Tipo de quarto</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -64,6 +88,31 @@ function ListagemReservas() {
                     <tr key={dado.id}>
                       <td>{dado.dataChegada}</td>
                       <td>{dado.dataSaida}</td>
+                      <td>
+                        {hospedesNaReserva
+                          .filter((hospedeNaReserva) => hospedeNaReserva.idReserva === dado.id)
+                          .map((hospedeNaReserva) => {
+                            const hospede = hospedes.find((h) => h.id === hospedeNaReserva.idHospede);
+                            return (
+                              <div key={hospedeNaReserva.id}>
+                                {hospede.nome}
+                              </div>
+                            );
+                          })}
+                      </td>
+                      <td>
+                        {tipoDeQuartosNaReserva
+                          .filter((tipoReserva) => tipoReserva.idReserva === dado.id)
+                          .map((tipoReserva) => {
+                            const tipoQuarto = tipoDeQuartos.find((tq) => tq.id === tipoReserva.idTipoDeQuarto);
+                            return (
+                              <div key={tipoReserva.id}>
+                                {tipoQuarto.tipo}
+                              </div>
+                            );
+                          })}
+                      </td>
+
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

@@ -12,9 +12,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios';
+import { BASE_URL_TRABALHADORES } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/trabalhadores`;
+const baseURL = `${BASE_URL_TRABALHADORES}/trabalhadores`;
+const baseURLHoteis = `${BASE_URL_TRABALHADORES}/hoteis`;
+const baseURLHotelDoTrabalhador = `${BASE_URL_TRABALHADORES}/hotelDoTrabalhador`;
+
 
 function ListagemTrabalhadores() {
   const navigate = useNavigate();
@@ -28,11 +31,21 @@ function ListagemTrabalhadores() {
   };*/
 
   const [dados, setDados] = React.useState(null);
+  const [hoteis, setHoteis] = React.useState(null);
+  const [hotelDoTrabalhador, setHotelDoTrabalhador] = React.useState(null);
 
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setDados(response.data);
-    });
+    Promise.all([
+    axios.get(baseURL),
+    axios.get(baseURLHoteis),
+    axios.get(baseURLHotelDoTrabalhador)
+    
+    ])
+    .then((responses) => {
+        setDados(responses[0].data);
+        setHoteis(responses[1].data);
+        setHotelDoTrabalhador(responses[2].data);
+      })
   }, []);
 
   if (!dados) return null;
@@ -56,6 +69,7 @@ function ListagemTrabalhadores() {
                     <th scope='col'>Nome</th>
                     <th scope='col'>Cargo</th>
                     <th scope='col'>Telefone</th>
+                    <th scope='col'>Hotel do Trabalhador</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -66,6 +80,19 @@ function ListagemTrabalhadores() {
                       <td>{dado.nome}</td>
                       <td>{dado.cargo}</td>
                       <td>{dado.telefone}</td>
+                      <td>
+                        {hotelDoTrabalhador
+                          .filter((hotelTrabalhador) => hotelTrabalhador.idHotel === dado.id)
+                          .map((hotelTrabalhador) => {
+                            const hotel = hoteis.find(h => h.id === hotelTrabalhador.idHotel);
+                            return (
+                              <div key={hotelTrabalhador.id}>
+                                {hotel?.nome || "Hotel não encontrado"}
+                              </div>
+                            );
+                          })}
+                      </td>
+
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
