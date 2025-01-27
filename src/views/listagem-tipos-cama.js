@@ -2,6 +2,8 @@ import React from 'react';
 
 import Card from '../components/card';
 
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
+
 
 
 import { useNavigate } from 'react-router-dom';
@@ -19,15 +21,36 @@ const baseURL = `${BASE_URL}/tipoDeCama`;
 function ListagemTiposCama() {
   const navigate = useNavigate();
 
-  /*const cadastrar = () => {
-    navigate('/cadastro-tipoDeCama');
-  };*/
+  const cadastrar = () => {
+    navigate(`/cadastro-tipo-cama`);
+  };
 
-  /*const editar = (id) => {
-    navigate('/cadastro/tipoDeCama/${id}');
-  };*/
+  const editar = (id) => {
+    navigate(`/cadastro-tipo-cama/${id}`);
+  };
 
   const [dados, setDados] = React.useState(null);
+  
+  async function excluir(id) {
+    let data = JSON.stringify({ id });
+    let url = `${baseURL}/${id}`;
+    console.log(url)
+    await axios
+      .delete(url, data, {
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(function (response) {
+      mensagemSucesso(`Tipo de cama excluído com sucesso!`);
+      setDados(
+        dados.filter((dado) => {
+          return dado.id !== id;
+        })
+      );
+    })
+    .catch(function (error) {
+      mensagemErro(`Erro ao excluir tipo de cama`);
+    });
+  }
 
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -46,7 +69,7 @@ function ListagemTiposCama() {
               <button
                 type='button'
                 className='btn btn-warning'
-                //onClick={() => cadastrar()}
+                onClick={() => cadastrar()}
                 >
                 Novo tipo de cama
               </button>
@@ -54,7 +77,9 @@ function ListagemTiposCama() {
                 <thead>
                   <tr>
                     <th scope='col'>Tipo</th>
-                    <th scope='col'>Quantidade</th>
+                    <th scope='col'>Quantidade de camas</th>
+                    <th scope='col'>Quantidade de adultos</th>
+                    <th scope='col'>Quantidade de crianças</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -64,18 +89,20 @@ function ListagemTiposCama() {
                     <tr key={dado.id}>
                       <td>{dado.tipo}</td>
                       <td>{dado.quantidade}</td>
+                      <td>{dado.quantidadeAdultos}</td>
+                      <td>{dado.quantidadeCriancas}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
-                            //onClick={() => editar(dado.id)}
+                            onClick={() => editar(dado.id)}
                           >
                             <EditIcon />
                           </IconButton>
                           
                           <IconButton
                             aria-label='delete'
-                            //onClick={() => excluir(dado.id)}
+                            onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>
