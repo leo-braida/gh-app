@@ -12,6 +12,7 @@ import ListagemAgendamentos from './views/listagem-agendamentos';
 import ListagemTrabalhadores from './views/listagem-trabalhadores';
 import CadastroTipoCama from './views/cadastro-tipo-cama';
 import CadastroHotel from './views/cadastro-hotel';
+import CadastroItem from './views/cadastro-itens';
 import ListagemHoteis from './views/listagem-hoteis';
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
@@ -28,6 +29,11 @@ function Rotas(props){
         <Route
           path='/cadastro-hotel/:idParam?'
           element={<CadastroHotel />}
+        />
+
+        <Route
+          path='/cadastro-itens/:idParam?'
+          element={<CadastroItem />}
         />
 
         <Route
