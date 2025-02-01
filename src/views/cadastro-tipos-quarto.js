@@ -9,51 +9,48 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL3, BASE_URL_HOTEIS } from '../config/axios';
+import { BASE_URL} from '../config/axios';
 
-const baseURL = `${BASE_URL3}/servicos`;
-const baseURLHoteis = `${BASE_URL_HOTEIS}/hoteis`;
-function CadastroServico() {
+const baseURL = `${BASE_URL}/tipoDeQuartos`;
+const baseURLCamas = `${BASE_URL}/tipoDeCama`;
+const baseURLItens = `${BASE_URL}/itens`;
+function CadastroTipoQuarto() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
-  const [nome, setNome] = useState('');
-  const [descricao, setDescricao] = useState('');
+  const [quantidadeTotal, setQuantidadeTotal] = useState(0);
   const [preco, setPreco] = useState(0);
-  const [idHotel, setIdHotel] = useState('');
-  const [minutosPorAgendamento, setMinutosPorAgendamento] = useState(0);
+  const [idCama, setIdCama] = useState('');
+  const [idItem, setIdItem] = useState('');
 
   const [dados, setDados] = useState([]);
   
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setNome('');
-      setDescricao('');
+      setQuantidadeTotal(0);
       setPreco(0);
-      setIdHotel('');
-      setMinutosPorAgendamento(0);
+      setIdCama('');
+      setIdItem('');
     } 
     else {
-      setId(dados.id);
-      setNome(dados.nome);
-      setDescricao(dados.descricao);
-      setPreco(dados.preco);
-      setIdHotel(dados.idHotel);
-      setMinutosPorAgendamento(dados.minutosPorAgendamento);
+        setId(dados.id);
+        setQuantidadeTotal(dados.quantidadeTotal);
+        setPreco(dados.preco);
+        setIdCama(dados.idCama);
+        setIdItem(dados.idItem);
     } 
   }
 
   async function salvar() {
     let data = {
       id,
-      nome,
-      descricao,
+      quantidadeTotal,
       preco,
-      idHotel,
-      minutosPorAgendamento,
+      idCama,
+      idItem,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -62,8 +59,8 @@ function CadastroServico() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`${nome} cadastrado com sucesso!`)
-          navigate(`/listagem-servicos`);
+          mensagemSucesso(`Tipo de quarto: ${id} cadastrado com sucesso!`)
+          navigate(`/listagem-tipos-quarto`);
       }) 
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -75,8 +72,8 @@ function CadastroServico() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`${nome} alterado com sucesso!`);
-          navigate(`/listagem-servicos`);
+          mensagemSucesso(`Tipo de quarto: ${id} alterado com sucesso!`);
+          navigate(`/listagem-tipos-quarto`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -90,55 +87,52 @@ function CadastroServico() {
         setDados(response.data);
       });
       setId(dados.id);
-      setNome(dados.nome);
-      setDescricao(dados.descricao);
+      setQuantidadeTotal(dados.quantidadeTotal);
       setPreco(dados.preco);
-      setIdHotel(dados.idHotel);
-      setMinutosPorAgendamento(dados.minutosPorAgendamento);
+      setIdCama(dados.idCama);
+      setIdItem(dados.idItem);
     }
   }
 
-  const [dadosHoteis, setDadosHoteis] = useState(null);
+const [dadosCamas, setDadosCamas] = useState(null);
+const [dadosItens, setDadosItens] = useState(null);
 
-  useEffect(() => {
-    axios.get(baseURLHoteis).then((response) => {
-      setDadosHoteis(response.data);
-    })
-  }, []);
+useEffect(() => {
+  axios.get(baseURLCamas).then((response) => {
+    setDadosCamas(response.data);
+  });
+}, []);
 
-  useEffect(() => {
-    buscar();
-  }, [id]);
+useEffect(() => {
+  axios.get(baseURLItens).then((response) => {
+    setDadosItens(response.data);
+  });
+}, []);
 
-  if (!dados) return null;
-  if (!dadosHoteis) return null;
+useEffect(() => {
+  buscar();
+}, [id]);
+
+if (!dados) return null;
+if (!dadosCamas) return null;
+if (!dadosItens) return null;
 
   return (
     <div className='container'>
-      <Card title='Cadastro de Tipo de Cama'>
+      <Card title='Cadastro de Tipo de Quarto'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Nome: *' htmlFor='inputNome'>
+              <FormGroup label='Quantidade: *' htmlFor='inputQuantidadeTotal'>
                 <input
-                  type='text'
-                  id='inputNome'
-                  value={nome}
+                  type='number'
+                  id='inputQuantidadeTotal'
+                  value={quantidadeTotal}
                   className='form-control'
-                  name='nome'
-                  onChange={(e) => setNome(e.target.value)}
+                  name='qauntidadeTotal'
+                  onChange={(e) => setQuantidadeTotal(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Descrição: *' htmlFor='inputDescricao'>
-                <input
-                  type='text'
-                  id='inputDescricao'
-                  value={descricao}
-                  className='form-control'
-                  name='descricao'
-                  onChange={(e) => setDescricao(e.target.value)}
-                />
-              </FormGroup>         
               <FormGroup label='Preço: *' htmlFor='inputPreco'>
                 <input
                   type='number'
@@ -148,36 +142,43 @@ function CadastroServico() {
                   name='preco'
                   onChange={(e) => setPreco(e.target.value)}
                 />
-              </FormGroup>
-              
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+              </FormGroup>         
+              <FormGroup label='Cama: *' htmlFor='selectCama'>
                 <select
-                  id='selectHotel'
-                  value={idHotel}
+                  id='selectCama'
+                  value={idCama}
                   className='form-select'
-                  name='idHotel'
-                  onChange={(e) => setIdHotel(e.target.value)}
+                  name='idCama'
+                  onChange={(e) => setIdCama(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
-                  {dadosHoteis.map((dado) => (
+                  {dadosCamas.map((dado) => (
+                    <option key={dado.id} value={dado.id}>
+                      {dado.tipo}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+
+              <FormGroup label='Item: *' htmlFor='selectItem'>
+                <select
+                  id='selectItem'
+                  value={idItem}
+                  className='form-select'
+                  name='idItem'
+                  onChange={(e) => setIdItem(e.target.value)}
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosItens.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}
                     </option>
                   ))}
                 </select>
-              </FormGroup>
-              
-              <FormGroup label='Minutos por agendamento: *' htmlFor='inputMinutosPorAgendamento'>
-                <input
-                  type='number'
-                  id='inputMinutosPorAgendamento'
-                  value={minutosPorAgendamento}
-                  className='form-control'
-                  name='minutosPorAgendamento'
-                  onChange={(e) => setMinutosPorAgendamento(e.target.value)}
-                />
               </FormGroup>
  
               <Stack spacing={1} padding={1} direction='row'>
@@ -204,4 +205,4 @@ function CadastroServico() {
   );
 }
 
-export default CadastroServico;
+export default CadastroTipoQuarto;

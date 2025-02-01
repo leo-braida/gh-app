@@ -16,6 +16,8 @@ import CadastroHotel from './views/cadastro-hotel';
 import CadastroItem from './views/cadastro-itens';
 import CadastroHospede from './views/cadastro-hospedes';
 import CadastroServico from './views/cadastro-servico';
+import CadastroTiposQuarto from './views/cadastro-tipos-quarto';
+
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
 
@@ -46,6 +48,11 @@ function Rotas(props){
         <Route
           path='cadastro-servico/:idParam?'
           element={<CadastroServico />}
+        />
+
+        <Route
+          path='cadastro-tipos-quarto/:idParam?'
+          element={<CadastroTiposQuarto />}
         />
 
         <Route

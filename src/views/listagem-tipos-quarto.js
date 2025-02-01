@@ -2,7 +2,7 @@ import React from 'react';
 
 import Card from '../components/card';
 
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -23,17 +23,37 @@ const baseURLItemNoQuarto = `${BASE_URL}/itemNoQuarto`;
 function ListagemTiposQuarto() {
   const navigate = useNavigate();
 
-  /*const cadastrar = () => {
-    navigate('/cadastro-tipoDeCama');
-  };*/
+  const cadastrar = () => {
+    navigate(`/cadastro-tipos-quarto`);
+  };
 
-  /*const editar = (id) => {
-    navigate('/cadastro/tipoDeCama/${id}');
-  };*/
+  const editar = (id) => {
+    navigate(`/cadastro-tipos-quarto/${id}`);
+  };
 
   const [dados, setDados] = React.useState(null);
+
+  async function excluir(id) {
+    let data = JSON.stringify({ id });
+    let url = `${baseURL}/${id}`;
+    console.log(url)
+    await axios
+      .delete(url, data, {
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(function (response) {
+      mensagemSucesso(`Serviço excluído com sucesso!`);
+      setDados(
+        dados.filter((dado) => {
+          return dado.id !== id;
+        })
+      );
+    })
+    .catch(function (error) {
+      mensagemErro(`Erro ao excluir serviço`);
+    });
+  }
   
-   
   const [tiposDeCama, setTiposDeCama] = React.useState(null);
   const [tiposCamaNoQuarto, setTiposCamaNoQuarto] = React.useState(null);
   const [itens, setItens] = React.useState(null);
@@ -68,7 +88,7 @@ function ListagemTiposQuarto() {
               <button
                 type='button'
                 className='btn btn-warning'
-                //onClick={() => cadastrar()}
+                onClick={() => cadastrar()}
                 >
                 Novo tipo de quarto
               </button>
@@ -118,14 +138,14 @@ function ListagemTiposQuarto() {
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
-                            //onClick={() => editar(dado.id)}
+                            onClick={() => editar(dado.id)}
                           >
                             <EditIcon />
                           </IconButton>
                           
                           <IconButton
                             aria-label='delete'
-                            //onClick={() => excluir(dado.id)}
+                            onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>
