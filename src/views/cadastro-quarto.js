@@ -108,7 +108,7 @@ return (
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Situaçao: *' htmlFor='inputSituacao'>
+              <FormGroup label='Situação: *' htmlFor='inputSituacao'>
                 <input
                   type='text'
                   id='inputSituacao'
@@ -118,7 +118,7 @@ return (
                   onChange={(e) => setSituacao(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Numero: *' htmlFor='inputNumero'>
+              <FormGroup label='Número: *' htmlFor='inputNumero'>
                 <input
                   type='number'
                   id='inputNumero'
@@ -128,7 +128,7 @@ return (
                   onChange={(e) => setNumero(e.target.value)}
                 />
               </FormGroup>         
-              <FormGroup label='TipoQuarto: *' htmlFor='selectTipoQuarto'>
+              <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
                 <select
                   id='selectTipoQuarto'
                   value={idTipoQuarto}
