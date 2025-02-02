@@ -42,7 +42,7 @@ function ListagemTiposQuarto() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Serviço excluído com sucesso!`);
+      mensagemSucesso(`Serviço excluído com sucesso!`); //*CORRIGIR
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -50,7 +50,7 @@ function ListagemTiposQuarto() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir serviço`);
+      mensagemErro(`Erro ao excluir serviço`);//*CORRIGIR
     });
   }
   
