@@ -94,8 +94,18 @@ function CadastroTipoQuarto() {
     }
   }
 
-const [dadosCamas, setDadosCamas] = useState(null);
-const [dadosItens, setDadosItens] = useState(null);
+const [dadosCamas, setDadosCamas] = useState([]);
+const [dadosItens, setDadosItens] = useState([]);
+
+const handleCamaChange = (e) => {
+  const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
+  setIdCama(selectedValues);
+};
+
+const handleItemChange = (e) => {
+  const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
+  setIdItem(selectedValues);
+};
 
 useEffect(() => {
   axios.get(baseURLCamas).then((response) => {
@@ -147,9 +157,10 @@ if (!dadosItens) return null;
                 <select
                   id='selectCama'
                   value={idCama}
+                  multiple
                   className='form-select'
                   name='idCama'
-                  onChange={(e) => setIdCama(e.target.value)}
+                  onChange={handleCamaChange}
                 >
                   <option key='0' value='0'>
                     {' '}
@@ -166,9 +177,10 @@ if (!dadosItens) return null;
                 <select
                   id='selectItem'
                   value={idItem}
+                  multiple
                   className='form-select'
                   name='idItem'
-                  onChange={(e) => setIdItem(e.target.value)}
+                  onChange={handleItemChange}
                 >
                   <option key='0' value='0'>
                     {' '}
