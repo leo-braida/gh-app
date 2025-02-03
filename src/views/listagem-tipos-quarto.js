@@ -99,11 +99,11 @@ function ListagemTiposQuarto() {
                     <th scope='col'>Preço</th>
                     <th scope='col'>Camas</th>
                     <th scope='col'>Itens</th>
+                    <th scope='col'>Hospedes</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
-                  
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.quantidadeTotal}</td>
@@ -133,6 +133,20 @@ function ListagemTiposQuarto() {
                             )
                           })
                         }
+                      </td>
+                      <td>
+                        {tiposCamaNoQuarto
+                          .filter((camaNoQuarto) => camaNoQuarto.idQuarto === dado.id)
+                          .reduce((totalHospedes, camaNoQuarto) => {
+                            const cama = tiposDeCama.find((tipo) => tipo.id === camaNoQuarto.idTipoCama);
+                            if (cama) {
+                              return (
+                                totalHospedes +
+                                camaNoQuarto.quantidadeCama * (cama.quantidadeAdultos + cama.quantidadeCriancas)
+                              );
+                            }
+                            return totalHospedes;
+                          }, 0)}
                       </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
