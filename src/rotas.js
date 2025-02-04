@@ -18,6 +18,10 @@ import CadastroHospede from './views/cadastro-hospedes';
 import CadastroServico from './views/cadastro-servico';
 import CadastroTiposQuarto from './views/cadastro-tipos-quarto';
 import CadastroTrabalhador from './views/cadastro-trabalhador';
+import CadastroQuarto from './views/cadastro-quarto';
+import CadastroReserva from './views/cadastro-reserva';
+import CadastroAgendamento from './views/cadastro-agendamento';
+import CadastroHospedagem from './views/cadastro-hospedagem';
 
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
@@ -26,6 +30,26 @@ function Rotas(props){
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path='/cadastro-hospedagem/:idParam?'
+          element={<CadastroHospedagem />}
+        />
+
+        <Route
+          path='/cadastro-agendamento/:idParam?'
+          element={<CadastroAgendamento />}
+        />
+
+        <Route
+          path='/cadastro-reserva/:idParam?'
+          element={<CadastroReserva />}
+        />
+
+        <Route
+          path='/cadastro-quarto/:idParam?'
+          element={<CadastroQuarto />}
+        />
+
         <Route
           path='/cadastro-trabalhador/:idParam?'
           element={<CadastroTrabalhador />}

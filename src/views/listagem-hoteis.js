@@ -76,6 +76,12 @@ function ListagemHoteis() {
                   <tr>
                     <th scope='col'>Nome</th>
                     <th scope='col'>CEP</th>
+                    <th scope='col'>Estado</th>
+                    <th scope='col'>Cidade</th>
+                    <th scope='col'>Bairro</th>
+                    <th scope='col'>Logradouro</th>
+                    <th scope='col'>Número</th>
+                    <th scope='col'>Telefone</th>
                     <th scope='col'>Email</th>
                     <th scope='col'>Ações</th>
                   </tr>
@@ -86,6 +92,12 @@ function ListagemHoteis() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.cep}</td>
+                      <td>{dado.estado}</td>
+                      <td>{dado.cidade}</td>
+                      <td>{dado.bairro}</td>
+                      <td>{dado.logradouro}</td>
+                      <td>{dado.numero}</td>
+                      <td>{dado.telefone}</td>
                       <td>{dado.email}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

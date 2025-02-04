@@ -121,7 +121,7 @@ if (!dadosHotel) return null;
                                 onChange={(e) => setNome(e.target.value)}
                                 />
                             </FormGroup>
-                            <FormGroup label='Cargo: *' htmlFor='inputCargo'>
+                            {/* <FormGroup label='Cargo: *' htmlFor='inputCargo'>
                                 <input
                                 type='text'
                                 id='inputCargo'
@@ -130,7 +130,29 @@ if (!dadosHotel) return null;
                                 name='cargo'
                                 onChange={(e) => setCargo(e.target.value)}
                                 />
-                            </FormGroup>         
+                            </FormGroup>          */}
+                            <FormGroup label='Cargo: *' htmlFor='selectCargo'>
+                                <select
+                                id='selectHotel'
+                                value={cargo}
+                                className='form-select'
+                                name='cargo'
+                                onChange={(e) => setCargo(e.target.value)}
+                                >
+                                <option key='0' value='0'>
+                                    {' '}
+                                </option>
+                                <option key='1' value='funcionario'>
+                                    {'funcionario'}
+                                </option>
+                                <option key='2' value='gerente'>
+                                    {'gerente'}
+                                </option>
+                                <option key='3' value='admin'>
+                                    {'admin'}
+                                </option>
+                                </select>
+                            </FormGroup>
                             <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                                 <select
                                 id='selectHotel'

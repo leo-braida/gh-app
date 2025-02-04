@@ -44,7 +44,7 @@ function ListagemTiposQuarto() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Serviço excluído com sucesso!`);
+      mensagemSucesso(`Serviço excluído com sucesso!`); //*CORRIGIR
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -52,7 +52,7 @@ function ListagemTiposQuarto() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir serviço`);
+      mensagemErro(`Erro ao excluir serviço`);//*CORRIGIR
     });
   }
   
@@ -102,11 +102,11 @@ function ListagemTiposQuarto() {
                     <th scope='col'>Preço</th>
                     <th scope='col'>Camas</th>
                     <th scope='col'>Itens</th>
+                    <th scope='col'>Hospedes</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
-                  
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.tipo}</td>
@@ -137,6 +137,20 @@ function ListagemTiposQuarto() {
                             )
                           })
                         }
+                      </td>
+                      <td>
+                        {tiposCamaNoQuarto
+                          .filter((camaNoQuarto) => camaNoQuarto.idQuarto === dado.id)
+                          .reduce((totalHospedes, camaNoQuarto) => {
+                            const cama = tiposDeCama.find((tipo) => tipo.id === camaNoQuarto.idTipoCama);
+                            if (cama) {
+                              return (
+                                totalHospedes +
+                                camaNoQuarto.quantidadeCama * (cama.quantidadeAdultos + cama.quantidadeCriancas)
+                              );
+                            }
+                            return totalHospedes;
+                          }, 0)}
                       </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
