@@ -13,6 +13,8 @@ import { BASE_URL3, BASE_URL_HOTEIS } from '../config/axios';
 
 const baseURL = `${BASE_URL3}/servicos`;
 const baseURLHoteis = `${BASE_URL_HOTEIS}/hoteis`;
+const baseURLTrabalhadores = `${BASE_URL3}/trabalhadores`;
+
 function CadastroServico() {
   const { idParam } = useParams();
 
@@ -24,7 +26,8 @@ function CadastroServico() {
   const [preco, setPreco] = useState(0);
   const [idHotel, setIdHotel] = useState('');
   const [minutosPorAgendamento, setMinutosPorAgendamento] = useState(0);
-
+  const [idTrabalhadores, setIdTrabalhadores] = useState(null);
+ 
   const [dados, setDados] = useState([]);
   
   function inicializar() {
@@ -35,6 +38,7 @@ function CadastroServico() {
       setPreco(0);
       setIdHotel('');
       setMinutosPorAgendamento(0);
+      setIdTrabalhadores(null)
     } 
     else {
       setId(dados.id);
@@ -43,6 +47,7 @@ function CadastroServico() {
       setPreco(dados.preco);
       setIdHotel(dados.idHotel);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
+      setIdTrabalhadores(dados.idTrabalhadores);
     } 
   }
 
@@ -54,6 +59,7 @@ function CadastroServico() {
       preco,
       idHotel,
       minutosPorAgendamento,
+      idTrabalhadores,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -95,14 +101,21 @@ function CadastroServico() {
       setPreco(dados.preco);
       setIdHotel(dados.idHotel);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
+      setIdTrabalhadores(dados.idTrabalhadores);
     }
   }
 
   const [dadosHoteis, setDadosHoteis] = useState(null);
-
   useEffect(() => {
     axios.get(baseURLHoteis).then((response) => {
       setDadosHoteis(response.data);
+    })
+  }, []);
+
+  const [dadosTrabalhadores, setDadosTrabalhadores] = useState(null);
+  useEffect(() => {
+    axios.get(baseURLTrabalhadores).then((response) => {
+      setDadosTrabalhadores(response.data);
     })
   }, []);
 
@@ -112,6 +125,7 @@ function CadastroServico() {
 
   if (!dados) return null;
   if (!dadosHoteis) return null;
+  if (!dadosTrabalhadores) return null;
 
   return (
     <div className='container'>
@@ -179,7 +193,28 @@ function CadastroServico() {
                   onChange={(e) => setMinutosPorAgendamento(e.target.value)}
                 />
               </FormGroup>
- 
+
+              
+              <FormGroup label="Selecione os trabalhadores: " htmlFor="selectTrabalhadores">
+                <select
+                  id='selectTrabalhador'
+                  multiple
+                  value={idTrabalhadores}
+                  className='form-select'
+                  name='idTrabalhador'
+                  onChange={(e) => setIdTrabalhadores(Array.from(e.target.selectedOptions, (option) => option.value))}
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosTrabalhadores.map((dado) => (
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

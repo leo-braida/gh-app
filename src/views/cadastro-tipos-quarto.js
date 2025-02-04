@@ -9,9 +9,9 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL} from '../config/axios';
+import { BASE_URL, BASE_URL_QUARTOS } from '../config/axios';
 
-const baseURL = `${BASE_URL}/tipoDeQuartos`;
+const baseURL = `${BASE_URL_QUARTOS}/tipoDeQuartos`;
 const baseURLCamas = `${BASE_URL}/tipoDeCama`;
 const baseURLItens = `${BASE_URL}/itens`;
 function CadastroTipoQuarto() {
@@ -20,6 +20,7 @@ function CadastroTipoQuarto() {
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
+  const [tipo, setTipo] = useState('');
   const [quantidadeTotal, setQuantidadeTotal] = useState(0);
   const [preco, setPreco] = useState(0);
   const [idCama, setIdCama] = useState('');
@@ -30,6 +31,7 @@ function CadastroTipoQuarto() {
   function inicializar() {
     if (idParam == null) {
       setId('');
+      setTipo('');
       setQuantidadeTotal(0);
       setPreco(0);
       setIdCama('');
@@ -37,6 +39,7 @@ function CadastroTipoQuarto() {
     } 
     else {
         setId(dados.id);
+        setTipo(dados.tipo);
         setQuantidadeTotal(dados.quantidadeTotal);
         setPreco(dados.preco);
         setIdCama(dados.idCama);
@@ -47,6 +50,7 @@ function CadastroTipoQuarto() {
   async function salvar() {
     let data = {
       id,
+      tipo,
       quantidadeTotal,
       preco,
       idCama,
@@ -59,7 +63,7 @@ function CadastroTipoQuarto() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Tipo de quarto: ${id} cadastrado com sucesso!`)
+          mensagemSucesso(`Tipo de quarto: ${tipo} cadastrado com sucesso!`)
           navigate(`/listagem-tipos-quarto`);
       }) 
         .catch(function (error) {
@@ -87,6 +91,7 @@ function CadastroTipoQuarto() {
         setDados(response.data);
       });
       setId(dados.id);
+      setTipo(dados.tipo);
       setQuantidadeTotal(dados.quantidadeTotal);
       setPreco(dados.preco);
       setIdCama(dados.idCama);
@@ -123,6 +128,16 @@ if (!dadosItens) return null;
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
+              <FormGroup label='Tipo: *' htmlFor='inputTipo'>
+                <input
+                  type='text'
+                  id='inputTipo'
+                  value={tipo}
+                  className='form-control'
+                  name='tipo'
+                  onChange={(e) => setTipo(e.target.value)}
+                />
+              </FormGroup>
               <FormGroup label='Quantidade: *' htmlFor='inputQuantidadeTotal'>
                 <input
                   type='number'

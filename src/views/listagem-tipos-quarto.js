@@ -12,13 +12,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
+import { BASE_URL, BASE_URL_QUARTOS } from '../config/axios';
 
 const baseURL = `${BASE_URL}/tipoDeQuartos`;
 const baseURLTipoCama = `${BASE_URL}/tipoDeCama`;
 const baseURLTipoCamaNoQuarto = `${BASE_URL}/tipoCamaNoQuarto`;
 const baseURLItens = `${BASE_URL}/itens`;
 const baseURLItemNoQuarto = `${BASE_URL}/itemNoQuarto`;
+
+const baseURLNova = `${BASE_URL_QUARTOS}/tipoDequartos`;
 
 function ListagemTiposQuarto() {
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ function ListagemTiposQuarto() {
 
   async function excluir(id) {
     let data = JSON.stringify({ id });
-    let url = `${baseURL}/${id}`;
+    let url = `${baseURLNova}/${id}`;
     console.log(url)
     await axios
       .delete(url, data, {
@@ -62,7 +64,7 @@ function ListagemTiposQuarto() {
   
   React.useEffect(() => {
     Promise.all([
-    axios.get(baseURL),
+    axios.get(baseURLNova),
     axios.get(baseURLTipoCama),
     axios.get(baseURLTipoCamaNoQuarto),
     axios.get(baseURLItens),
@@ -95,6 +97,7 @@ function ListagemTiposQuarto() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
+                    <th scope='col'>Tipo</th>
                     <th scope='col'>Quantidade Total</th>
                     <th scope='col'>Preço</th>
                     <th scope='col'>Camas</th>
@@ -106,6 +109,7 @@ function ListagemTiposQuarto() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
+                      <td>{dado.tipo}</td>
                       <td>{dado.quantidadeTotal}</td>
                       <td>{dado.preco}</td>
                       <td>
