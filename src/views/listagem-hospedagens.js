@@ -2,7 +2,7 @@ import React from 'react';
 
 import Card from '../components/card';
 
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -28,16 +28,37 @@ const baseURLReservas = `${BASE_URL_QUARTOS}/reservas`;
 function ListagemHospedagens() {
   const navigate = useNavigate();
 
-  /*const cadastrar = () => {
-    navigate('/cadastro-tipoDeCama');
-  };*/
+  const cadastrar = () => {
+    navigate(`/cadastro-hospedagem`);
+  };
 
-  /*const editar = (id) => {
-    navigate('/cadastro/tipoDeCama/${id}');
-  };*/
+  const editar = (id) => {
+    navigate(`/cadastro-hospedagem/${id}`);
+  };
 
 
   const [dados, setDados] = React.useState(null);
+
+  async function excluir(id) {
+    let data = JSON.stringify({ id });
+    let url = `${baseURL}/${id}`;
+    console.log(url)
+    await axios
+      .delete(url, data, {
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(function (response) {
+      mensagemSucesso(`Hospedagem excluído com sucesso!`);
+      setDados(
+        dados.filter((dado) => {
+          return dado.id !== id;
+        })
+      );
+    })
+    .catch(function (error) {
+      mensagemErro(`Erro ao excluir hospedagem`);
+    });
+  }
 
   const [hospedes, setHospedes] = React.useState(null);
   const [servicos, setServicos] = React.useState(null);
@@ -87,7 +108,7 @@ function ListagemHospedagens() {
               <button
                 type='button'
                 className='btn btn-warning'
-                //onClick={() => cadastrar()}
+                onClick={() => cadastrar()}
                 >
                 Nova hospedagem
               </button>
@@ -114,20 +135,20 @@ function ListagemHospedagens() {
                       <td>{hospedes.find((hospede) => hospede.id === dado.idHospede).nome}</td>
                       <td>{dado.adultos}</td>
                       <td>{dado.criancas}</td>
-                      <td>
+                       <td>
                         {quartosNaHospedagem
                           .filter((quartoNaHospedagem) => quartoNaHospedagem.idHospedagem === dado.id)
                           .map((quartoNaHospedagem) => {
                             const quartoNaHosp = quartos.find((quarto) => quarto.id === quartoNaHospedagem.idQuarto);
-                            const tipoQuarto = tipoQuartos.find((tipoQuarto) => tipoQuarto.id === quartoNaHosp.idTipoDeQuarto);
+                            // const tipoQuarto = tipoQuartos.find((tipoQuarto) => tipoQuarto.id === quartoNaHosp.idTipoDeQuarto);
                             return (
                               <div key={quartoNaHosp.id}>
-                                {quartoNaHospedagem.quantidade}x {tipoQuarto.tipo}
+                                {quartoNaHosp.numero}
                               </div>
                             )
                           })
-                        }
-                      </td>
+                        } 
+                      </td> 
                       <td>
                         {servicosNaHospedagem
                           .filter((servicoNaHospedagem) => servicoNaHospedagem.idHospedagem === dado.id)
@@ -168,14 +189,14 @@ function ListagemHospedagens() {
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
-                            //onClick={() => editar(dado.id)}
+                            onClick={() => editar(dado.id)}
                           >
                             <EditIcon />
                           </IconButton>
                           
                           <IconButton
                             aria-label='delete'
-                            //onClick={() => excluir(dado.id)}
+                            onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>
