@@ -92,6 +92,7 @@ function ListagemTrabalhadores() {
                     <th scope='col'>Cargo</th>
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Hotel do Trabalhador</th>
+                    <th scope='col'>Cargo do Trabalhador</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -114,6 +115,7 @@ function ListagemTrabalhadores() {
                             );
                           })}
                       </td>
+                      <td>{dado.cargo}</td>
 
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
