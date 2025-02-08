@@ -12,14 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_RESERVAS } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL_RESERVAS}/reservas`;
-const baseURLHospede = `${BASE_URL_RESERVAS}/hospedes`
-const baseURLHospedeNaReserva = `${BASE_URL_RESERVAS}/hospedesNaReserva`
-const baseURLTipoDeQuartoNaReserva = `${BASE_URL_RESERVAS}/tipoDeQuartosNaReserva`
-const baseURLTipoDeQuarto = `${BASE_URL_RESERVAS}/tipoDeQuartos`
-
+const baseURL = `${BASE_URL}/reservas`;
 
 function ListagemReservas() {
   const navigate = useNavigate();
@@ -63,18 +58,18 @@ function ListagemReservas() {
   React.useEffect(() => {
     Promise.all([
     axios.get(baseURL),
-    axios.get(baseURLHospede),
+    /*axios.get(baseURLHospede),
     axios.get(baseURLHospedeNaReserva),
     axios.get(baseURLTipoDeQuartoNaReserva),
-    axios.get(baseURLTipoDeQuarto)
+    axios.get(baseURLTipoDeQuarto)*/
     
     ])
     .then((responses) => {
         setDados(responses[0].data);
-        setHospedes(responses[1].data);
+        /*setHospedes(responses[1].data);
         setHospedesNaReserva(responses[2].data);
         setTipoDeQuartosNaReserva(responses[3].data);
-        setTipoDeQuarto(responses[4].data);
+        setTipoDeQuarto(responses[4].data)*/;
       })
   }, []);
 
@@ -109,8 +104,8 @@ function ListagemReservas() {
                     <tr key={dado.id}>
                       <td>{dado.dataChegada}</td>
                       <td>{dado.dataSaida}</td>
-                      <td>
-                        {hospedesNaReserva
+                      <td>{dado.hospede}
+                        {/*hospedesNaReserva
                           .filter((hospedeNaReserva) => hospedeNaReserva.idReserva === dado.id)
                           .map((hospedeNaReserva) => {
                             const hospede = hospedes.find((h) => h.id === hospedeNaReserva.idHospede);
@@ -119,10 +114,10 @@ function ListagemReservas() {
                                 {hospede.nome}
                               </div>
                             );
-                          })}
+                          })*/}
                       </td>
-                      <td>
-                        {tipoDeQuartosNaReserva
+                      <td>{dado.tipoDeQuarto}
+                        {/*tipoDeQuartosNaReserva
                           .filter((tipoReserva) => tipoReserva.idReserva === dado.id)
                           .map((tipoReserva) => {
                             const tipoQuarto = tipoDeQuartos.find((tq) => tq.id === tipoReserva.idTipoDeQuarto);
@@ -131,7 +126,7 @@ function ListagemReservas() {
                                 {tipoQuarto.tipo}
                               </div>
                             );
-                          })}
+                          })*/}
                       </td>
 
                       <td>

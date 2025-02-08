@@ -12,10 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2, BASE_URL3 } from '../config/axios';
+import { BASE_URL_QUARTOS } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/agendamentos`;
-const baseURLServicos = `${BASE_URL3}/servicos`;
+const baseURL = `${BASE_URL_QUARTOS}/agendamentos`;
 
 function ListagemAgendamentos() {
   const navigate = useNavigate();
@@ -51,16 +50,13 @@ function ListagemAgendamentos() {
     });
   }
 
-  const [servicos, setServicos] = React.useState(null);
 
   React.useEffect(() => {
     Promise.all([
     axios.get(baseURL),
-    axios.get(baseURLServicos),
     ])
     .then((responses) => {
         setDados(responses[0].data);
-        setServicos(responses[1].data);
       })
   }, []);
 
@@ -97,20 +93,9 @@ function ListagemAgendamentos() {
                     <tr key={dado.id}>
                       <td>{dado.horarioInicio}</td>
                       <td>{dado.data}</td>
-                      <td>
-                      {servicos
-                          .filter((servico) => servico.id === dado.id)
-                          .map((servico) => {
-                            return(
-                              <div key={servico.id}>
-                                {servico.nome}
-                              </div>
-                            )
-                          })
-                        }
-                      </td>
+                      <td>{dado.servico}</td>
                       <td>{dado.funcionario}</td>
-                      <td>{dado.hospede}</td>
+                      <td>{dado.hospedeRegistrado}</td>
                       <td>{dado.quarto}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

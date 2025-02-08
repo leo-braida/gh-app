@@ -90,7 +90,7 @@ function CadastroQuarto(){
       ])
       .then((responses) => {
           setDados(responses[0].data);
-          setHoteis(response[1].data);
+          setHoteis(responses[1].data);
         })
       };
       setId(dados.id);
@@ -98,33 +98,29 @@ function CadastroQuarto(){
       setNumero(dados.numero);
       setTipoQuarto(dados.tipoQuarto);
     }
-  }
+  
 
-useEffect(() => {
-    axios.get(baseURL, setDados).then((response) => {
-      setDados(response.data);
-    })
-    };
-  setId(dados.id);
-  setSituacao(dados.)
-  )
 
-const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
+  useEffect(() => {
+    buscar();
+  }, [id]);
 
-useEffect(() => {
+  const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
+
+  useEffect(() => {
     axios.get(baseURLTipoQuarto).then((response) => {
       setDadosTipoQuarto(response.data);
     });
-}, []);
+  }, []);
 
-useEffect(() => {
-  buscar();
-}, [id]);
+  useEffect(() => {
+    buscar();
+  }, [id]);
 
-if (!dados) return null;
-if (!dadosTipoQuarto) return null;
+  if (!dados) return null;
+  if (!dadosTipoQuarto) return null;
 
-return (
+  return (
     <div className='container'>
       <Card title='Cadastro de Quarto'>
         <div className='row'>
@@ -149,14 +145,18 @@ return (
                   name='numero'
                   onChange={(e) => setNumero(e.target.value)}
                 />
-              </FormGroup>         
+              </FormGroup>
+              <script>
+                /*
               <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
+                
                 <select
+                  
                   id='selectTipoQuarto'
-                  value={idTipoQuarto}
+                  //value={idTipoQuarto}
                   className='form-select'
-                  name='idTipoQuarto'
-                  onChange={(e) => setIdTipoQuarto(e.target.value)}
+                  //name='idTipoQuarto'
+                  //onChange={(e) => setIdTipoQuarto(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
@@ -168,9 +168,8 @@ return (
                   ))}
                 </select>
               </FormGroup>
-
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
- 
+                */ 
+                </script>
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

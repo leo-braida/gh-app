@@ -11,9 +11,9 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 
 import axios from 'axios';
-import { BASE_URL_HOSPEDAGENS } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL_HOSPEDAGENS}/hospedes`;
+const baseURL = `${BASE_URL}/hospedes`;
 
 function CadastroHospede() {
   const { idParam } = useParams();

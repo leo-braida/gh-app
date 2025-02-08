@@ -12,11 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_TRABALHADORES } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL_TRABALHADORES}/trabalhadores`;
-const baseURLHoteis = `${BASE_URL_TRABALHADORES}/hoteis`;
-const baseURLHotelDoTrabalhador = `${BASE_URL_TRABALHADORES}/hotelDoTrabalhador`;
+const baseURL = `${BASE_URL}/trabalhadores`;
 
 
 function ListagemTrabalhadores() {
@@ -59,14 +57,9 @@ function ListagemTrabalhadores() {
   React.useEffect(() => {
     Promise.all([
     axios.get(baseURL),
-    axios.get(baseURLHoteis),
-    axios.get(baseURLHotelDoTrabalhador)
-    
     ])
     .then((responses) => {
         setDados(responses[0].data);
-        setHoteis(responses[1].data);
-        setHotelDoTrabalhador(responses[2].data);
       })
   }, []);
 
@@ -103,17 +96,7 @@ function ListagemTrabalhadores() {
                       <td>{dado.nome}</td>
                       <td>{dado.cargo}</td>
                       <td>{dado.telefone}</td>
-                      <td>
-                        {hotelDoTrabalhador
-                          .filter((hotelTrabalhador) => hotelTrabalhador.idHotel === dado.id)
-                          .map((hotelTrabalhador) => {
-                            const hotel = hoteis.find(h => h.id === hotelTrabalhador.idHotel);
-                            return (
-                              <div key={hotelTrabalhador.id}>
-                                {hotel?.nome || "Hotel não encontrado"}
-                              </div>
-                            );
-                          })}
+                      <td>{dado.hotel}
                       </td>
                       <td>{dado.cargo}</td>
 
