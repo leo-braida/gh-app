@@ -9,10 +9,12 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL_QUARTOS } from '../config/axios';
+import { BASE_URL_QUARTOS, BASE_URL_HOTEIS } from '../config/axios';
 
 const baseURL = `${BASE_URL_QUARTOS}/quartos`;
 const baseURLTipoQuarto = `${BASE_URL_QUARTOS}/tipoDeQuartos`;
+const baseURLHoteis = `${BASE_URL_HOTEIS}/hoteis`;
+
 function CadastroQuarto(){
   const { idParam } = useParams();
 
@@ -21,21 +23,25 @@ function CadastroQuarto(){
   const [id, setId] = useState('');
   const [situacao, setSituacao] = useState('');
   const [numero, setNumero] = useState('');
-  const [idTipoQuarto, setIdTipoQuarto] = useState('');
+  const [tipoQuarto, setTipoQuarto] = useState('');
+  const [hotel, setHotel] = useState('');
   const [dados, setDados] = useState([]);
+  const [hoteis, setHoteis] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
       setId('');
       setSituacao('');
       setNumero('');
-      setIdTipoQuarto('');
+      setTipoQuarto('');
+      setHotel('');
     } 
     else {
-        setId(dados.id);
-        setSituacao(dados.situacao);
-        setNumero(dados.numero);
-        setIdTipoQuarto(dados.idTipoQuarto);
+      setId(dados.id);
+      setSituacao(dados.situacao);
+      setNumero(dados.numero);
+      setTipoQuarto(dados.idTipoQuarto);
+      setHotel(dados.hotel);
     } 
   }
 
@@ -44,7 +50,8 @@ function CadastroQuarto(){
       id,
       situacao,
       numero,
-      idTipoQuarto,
+      tipoQuarto,
+      hotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -77,15 +84,30 @@ function CadastroQuarto(){
 
   async function buscar() {
     if (idParam != null){
-      await axios.get(`${baseURL}/${idParam}`).then((response) => {
-        setDados(response.data);
-      });
+      Promise.all([
+        axios.get(`${baseURL}/${idParam}`),
+        axios.get(`${baseURLHoteis}`)
+      ])
+      .then((responses) => {
+          setDados(responses[0].data);
+          setHoteis(response[1].data);
+        })
+      };
       setId(dados.id);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
-      setIdTipoQuarto(dados.idTipoQuarto);
+      setTipoQuarto(dados.tipoQuarto);
     }
   }
+
+useEffect(() => {
+    axios.get(baseURL, setDados).then((response) => {
+      setDados(response.data);
+    })
+    };
+  setId(dados.id);
+  setSituacao(dados.)
+  )
 
 const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
 
@@ -146,6 +168,8 @@ return (
                   ))}
                 </select>
               </FormGroup>
+
+              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
  
               <Stack spacing={1} padding={1} direction='row'>
                 <button

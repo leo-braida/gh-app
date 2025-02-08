@@ -12,13 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_TIPOQUARTOS } from '../config/axios';
+import { BASE_URL_QUARTOS } from '../config/axios';
 
-const baseURLQuarto = `${BASE_URL_TIPOQUARTOS}/quartos`;
-
-const baseURLTipoDeQuartos = `${BASE_URL_TIPOQUARTOS}/tipoDeQuartos`;
-const baseURLTipoDoQuarto = `${BASE_URL_TIPOQUARTOS}/tipoDoQuarto`;
-
+const baseURL = `${BASE_URL_QUARTOS}/quartos`;
 
 function ListagemQuartos() {
   const navigate = useNavigate();
@@ -35,7 +31,7 @@ function ListagemQuartos() {
 
   async function excluir(id) {
     let data = JSON.stringify({ id });
-    let url = `${baseURLQuarto}/${id}`;
+    let url = `${baseURL}/${id}`;
     console.log(url)
     await axios
       .delete(url, data, {
@@ -54,21 +50,9 @@ function ListagemQuartos() {
     });
   }
 
-  const [tiposDeQuartos, setTiposDeQuarto] = React.useState(null);
-  const [tipoDoQuarto, setTipoDoQuarto] = React.useState(null);
-
-
-
   React.useEffect(() => {
-    Promise.all([
-    axios.get(baseURLQuarto),
-    axios.get(baseURLTipoDeQuartos),
-    axios.get(baseURLTipoDoQuarto)
-    ])
-    .then((responses) => {
-        setDados(responses[0].data);
-        setTiposDeQuarto(responses[1].data);
-        setTipoDoQuarto(responses[2].data);
+    axios.get(baseURL).then((response) => {
+        setDados(response.data);
       })
   }, []);
 
@@ -90,9 +74,10 @@ function ListagemQuartos() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Situação</th>
+                    <th scope='col'>Hotel</th>
+                    <th scope='col'>Tipo de Quarto</th>
                     <th scope='col'>Número</th>
-                    <th scope='col'>Tipo</th>
+                    <th scope='col'>Situção</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -100,20 +85,10 @@ function ListagemQuartos() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.situacao}</td>
+                      <td>{dado.hotel}</td>
+                      <td>{dado.tipoDeQuarto}</td>
                       <td>{dado.numero}</td>
-                      <td>
-                        {tipoDoQuarto
-                          .filter((tipos) => tipos.idQuarto === dado.id)
-                          .map((tipos) => {
-                            const tipoDeQuarto = tiposDeQuartos.find((h) => h.id === tipos.idTipoDeQuarto);
-                            return (
-                              <div key={tipos.id}>
-                                {tipoDeQuarto.tipo}
-                              </div>
-                            );
-                          })}
-                      </td>
+                      <td>{dado.situacao}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
