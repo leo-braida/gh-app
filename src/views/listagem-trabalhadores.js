@@ -82,7 +82,6 @@ function ListagemTrabalhadores() {
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Cargo</th>
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Hotel do Trabalhador</th>
                     <th scope='col'>Cargo do Trabalhador</th>
@@ -94,7 +93,6 @@ function ListagemTrabalhadores() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.cargo}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.hotel}
                       </td>
