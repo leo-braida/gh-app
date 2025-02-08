@@ -98,12 +98,10 @@ function ListagemHospedagens() {
                       <td>{dado.hospede}</td>
                       <td>{dado.adultos}</td>
                       <td>{dado.criancas}</td>
-                       <td>{dado.quarto}
-                      </td> 
-                      <td>{dado.servicos}
-                      </td>{dado.itens}
-                      <td>{dado.reserva}
-                      </td>
+                      <td>{dado.quarto}</td> 
+                      <td>{dado.servicos}</td>
+                      <td>{dado.itens}</td>
+                      <td>{dado.reserva}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
