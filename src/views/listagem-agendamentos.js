@@ -83,7 +83,11 @@ function ListagemAgendamentos() {
                 <thead>
                   <tr>
                     <th scope='col'>Horário início</th>
+                    <th scope='col'>Data</th>
                     <th scope='col'>Serviço</th>
+                    <th scope='col'>Funcionário</th>
+                    <th scope='col'>Hóspede</th>
+                    <th scope='col'>Quarto</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -92,6 +96,7 @@ function ListagemAgendamentos() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.horarioInicio}</td>
+                      <td>{dado.data}</td>
                       <td>
                       {servicos
                           .filter((servico) => servico.id === dado.id)
@@ -104,6 +109,9 @@ function ListagemAgendamentos() {
                           })
                         }
                       </td>
+                      <td>{dado.funcionario}</td>
+                      <td>{dado.hospede}</td>
+                      <td>{dado.quarto}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

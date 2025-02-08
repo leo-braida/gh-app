@@ -22,6 +22,10 @@ function CadastroAgendamento(){
   const [id, setId] = useState('');
   const [horarioInicio, setHorarioInicio] = useState('');
   const [idServicos, setIdServicos] = useState('');
+  const [data, setData] = useState('');
+  const [funcionario, setFuncionario] = useState("");
+  const [quarto, setQuarto] = useState("");
+  const [hospede, setHospede] = useState("");
 
   const [dados, setDados] = useState([]);
 
@@ -30,11 +34,19 @@ function CadastroAgendamento(){
       setId('');
       setHorarioInicio('');
       setIdServicos('');
+      setData('');
+      setFuncionario('');
+      setQuarto('');
+      setHospede('');
     } 
     else {
         setId(dados.id);
         setHorarioInicio(dados.horario);
         setIdServicos(dados.idServicos);
+        setData(dados.data);
+        setFuncionario(dados.funcionario);
+        setQuarto(dados.quarto);
+        setHospede(dados.hospede);
     } 
   }
 
@@ -43,6 +55,10 @@ function CadastroAgendamento(){
       id,
       horarioInicio,
       idServicos,
+      data,
+      funcionario,
+      quarto,
+      hospede,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -132,6 +148,70 @@ return (
                     </option>
                   ))}
                 </select>
+              </FormGroup>
+              <FormGroup label='Data: *' htmlFor='inputData'>
+                <input
+                  type='date'
+                  id='inputData'
+                  value={data}
+                  className='form-control'
+                  name='data'
+                  onChange={(e) => setData(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label='Funcionário: *' htmlFor='inputFuncionario'>
+                <input
+                  type='text'
+                  id='inputFuncionario'
+                  value={funcionario}
+                  className='form-control'
+                  name='funcionario'
+                  onChange={(e) => setFuncionario(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label='Quarto: *' htmlFor='inputQuarto'>
+                <input
+                  type='text'
+                  id='inputQuarto'
+                  value={quarto}
+                  className='form-control'
+                  name='quarto'
+                  onChange={(e) => setQuarto(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label='Hóspede: *' htmlFor='inputHospede'>
+                <input
+                  type='text'
+                  id='inputHospede'
+                  value={hospede}
+                  className='form-control'
+                  name='hospede'
+                  onChange={(e) => setHospede(e.target.value)}
+                />
+
+                {/* <input
+                  type='hidden'
+                  id='inputId'
+                  value={id}
+                  className='form-control'
+                  name='id'
+                /> */}
+
+                {/* <input
+                  type='hidden'
+                  id='inputData'
+                  value={data}
+                  className='form-control'
+                  name='data'
+                /> */}
+
+                {/* <input
+                  type='hidden'
+                  id='inputFuncionario'
+                  value={funcionario}
+                  className='form-control'
+                  name='funcionario'
+                /> */}
               </FormGroup>
  
               <Stack spacing={1} padding={1} direction='row'>
