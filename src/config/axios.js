@@ -8,6 +8,7 @@ export const BASE_URL_TRABALHADORES = 'https://my-json-server.typicode.com/lorra
 export const BASE_URL_TIPOQUARTOS = 'https://my-json-server.typicode.com/lorranhenrique/jsonfake6';
 export const BASE_URL_QUARTOS = 'https://my-json-server.typicode.com/leo-braida/jsonfake3';
 export const BASE_URL_HOSPEDAGENS = 'https://my-json-server.typicode.com/leo-braida/jsonfake4';
+export const BASE_URL_CARGOS = 'https://my-json-server.typicode.com/mateusmauriciomoraes/jsonfake';
 
 
 //export const BASE_URL = 'http://localhost:8080/api/v1';

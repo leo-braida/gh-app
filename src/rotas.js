@@ -11,6 +11,7 @@ import ListagemHospedagens from './views/listagem-hospedagens';
 import ListagemAgendamentos from './views/listagem-agendamentos';
 import ListagemTrabalhadores from './views/listagem-trabalhadores';
 import ListagemHoteis from './views/listagem-hoteis';
+import ListagemCargo from './views/listagem-cargo';
 import CadastroTipoCama from './views/cadastro-tipo-cama';
 import CadastroHotel from './views/cadastro-hotel';
 import CadastroItem from './views/cadastro-itens';
@@ -22,6 +23,7 @@ import CadastroQuarto from './views/cadastro-quarto';
 import CadastroReserva from './views/cadastro-reserva';
 import CadastroAgendamento from './views/cadastro-agendamento';
 import CadastroHospedagem from './views/cadastro-hospedagem';
+import CadastroCargo from './views/cadastro-cargo';
 
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
@@ -30,6 +32,11 @@ function Rotas(props){
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path='/cadastro-cargo/:idParam?'
+          element={<CadastroCargo />}
+        />
+
         <Route
           path='/cadastro-hospedagem/:idParam?'
           element={<CadastroHospedagem />}
@@ -83,6 +90,11 @@ function Rotas(props){
         <Route
           path='cadastro-tipos-quarto/:idParam?'
           element={<CadastroTiposQuarto />}
+        />
+
+        <Route
+          path='/listagem-cargo'
+          element={<ListagemCargo />}
         />
 
         <Route
