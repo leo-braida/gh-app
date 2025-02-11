@@ -102,11 +102,42 @@ function CadastroTipoQuarto() {
 const [dadosCamas, setDadosCamas] = useState([]);
 const [dadosItens, setDadosItens] = useState([]);
 
+// INÍCIO DO NEGÓCIO DE CONTA by GPT, Chat.
+
+
+const [selectedCamas, setSelectedCamas] = useState({});
+
+const handleCamaChange = (e) => {
+  const { value, checked } = e.target;
+
+  setSelectedCamas((prev) => {
+    const updatedCamas = { ...prev };
+
+    if (checked) {
+      const tipo = dadosCamas.find((cama) => cama.id.toString() === value)?.tipo || ""; updatedCamas[value] = { tipo, quantidade:1 };
+    } else {
+      delete updatedCamas[value];
+    }
+
+    return updatedCamas;
+  });
+};
+
+const handleQuantidadeChange = (id, quantidade) => {
+  setSelectedCamas((prev) => ({
+    ...prev,
+    [id]: { ...prev[id], quantidade },
+  }));
+};
+
+// FIM DO MADE BY GPT, Chat
+
+    /*
 const handleCamaChange = (e) => {
   const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
   setIdCama(selectedValues);
 };
-
+*/
 const handleItemChange = (e) => {
   const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
   setIdItem(selectedValues);
@@ -169,21 +200,36 @@ if (!dadosItens) return null;
                 />
               </FormGroup>         
               <FormGroup label='Cama: *' htmlFor='selectCama'>
-                <select
-                  id='selectCama'
-                  value={idCama}
-                  multiple
-                  className='form-select'
-                  name='idCama'
-                  onChange={handleCamaChange}
-                >
-                  {dadosCamas.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
-                      {dado.tipo}
-                    </option>
-                  ))}
-                </select>
+                {dadosCamas.map((dado) => (
+                  <label key={dado.id} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      value={dado.id}
+                      checked={selectedCamas[dado.id] !== undefined}
+                      onChange={handleCamaChange}
+                    />
+                    {dado.tipo}
+                  </label>
+                ))}
+                {/* Exibir inputs de quantidade ao lado das camas selecionadas */}
+                <div className="mt-2 space-y-2">
+                {Object.entries(selectedCamas).map(([id, { tipo, quantidade }]) => (
+                  <div key={id} className="flex items-center gap-2">
+                        <span>{tipo}</span>
+                        <input
+                          type="number"
+                          min="1"
+                          value={quantidade}
+                          onChange={(e) => handleQuantidadeChange(id, e.target.value)}
+                          className="border p-1 w-16"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
               </FormGroup>
+
+
 
               <FormGroup label='Item: *' htmlFor='selectItem'>
                 <select
