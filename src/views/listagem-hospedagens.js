@@ -2,7 +2,7 @@ import React from 'react';
 
 import Card from '../components/card';
 
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -12,67 +12,51 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_HOSPEDAGENS, BASE_URL_QUARTOS} from '../config/axios';
+import { BASE_URL3 } from '../config/axios';
 
-const baseURL = `${BASE_URL_QUARTOS}/hospedagens`;
-const baseURLHospedes = `${BASE_URL_HOSPEDAGENS}/hospedes`;
-const baseURLServicos = `${BASE_URL_HOSPEDAGENS}/servicos`;
-const baseURLItens = `${BASE_URL_HOSPEDAGENS}/itens`;
-const baseURLItensNaHospedagem = `${BASE_URL_HOSPEDAGENS}/itensNaHospedagem`;
-const baseURLServicosNaHospedagem = `${BASE_URL_HOSPEDAGENS}/servicosNaHospedagem`;
-const baseURLQuartos = `${BASE_URL_QUARTOS}/quartos`;
-const baseURLTipoQuartos = `${BASE_URL_QUARTOS}/tipoDeQuartos`;
-const baseURLQuartosNaHospedagem = `${BASE_URL_QUARTOS}/quartosNaHospedagem`;
-const baseURLReservas = `${BASE_URL_QUARTOS}/reservas`;
+const baseURL = `${BASE_URL3}/hospedagens`;
 
 function ListagemHospedagens() {
   const navigate = useNavigate();
 
-  /*const cadastrar = () => {
-    navigate('/cadastro-tipoDeCama');
-  };*/
+  const cadastrar = () => {
+    navigate(`/cadastro-hospedagem`);
+  };
 
-  /*const editar = (id) => {
-    navigate('/cadastro/tipoDeCama/${id}');
-  };*/
+  const editar = (id) => {
+    navigate(`/cadastro-hospedagem/${id}`);
+  };
 
 
   const [dados, setDados] = React.useState(null);
 
-  const [hospedes, setHospedes] = React.useState(null);
-  const [servicos, setServicos] = React.useState(null);
-  const [itens, setItens] = React.useState(null);
-  const [itensNaHospedagem, setItensNaHospedagem] = React.useState(null);
-  const [servicosNaHospedagem, setServicosNaHospedagem] = React.useState(null);
-  const [quartos, setQuartos] = React.useState(null);
-  const [tipoQuartos, setTipoQuartos] = React.useState(null);
-  const [quartosNaHospedagem, setQuartosNaHospedagem] = React.useState(null);
-  const [reservas, setReservas] = React.useState(null);
-
+  async function excluir(id) {
+    let data = JSON.stringify({ id });
+    let url = `${baseURL}/${id}`;
+    console.log(url)
+    await axios
+      .delete(url, data, {
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(function (response) {
+      mensagemSucesso(`Hospedagem excluído com sucesso!`);
+      setDados(
+        dados.filter((dado) => {
+          return dado.id !== id;
+        })
+      );
+    })
+    .catch(function (error) {
+      mensagemErro(`Erro ao excluir hospedagem`);
+    });
+  }
+ 
   React.useEffect(() => {
     Promise.all([
     axios.get(baseURL),
-    axios.get(baseURLHospedes),
-    axios.get(baseURLServicos),
-    axios.get(baseURLItens),
-    axios.get(baseURLItensNaHospedagem),
-    axios.get(baseURLServicosNaHospedagem),
-    axios.get(baseURLQuartos),
-    axios.get(baseURLTipoQuartos),
-    axios.get(baseURLQuartosNaHospedagem),
-    axios.get(baseURLReservas)
     ])
     .then((responses) => {
         setDados(responses[0].data);
-        setHospedes(responses[1].data);
-        setServicos(responses[2].data);
-        setItens(responses[3].data);
-        setItensNaHospedagem(responses[4].data);
-        setServicosNaHospedagem(responses[5].data);
-        setQuartos(responses[6].data);
-        setTipoQuartos(responses[7].data);
-        setQuartosNaHospedagem(responses[8].data);
-        setReservas(responses[9].data);
       })
   }, []);
 
@@ -87,7 +71,7 @@ function ListagemHospedagens() {
               <button
                 type='button'
                 className='btn btn-warning'
-                //onClick={() => cadastrar()}
+                onClick={() => cadastrar()}
                 >
                 Nova hospedagem
               </button>
@@ -102,7 +86,7 @@ function ListagemHospedagens() {
                     <th scope='col'>Quartos</th>
                     <th scope='col'>Serviços</th>
                     <th scope='col'>Itens usados</th>
-                    <th scope='col'>Reserva</th>
+                    <th scope='col'>Fez reserva?</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -111,71 +95,25 @@ function ListagemHospedagens() {
                     <tr key={dado.id}>
                       <td>{dado.checkIn}</td>
                       <td>{dado.checkOut}</td>
-                      <td>{hospedes.find((hospede) => hospede.id === dado.idHospede).nome}</td>
+                      <td>{dado.hospede}</td>
                       <td>{dado.adultos}</td>
                       <td>{dado.criancas}</td>
-                      <td>
-                        {quartosNaHospedagem
-                          .filter((quartoNaHospedagem) => quartoNaHospedagem.idHospedagem === dado.id)
-                          .map((quartoNaHospedagem) => {
-                            const quartoNaHosp = quartos.find((quarto) => quarto.id === quartoNaHospedagem.idQuarto);
-                            const tipoQuarto = tipoQuartos.find((tipoQuarto) => tipoQuarto.id === quartoNaHosp.idTipoDeQuarto);
-                            return (
-                              <div key={quartoNaHosp.id}>
-                                {quartoNaHospedagem.quantidade}x {tipoQuarto.tipo}
-                              </div>
-                            )
-                          })
-                        }
-                      </td>
-                      <td>
-                        {servicosNaHospedagem
-                          .filter((servicoNaHospedagem) => servicoNaHospedagem.idHospedagem === dado.id)
-                          .map((servicoNaHospedagem) => {
-                            const servNaHosp = servicos.find((servico) => servico.id === servicoNaHospedagem.idServico);
-                            return (
-                              <div key={servNaHosp.id}>
-                              {servicoNaHospedagem.quantidade}x {servNaHosp.nome}
-                              </div>
-                            )
-                          })
-                        }
-                      </td>
-                        {itensNaHospedagem
-                          .filter((itemNaHospedagem) => itemNaHospedagem.idHospedagem === dado.id)
-                          .map((itemNaHospedagem) => {
-                            const itemNaHosp = itens.find((item) => item.id === itemNaHospedagem.idItem);
-                            return (
-                              <div key={itemNaHosp.id}>
-                              {itemNaHospedagem.quantidade}x {itemNaHosp.nome}
-                              </div>
-                            )
-                          })
-                        }
-                      <td>
-                        {reservas
-                          .filter((reserva) => reserva.id == dado.idReserva)
-                          .map((reserva) => {
-                            return(
-                              <div key={reserva.id}>
-                                {reserva.id}
-                              </div>
-                            )
-                          })
-                        }
-                      </td>
+                      <td>{dado.quarto}</td> 
+                      <td>{dado.servicos}</td>
+                      <td>{dado.itens}</td>
+                      <td>{dado.reserva}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
-                            //onClick={() => editar(dado.id)}
+                            onClick={() => editar(dado.id)}
                           >
                             <EditIcon />
                           </IconButton>
                           
                           <IconButton
                             aria-label='delete'
-                            //onClick={() => excluir(dado.id)}
+                            onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>

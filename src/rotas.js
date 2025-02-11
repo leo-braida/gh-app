@@ -10,8 +10,21 @@ import ListagemReservas from './views/listagem-reservas';
 import ListagemHospedagens from './views/listagem-hospedagens';
 import ListagemAgendamentos from './views/listagem-agendamentos';
 import ListagemTrabalhadores from './views/listagem-trabalhadores';
-import CadastroTipoCama from './views/cadastro-tipo-cama';
 import ListagemHoteis from './views/listagem-hoteis';
+import ListagemCargo from './views/listagem-cargo';
+import CadastroTipoCama from './views/cadastro-tipo-cama';
+import CadastroHotel from './views/cadastro-hotel';
+import CadastroItem from './views/cadastro-itens';
+import CadastroHospede from './views/cadastro-hospedes';
+import CadastroServico from './views/cadastro-servico';
+import CadastroTiposQuarto from './views/cadastro-tipos-quarto';
+import CadastroTrabalhador from './views/cadastro-trabalhador';
+import CadastroQuarto from './views/cadastro-quarto';
+import CadastroReserva from './views/cadastro-reserva';
+import CadastroAgendamento from './views/cadastro-agendamento';
+import CadastroHospedagem from './views/cadastro-hospedagem';
+import CadastroCargo from './views/cadastro-cargo';
+
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
 
@@ -20,8 +33,68 @@ function Rotas(props){
     <BrowserRouter>
       <Routes>
         <Route
+          path='/cadastro-cargo/:idParam?'
+          element={<CadastroCargo />}
+        />
+
+        <Route
+          path='/cadastro-hospedagem/:idParam?'
+          element={<CadastroHospedagem />}
+        />
+
+        <Route
+          path='/cadastro-agendamento/:idParam?'
+          element={<CadastroAgendamento />}
+        />
+
+        <Route
+          path='/cadastro-reserva/:idParam?'
+          element={<CadastroReserva />}
+        />
+
+        <Route
+          path='/cadastro-quarto/:idParam?'
+          element={<CadastroQuarto />}
+        />
+
+        <Route
+          path='/cadastro-trabalhador/:idParam?'
+          element={<CadastroTrabalhador />}
+        />
+
+        <Route
           path='/cadastro-tipo-cama/:idParam?'
           element={<CadastroTipoCama />}
+        />
+
+        <Route
+          path='/cadastro-hotel/:idParam?'
+          element={<CadastroHotel />}
+        />
+
+        <Route
+          path='/cadastro-itens/:idParam?'
+          element={<CadastroItem />}
+        />
+        
+        <Route
+          path='cadastro-hospede/:idParam?'
+          element={<CadastroHospede />}
+        />
+
+        <Route
+          path='cadastro-servico/:idParam?'
+          element={<CadastroServico />}
+        />
+
+        <Route
+          path='cadastro-tipos-quarto/:idParam?'
+          element={<CadastroTiposQuarto />}
+        />
+
+        <Route
+          path='/listagem-cargo'
+          element={<ListagemCargo />}
         />
 
         <Route

@@ -12,34 +12,33 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/trabalhadores`;
+const baseURL = `${BASE_URL}/cargos`;
 
-
-function ListagemTrabalhadores() {
+function ListagemCargo() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastro-trabalhador`);
+    navigate(`/cadastro-cargo`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-trabalhador/${id}`);
+    navigate(`/cadastro-cargo/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
 
-  async function excluir(id){
+  async function excluir(id) {
     let data = JSON.stringify({ id });
     let url = `${baseURL}/${id}`;
     console.log(url)
     await axios
       .delete(url, data, {
-        headers: { 'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Trabalhador excluído com sucesso!`);
+      mensagemSucesso(`Cargo excluído com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -47,27 +46,21 @@ function ListagemTrabalhadores() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir Trabalhador`);
+      mensagemErro(`Erro ao excluir cargo`);
     });
   }
 
-  const [hoteis, setHoteis] = React.useState(null);
-  const [hotelDoTrabalhador, setHotelDoTrabalhador] = React.useState(null);
-
   React.useEffect(() => {
-    Promise.all([
-    axios.get(baseURL),
-    ])
-    .then((responses) => {
-        setDados(responses[0].data);
-      })
+    axios.get(baseURL).then((response) => {
+      setDados(response.data);
+    });
   }, []);
 
   if (!dados) return null;
 
   return (
     <div className='container'>
-      <Card title='Listagem de trabalhadores'>
+      <Card title='Listagem de cargos'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -76,15 +69,13 @@ function ListagemTrabalhadores() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
                 >
-                Novo trabalhador
+                Novo cargo
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Telefone</th>
-                    <th scope='col'>Hotel do Trabalhador</th>
-                    <th scope='col'>Cargo do Trabalhador</th>
+                    <th scope='col'>Descrição</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -93,11 +84,7 @@ function ListagemTrabalhadores() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.telefone}</td>
-                      <td>{dado.hotel}
-                      </td>
-                      <td>{dado.cargo}</td>
-
+                      <td>{dado.descricao}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -127,4 +114,4 @@ function ListagemTrabalhadores() {
   );
 }
 
-export default ListagemTrabalhadores;
+export default ListagemCargo;
