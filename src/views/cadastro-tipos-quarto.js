@@ -102,14 +102,50 @@ function CadastroTipoQuarto() {
 const [dadosCamas, setDadosCamas] = useState([]);
 const [dadosItens, setDadosItens] = useState([]);
 
+// INÍCIO DO NEGÓCIO DE CONTA by GPT, Chat.
+
+
+const [selectedCamas, setSelectedCamas] = useState({});
+
 const handleCamaChange = (e) => {
-  const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-  setIdCama(selectedValues);
+  const { value, checked } = e.target;
+
+  setSelectedCamas((prev) => {
+    const updatedCamas = { ...prev };
+
+    if (checked) {
+      const tipo = dadosCamas.find((cama) => cama.id === value)?.tipo || ""; updatedCamas[value] = { tipo, quantidade:1 };
+    } else {
+      delete updatedCamas[value];
+    }
+
+    return updatedCamas;
+  });
 };
 
+const [selectedItens, setSelectedItens] = useState({});
+
 const handleItemChange = (e) => {
-  const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-  setIdItem(selectedValues);
+  const { value, checked } = e.target;
+
+  setSelectedItens((prev) => {
+    const updatedItens = { ...prev };
+
+    if (checked) {
+      const tipo = dadosItens.find((item) => item.id === value)?.tipo || ""; updatedItens[value] = { tipo, quantidade:1 };
+    } else {
+      delete updatedItens[value];
+    }
+
+    return updatedItens;
+  });
+};
+
+const handleQuantidadeChange = (id, quantidade) => {
+  setSelectedCamas((prev) => ({
+    ...prev,
+    [id]: { ...prev[id], quantidade },
+  }));
 };
 
 useEffect(() => {
@@ -168,38 +204,53 @@ if (!dadosItens) return null;
                   onChange={(e) => setPreco(e.target.value)}
                 />
               </FormGroup>         
-              <FormGroup label='Cama: *' htmlFor='selectCama'>
-                <select
-                  id='selectCama'
-                  value={idCama}
-                  multiple
-                  className='form-select'
-                  name='idCama'
-                  onChange={handleCamaChange}
-                >
-                  {dadosCamas.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+              <FormGroup label='Camas: *' htmlFor='selectCama'>
+                {dadosCamas.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.id}
+                        checked={selectedCamas[dado.id] !== undefined}
+                        onChange={handleCamaChange}
+                      />
                       {dado.tipo}
-                    </option>
-                  ))}
-                </select>
+                    </label>
+                    {selectedCamas[dado.id] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedCamas[dado.id]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
               </FormGroup>
-
-              <FormGroup label='Item: *' htmlFor='selectItem'>
-                <select
-                  id='selectItem'
-                  value={idItem}
-                  multiple
-                  className='form-select'
-                  name='idItem'
-                  onChange={handleItemChange}
-                >
-                  {dadosItens.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+              <FormGroup label='Itens: *' htmlFor='selectItem'>
+                {dadosItens.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.id}
+                        checked={selectedItens[dado.id] !== undefined}
+                        onChange={handleItemChange}
+                      />
                       {dado.nome}
-                    </option>
-                  ))}
-                </select>
+                    </label>
+                    {selectedItens[dado.id] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedItens[dado.id]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
               </FormGroup>
  
               <Stack spacing={1} padding={1} direction='row'>
