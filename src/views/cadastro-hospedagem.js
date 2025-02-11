@@ -9,13 +9,13 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL1, BASE_URL_HOSPEDAGENS } from '../config/axios';
+import { BASE_URL, BASE_URL2, BASE_URL3 } from '../config/axios';
 
-const baseURL = `${BASE_URL1}/hospedagens`;
-const baseURLHospede = `${BASE_URL1}/hospedes`;
-const baseURLQuarto = `${BASE_URL1}/quartos`;
-const baseURLServico = `${BASE_URL_HOSPEDAGENS}/servicos`;
-const baseURLItem = `${BASE_URL_HOSPEDAGENS}/itens`;
+const baseURL = `${BASE_URL3}/hospedagens`;
+const baseURLHospede = `${BASE_URL}/hospedes`;
+const baseURLQuarto = `${BASE_URL3}/quartos`;
+const baseURLServico = `${BASE_URL2}/servicos`;
+const baseURLItem = `${BASE_URL}/itens`;
 
 function CadastroHospedagem() {
   const { idParam } = useParams();
@@ -249,9 +249,6 @@ function CadastroHospedagem() {
                   name='idQuarto'
                   onChange={handleQuartoChange}
                 >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
                   {dadosQuartos.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.numero}
@@ -268,9 +265,6 @@ function CadastroHospedagem() {
                   name='idServico'
                   onChange={handleServicoChange}
                 >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
                   {dadosServicos.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}
@@ -287,9 +281,6 @@ function CadastroHospedagem() {
                   name='idItem'
                   onChange={handleItemChange}
                 >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
                   {dadosItens.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}

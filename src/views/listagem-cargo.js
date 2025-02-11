@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_CARGOS } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL_CARGOS}/cargos`;
+const baseURL = `${BASE_URL}/cargos`;
 
 function ListagemCargo() {
   const navigate = useNavigate();

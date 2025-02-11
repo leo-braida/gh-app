@@ -9,9 +9,9 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL_QUARTOS } from '../config/axios';
+import { BASE_URL, BASE_URL3 } from '../config/axios';
 
-const baseURL = `${BASE_URL_QUARTOS}/tipoDeQuartos`;
+const baseURL = `${BASE_URL3}/tipoDeQuartos`;
 const baseURLCamas = `${BASE_URL}/tipoDeCama`;
 const baseURLItens = `${BASE_URL}/itens`;
 function CadastroTipoQuarto() {
@@ -177,9 +177,6 @@ if (!dadosItens) return null;
                   name='idCama'
                   onChange={handleCamaChange}
                 >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
                   {dadosCamas.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.tipo}
@@ -197,9 +194,6 @@ if (!dadosItens) return null;
                   name='idItem'
                   onChange={handleItemChange}
                 >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
                   {dadosItens.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}

@@ -12,9 +12,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL_HOTEIS } from '../config/axios';
+import { BASE_URL2 } from '../config/axios';
 
-const baseURL = `${BASE_URL_HOTEIS}/hoteis`;
+const baseURL = `${BASE_URL2}/hoteis`;
 
 function ListagemHoteis() {
   const navigate = useNavigate();

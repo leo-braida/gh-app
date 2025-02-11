@@ -12,10 +12,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL_QUARTOS } from '../config/axios';
+import { BASE_URL3 } from '../config/axios';
 
 
-const baseURL = `${BASE_URL_QUARTOS}/tipoDequartos`;
+const baseURL = `${BASE_URL3}/tipoDequartos`;
 
 function ListagemTiposQuarto() {
   const navigate = useNavigate();

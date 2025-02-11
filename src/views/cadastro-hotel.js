@@ -9,9 +9,9 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL_HOTEIS } from '../config/axios';
+import { BASE_URL2 } from '../config/axios';
 
-const baseURL = `${BASE_URL_HOTEIS}/hoteis`;
+const baseURL = `${BASE_URL2}/hoteis`;
 
 function CadastroHotel() {
   const { idParam } = useParams();
@@ -30,7 +30,7 @@ function CadastroHotel() {
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
 
-  const [dados, setDados] = useState([]); // verificar se precisa do React. (acho que não precisa)
+  const [dados, setDados] = useState([]);
   
   function inicializar() {
     if (idParam == null) {

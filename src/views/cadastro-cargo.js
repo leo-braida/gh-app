@@ -9,9 +9,9 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL_CARGOS } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL_CARGOS}/cargos`;
+const baseURL = `${BASE_URL}/cargos`;
 
 function CadastroCargo() {
   const { idParam } = useParams();
@@ -105,7 +105,7 @@ function CadastroCargo() {
                   onChange={(e) => setNome(e.target.value)}
                 />
               </FormGroup>       
-              <FormGroup label='Descrção: *' htmlFor='inputDescricao'>
+              <FormGroup label='Descrição: *' htmlFor='inputDescricao'>
                 <input
                   type='text'
                   id='inputDescricao'

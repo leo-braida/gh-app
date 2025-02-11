@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
+import { BASE_URL2 } from '../config/axios';
 
-const baseURL = `${BASE_URL}/trabalhadores`;
+const baseURL = `${BASE_URL2}/trabalhadores`;
 
 
 function ListagemTrabalhadores() {

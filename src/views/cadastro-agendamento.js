@@ -11,8 +11,8 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL2, BASE_URL3 } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/agendamentos`;
-const baseURLServicos = `${BASE_URL3}/servicos`;
+const baseURL = `${BASE_URL3}/agendamentos`;
+const baseURLServicos = `${BASE_URL2}/servicos`;
 
 function CadastroAgendamento(){
   const { idParam } = useParams();

@@ -9,11 +9,11 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL3, BASE_URL_HOTEIS } from '../config/axios';
+import { BASE_URL2 } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/servicos`;
-const baseURLHoteis = `${BASE_URL_HOTEIS}/hoteis`;
-const baseURLTrabalhadores = `${BASE_URL3}/trabalhadores`;
+const baseURL = `${BASE_URL2}/servicos`;
+const baseURLHoteis = `${BASE_URL2}/hoteis`;
+const baseURLTrabalhadores = `${BASE_URL2}/trabalhadores`;
 
 function CadastroServico() {
   const { idParam } = useParams();
