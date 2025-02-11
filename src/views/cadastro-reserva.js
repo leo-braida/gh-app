@@ -206,7 +206,7 @@ function CadastroReserva(){
                     </option>
                     {dadosHotel.map((dado) => (
                       <option key={dado.id} value={dado.id}>
-                        {dado.tipo}
+                        {dado.nome}
                       </option>
                     ))}
                   </select>
