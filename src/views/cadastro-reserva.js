@@ -9,11 +9,12 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL3 } from '../config/axios';
+import { BASE_URL, BASE_URL3, BASE_URL2 } from '../config/axios';
 
 const baseURL = `${BASE_URL}/reservas`;
 const baseURLHospede = `${BASE_URL}/hospedes`;
 const baseURLTipoQuarto = `${BASE_URL3}/tipoDeQuartos`;
+const baseURLHotel = `${BASE_URL2}/hoteis`;
 
 function CadastroReserva(){
     const { idParam } = useParams();
@@ -26,6 +27,7 @@ function CadastroReserva(){
     const [idHospede, setIdHospede] = useState('');
     const [idTipoQuarto, setIdTipoQuarto] = useState('');
     const [dados, setDados] = useState([]);
+    const [idHotel, setIdHotel] = useState('');
   
     function inicializar() {
       if (idParam == null) {
@@ -34,6 +36,7 @@ function CadastroReserva(){
         setDataSaida('');
         setIdHospede('');
         setIdTipoQuarto('');
+        setIdHotel('');
       } 
       else {
           setId(dados.id);
@@ -41,6 +44,7 @@ function CadastroReserva(){
           setDataSaida(dados.dataSaida);
           setIdHospede(dados.idHospede);
           setIdTipoQuarto(dados.idTipoQuarto);
+          setIdHotel(dados.hotel);
       } 
     }
   
@@ -51,6 +55,7 @@ function CadastroReserva(){
         dataSaida,
         idHospede,
         idTipoQuarto,
+        idHotel,
       };
       data = JSON.stringify(data);
       if (idParam == null) {
@@ -91,11 +96,13 @@ function CadastroReserva(){
         setDataSaida(dados.dataSaida);
         setIdHospede(dados.idHospede);
         setIdTipoQuarto(dados.idTipoQuarto);
+        setIdHotel(dados.hotel);
       }
     }
 
   const [dadosHospede, setDadosHospede] = useState(null);
   const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
+  const [dadosHotel, setDadosHotel] = useState(null);
 
   useEffect(() => {
     axios.get(baseURLHospede).then((response) => {
@@ -108,6 +115,12 @@ function CadastroReserva(){
         setDadosTipoQuarto(response.data);
       });
   }, []);
+
+  useEffect(() => {
+    axios.get(baseURLHotel).then((response) => {
+      setDadosHotel(response.data);
+    });
+}, []);
   
   useEffect(() => {
     buscar();
@@ -116,6 +129,7 @@ function CadastroReserva(){
   if (!dados) return null;
   if (!dadosHospede) return null;
   if (!dadosTipoQuarto) return null;
+  if (!dadosHotel) return null;
   
   return (
       <div className='container'>
@@ -179,7 +193,25 @@ function CadastroReserva(){
                     ))}
                   </select>
                 </FormGroup>
-   
+                <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                  <select
+                    id='selectHotel'
+                    value={idHotel}
+                    className='form-select'
+                    name='idHotel'
+                    onChange={(e) => setIdHotel(e.target.value)}
+                  >
+                    <option key='0' value='0'>
+                      {' '}
+                    </option>
+                    {dadosHotel.map((dado) => (
+                      <option key={dado.id} value={dado.id}>
+                        {dado.tipo}
+                      </option>
+                    ))}
+                  </select>
+                </FormGroup>
+                    
                 <Stack spacing={1} padding={1} direction='row'>
                   <button
                     onClick={salvar}

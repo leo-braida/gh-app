@@ -54,6 +54,7 @@ function ListagemReservas() {
   const [hospedesNaReserva, setHospedesNaReserva] = React.useState(null);
   const [tipoDeQuartosNaReserva, setTipoDeQuartosNaReserva] = React.useState(null);
   const [tipoDeQuartos, setTipoDeQuarto] = React.useState(null);
+  const [hotel, setHotel] = React.useState(null);
 
   React.useEffect(() => {
     Promise.all([
@@ -95,6 +96,7 @@ function ListagemReservas() {
                     <th scope='col'>Data de saída</th>
                     <th scope='col'>Hóspedes na Reserva</th>
                     <th scope='col'>Tipo de quarto</th>
+                    <th scope='col'>Hotel</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -128,7 +130,7 @@ function ListagemReservas() {
                             );
                           })*/}
                       </td>
-
+                      <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
