@@ -6,11 +6,11 @@ import Navbar from './components/navbar.js';
 import Rotas from './rotas.js';
 
 class App extends React.Component {
-  render(){
+  render() {
     return (
       <div className='container'>
-      <Rotas />
-      <Navbar />
+        <Rotas />
+        <Navbar />
       </div>
     );
   }

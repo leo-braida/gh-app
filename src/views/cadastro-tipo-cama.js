@@ -114,17 +114,7 @@ function CadastroTipoCama() {
                   name='tipo'
                   onChange={(e) => setTipo(e.target.value)}
                 />
-              </FormGroup>
-              <FormGroup label='Quantidade: *' htmlFor='inputQuantidade'>
-                <input
-                  type='number'
-                  id='inputQuantidade'
-                  value={quantidade}
-                  className='form-control'
-                  name='quantidade'
-                  onChange={(e) => setQuantidade(e.target.value)}
-                />
-              </FormGroup>         
+              </FormGroup>     
               <FormGroup label='Quantidade de adultos: *' htmlFor='inputQuantidadeAdultos'>
                 <input
                   type='number'
@@ -135,7 +125,6 @@ function CadastroTipoCama() {
                   onChange={(e) => setQuantidadeAdultos(e.target.value)}
                 />
               </FormGroup>
-              
               <FormGroup label='Quantidade de crianças: *' htmlFor='inputQuantidadeCriancas'>
                 <input
                   type='number'
