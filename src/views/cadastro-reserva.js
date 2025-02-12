@@ -24,8 +24,8 @@ function CadastroReserva(){
     const navigate = useNavigate();
   
     const [id, setId] = useState('');
-    const [dataChegada, setDataChegada] = useState('');
-    const [dataSaida, setDataSaida] = useState('');
+    const [chegada, setChegada] = useState('');
+    const [saida, setSaida] = useState('');
     const [idHospede, setIdHospede] = useState('');
     const [idTipoQuarto, setIdTipoQuarto] = useState('');
     const [dados, setDados] = useState([]);
@@ -37,7 +37,7 @@ function CadastroReserva(){
       if (idParam == null) {
         setId('');
         setChegada('');
-        setDataSaida('');
+        setSaida('');
         setIdHospede('');
         setIdTipoQuarto('');
         setIdHotel('');
@@ -47,7 +47,7 @@ function CadastroReserva(){
       else {
           setId(dados.id);
           setChegada(dados.dataChegada);
-          setDataSaida(dados.dataSaida);
+          setSaida(dados.dataSaida);
           setIdHospede(dados.idHospede);
           setIdTipoQuarto(dados.idTipoQuarto);
           setIdHotel(dados.hotel);
@@ -60,7 +60,7 @@ function CadastroReserva(){
       let data = {
         id,
         chegada,
-        dataSaida,
+        saida,
         idHospede,
         idTipoQuarto,
         idHotel,
@@ -103,7 +103,7 @@ function CadastroReserva(){
         });
         setId(dados.id);
         setChegada(dados.chegada);
-        setDataSaida(dados.dataSaida);
+        setSaida(dados.saida);
         setIdHospede(dados.idHospede);
         setIdTipoQuarto(dados.idTipoQuarto);
         setIdHotel(dados.hotel);
@@ -199,14 +199,14 @@ function CadastroReserva(){
                     onChange={(e) => setChegada(e.target.value)}
                   />
                 </FormGroup>
-                <FormGroup label='Data de Saída: *' htmlFor='inputDataSaida'>
+                <FormGroup label='Saída: *' htmlFor='inputSaida'>
                   <input
-                    type='text'
-                    id='inputDataSaida'
-                    value={dataSaida}
+                    type='datetime-local'
+                    id='inputSaida'
+                    value={saida}
                     className='form-control'
-                    name='dataSaida'
-                    onChange={(e) => setDataSaida(e.target.value)}
+                    name='saida'
+                    onChange={(e) => setSaida(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup label='Hospede: *' htmlFor='selectHospede'>
