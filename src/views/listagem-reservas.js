@@ -82,7 +82,8 @@ function ListagemReservas() {
                     <th scope='col'>Hóspedes na Reserva</th>
                     <th scope='col'>Tipo de quarto</th>
                     <th scope='col'>Hotel</th>
-                    <th scope='col'>Extras no quarto</th>
+                    <th scope='col'>Itens pedidos</th>
+                    <th scope='col'>Camas extras</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -90,15 +91,32 @@ function ListagemReservas() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.chegada.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
-                      <td>{dado.saida.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
+                      <td>{new Date(dado.chegada).toLocaleDateString("pt-br")} {new Date(dado.chegada).toLocaleTimeString("pt-br", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                      </td>
+                      <td>{new Date(dado.saida).toLocaleDateString("pt-br")} {new Date(dado.saida).toLocaleTimeString("pt-br", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                      </td>
                       <td>{dado.hospede}</td>
                       <td>{dado.tipoDeQuarto}</td>
                       <td>{dado.hotel}</td>
                       <td>
-                        {dado.extras.split("\n").map((linha, index) => (
+                        {dado.itensExtras !== undefined && (
+                          dado.itensExtras.split("\n").map((linha, index) => (
                           <p key={index}>{linha}</p>
-                        ))}
+                          ))
+                        )}
+                      </td>
+                      <td>
+                        {dado.camasExtras !== undefined && (
+                          dado.camasExtras.split("\n").map((linha, index) => (
+                            <p key={index}>{linha}</p>
+                          ))
+                        )}
                       </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

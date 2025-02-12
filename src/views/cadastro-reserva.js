@@ -36,7 +36,7 @@ function CadastroReserva(){
     function inicializar() {
       if (idParam == null) {
         setId('');
-        setDataChegada('');
+        setChegada('');
         setDataSaida('');
         setIdHospede('');
         setIdTipoQuarto('');
@@ -46,7 +46,7 @@ function CadastroReserva(){
       } 
       else {
           setId(dados.id);
-          setDataChegada(dados.dataChegada);
+          setChegada(dados.dataChegada);
           setDataSaida(dados.dataSaida);
           setIdHospede(dados.idHospede);
           setIdTipoQuarto(dados.idTipoQuarto);
@@ -59,7 +59,7 @@ function CadastroReserva(){
       async function salvar() {
       let data = {
         id,
-        dataChegada,
+        chegada,
         dataSaida,
         idHospede,
         idTipoQuarto,
@@ -102,7 +102,7 @@ function CadastroReserva(){
           setDados(response.data);
         });
         setId(dados.id);
-        setDataChegada(dados.dataChegada);
+        setChegada(dados.chegada);
         setDataSaida(dados.dataSaida);
         setIdHospede(dados.idHospede);
         setIdTipoQuarto(dados.idTipoQuarto);
@@ -189,14 +189,14 @@ function CadastroReserva(){
           <div className='row'>
             <div className='col-lg-12'>
               <div className='bs-component'>
-                <FormGroup label='Data de Chegada: *' htmlFor='inputDataChegada'>
+                <FormGroup label='Chegada: *' htmlFor='inputChegada'>
                   <input
-                    type='text'
-                    id='inputDataChegada'
-                    value={dataChegada}
+                    type='datetime-local'
+                    id='inputChegada'
+                    value={chegada}
                     className='form-control'
-                    name='dataChegada'
-                    onChange={(e) => setDataChegada(e.target.value)}
+                    name='chegada'
+                    onChange={(e) => setChegada(e.target.value)}
                   />
                 </FormGroup>
                 <FormGroup label='Data de Saída: *' htmlFor='inputDataSaida'>
