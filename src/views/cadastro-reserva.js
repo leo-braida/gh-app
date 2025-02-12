@@ -45,15 +45,18 @@ function CadastroReserva(){
         setIdItens('');
       } 
       else {
-          setId(dados.id);
-          setChegada(dados.dataChegada);
-          setSaida(dados.dataSaida);
-          setIdHospede(dados.idHospede);
-          setIdTipoQuarto(dados.idTipoQuarto);
-          setIdHotel(dados.hotel);
-          setIdCamas(dados.camas);
-          setIdItens(dados.itens);
-      } 
+        setId(dados.id);
+        setChegada(dados.dataChegada);
+        setSaida(dados.dataSaida);
+        setIdHospede(dados.idHospede);
+        setIdTipoQuarto(dados.idTipoQuarto);
+        setIdHotel(dados.hotel);
+        setIdCamas(dados.camas);
+        setIdItens(dados.itens);
+        setSelectedQuartos(processarSelecionados(dados.tiposDeQuarto));
+        setSelectedCamas(processarSelecionados(dados.camasExtras));
+        setSelectedItens(processarSelecionados(dados.itensExtras));
+    } 
     }
   
       async function salvar() {
@@ -116,32 +119,53 @@ function CadastroReserva(){
   const [dadosCamas, setDadosCamas] = useState(null);
   const [dadosItens, setDadosItens] = useState(null);
 
-  const [selectedCamas, setSelectedCamas] = useState({});
-  const [selectedItens, setSelectedItens] = useState({});
-  const [selectedTiposDeQuarto, setSelectedTiposDeQuarto] = useState({});
-  
-  const handleSelectionChange = (e, dados, setSelected) => {
-    const { value, checked } = e.target;
-  
-    setSelected((prev) => {
-      const updatedSelection = { ...prev };
-  
-      if (checked) {
-        const tipo = dados.find((item) => item.id === value)?.tipo || "";
-        updatedSelection[value] = { tipo, quantidade: 1 };
-      } else {
-        delete updatedSelection[value];
+const [selectedQuartos, setSelectedQuartos] = useState({});
+const [selectedCamas, setSelectedCamas] = useState({});
+const [selectedItens, setSelectedItens] = useState({});
+
+const processarSelecionados = (dadosString) => {
+    if (!dadosString) return {};
+
+    return dadosString.split("\n").reduce((acc, item) => {
+      const match = item.match(/(\d+)x (.+)/);
+      if (match) {
+        const quantidade = parseInt(match[1], 10);
+        const nome = match[2].trim();
+        acc[nome] = { quantidade };
       }
-  
-      return updatedSelection;
-    });
+      return acc;
+    }, {});
   };
-  
-  const handleQuantidadeChange = (id, quantidade, setSelected) =>{
-    setSelected((prev) => ({...prev,
-      [id]: {...prev[id], quantidade },
-    }));
-  }
+
+useEffect(() => {
+    if (dados) {
+      setSelectedQuartos(processarSelecionados(dados.tiposDeQuarto));
+      setSelectedCamas(processarSelecionados(dados.camasExtras));
+      setSelectedItens(processarSelecionados(dados.itensExtras));
+    }
+  }, [dados]);
+
+const handleSelectionChange = (e, setSelected) => {
+  const { value, checked } = e.target;
+
+  setSelected((prev) => {
+    const updatedSelection = { ...prev };
+
+    if (checked) {
+      updatedSelection[value] = { quantidade: 1 };
+    } else {
+      delete updatedSelection[value];
+    }
+
+    return updatedSelection;
+  });
+};
+
+const handleQuantidadeChange = (id, quantidade, setSelected) =>{
+  setSelected((prev) => ({...prev,
+    [id]: {...prev[id], quantidade },
+  }));
+}
 
   useEffect(() => {
     axios.get(baseURLHospede).then((response) => {
@@ -252,71 +276,72 @@ function CadastroReserva(){
                     <label key={dado.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        value={dado.id}
-                        checked={selectedTiposDeQuarto[dado.id] !== undefined}
+                        value={dado.tipo}
+                        checked={selectedQuartos[dado.tipo] !== undefined}
                         onChange={(e) => {
-                          handleSelectionChange(e, dadosCamas, setSelectedTiposDeQuarto);
+                          handleSelectionChange(e, setSelectedQuartos);
                         }}
                       />
                       {dado.tipo}
                     </label>
-                    {selectedTiposDeQuarto[dado.id] !== undefined && (
+                    {selectedQuartos[dado.tipo] !== undefined && (
                       <input
                         type="number"
                         min="1"
-                        value={selectedTiposDeQuarto[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedTiposDeQuarto)}
+                        value={selectedQuartos[dado.tipo]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.tipo, e.target.value, setSelectedQuartos)}
                         className="border p-1 w-16"
                       />
                     )}
                   </div>
                 ))}
               </FormGroup>
-              <FormGroup label={<strong>Camas extras: *</strong>} htmlFor='selectCama'>
+              <FormGroup label={<strong>Camas extras:</strong>} htmlFor='selectCama'>
                 {dadosCamas.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        value={dado.id}
-                        checked={selectedCamas[dado.id] !== undefined}
+                        value={dado.tipo}
+                        checked={selectedCamas[dado.tipo] !== undefined}
                         onChange={(e) => {
-                          handleSelectionChange(e, dadosCamas, setSelectedCamas);
+                          handleSelectionChange(e, setSelectedCamas);
                         }}
                       />
                       {dado.tipo}
                     </label>
-                    {selectedCamas[dado.id] !== undefined && (
+                    {selectedCamas[dado.tipo] !== undefined && (
                       <input
                         type="number"
                         min="1"
-                        value={selectedCamas[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedCamas)}
+                        value={selectedCamas[dado.tipo]?.quantidade || ""}
+                        onChange={(e) => handleQuantidadeChange(dado.tipo, e.target.value, setSelectedCamas)}
                         className="border p-1 w-16"
                       />
                     )}
                   </div>
                 ))}
+
               </FormGroup>
-              <FormGroup label={<strong>Itens extras: *</strong>} htmlFor='selectItem'>
+              <FormGroup label={<strong>Itens extras:</strong>} htmlFor='selectItem'>
                 {dadosItens.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        value={dado.id}
-                        checked={selectedItens[dado.id] !== undefined}
+                        value={dado.nome}
+                        checked={selectedItens[dado.nome] !== undefined}
                         onChange={(e) => {
-                          handleSelectionChange(e, dadosItens, setSelectedItens)}}
+                          handleSelectionChange(e, setSelectedItens)}}
                       />
                       {dado.nome}
                     </label>
-                    {selectedItens[dado.id] !== undefined && (
+                    {selectedItens[dado.nome] !== undefined && (
                       <input
                         type="number"
                         min="1"
-                        value={selectedItens[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedItens)}
+                        value={selectedItens[dado.nome]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.nome, e.target.value, setSelectedItens)}
                         className="border p-1 w-16"
                       />
                     )}

@@ -103,10 +103,9 @@ function ListagemReservas() {
                       </td>
                       <td>{dado.hospede}</td>
                       <td>
-                        {dado.tiposDeQuarto !== undefined && (
-                          dado.tiposDeQuarto.split("\n").map((linha, index) => (
+                        {dado.tiposDeQuarto?.split("\n").map((linha, index) => (
                           <p key={index}>{linha}</p>
-                          ))
+                          )
                         )}
                       </td>
                       <td>{dado.hotel}</td>
