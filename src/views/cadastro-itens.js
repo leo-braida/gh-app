@@ -22,7 +22,7 @@ function CadastroItem() {
   const [quantidadeEmEstoque, setQuantidadeEmEstoque] = useState(0);
   const [nome, setNome] = useState('');
   const [preco, setPreco] = useState(0);
-  const [idHotel, setIdHotel] = useState('');
+  const [Hotel, setHotel] = useState('');
 
   const [dados, setDados] = useState([]);
   
@@ -32,14 +32,16 @@ function CadastroItem() {
       setQuantidadeEmEstoque(0);
       setNome('');
       setPreco(0);
-      setIdHotel('');
+      setHotel('');
+      setSelectedHotel('');
     } 
     else {
         setId(dados.id);
         setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
         setPreco(dados.preco);
-        setIdHotel(dados.hotelId);
+        setHotel(dados.hotel);
+        setSelectedHotel(processarSelecionados(dados.hotel));
     }
   }
 
@@ -49,7 +51,7 @@ function CadastroItem() {
       quantidadeEmEstoque,
       nome,
       preco,
-      idHotel,
+      Hotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -89,7 +91,7 @@ function CadastroItem() {
         setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
         setPreco(dados.preco);
-        setIdHotel(dados.hotelId);
+        setHotel(dados.hotel);
     }
   }
 
@@ -99,6 +101,22 @@ function CadastroItem() {
 
   const [dadosHoteis, setDadosHoteis] = useState(null);
 
+  const [selectedHotel, setSelectedHotel] = useState({});
+
+  const processarSelecionados = (dadosString) => {
+    if (!dadosString) return {};
+
+    return dadosString.split("\n").reduce((acc, item) => {
+      const match = item.match(/(\d+)x (.+)/);
+      if (match) {
+        const quantidade = parseInt(match[1], 10);
+        const nome = match[2].trim();
+        acc[nome] = { quantidade };
+      }
+      return acc;
+    }, {});
+  };
+
   useEffect(() => {
     axios.get(baseURLHotel).then((response) => {
       setDadosHoteis(response.data);
@@ -106,11 +124,18 @@ function CadastroItem() {
   }, []);
 
   useEffect(() => {
+      if (dados) {
+        setSelectedHotel(processarSelecionados(dados.hotel));
+      }
+    }, [dados]);
+
+  useEffect(() => {
     buscar();
   }, [id]);
 
   if (!dados) return null;
   if (!dadosHoteis) return null;
+ 
 
   return (
     <div className='container'>
@@ -152,10 +177,10 @@ function CadastroItem() {
                 
                 <select
                   id='selectHotel'
-                  value={idHotel}
+                  value={Hotel}
                   className='form-select'
                   name='idHotel'
-                  onChange={(e) => setIdHotel(e.target.value)}
+                  onChange={(e) => setHotel(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
