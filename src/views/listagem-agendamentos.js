@@ -78,8 +78,7 @@ function ListagemAgendamentos() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Horário início</th>
-                    <th scope='col'>Data</th>
+                    <th scope='col'>Reserva</th>
                     <th scope='col'>Serviço</th>
                     <th scope='col'>Funcionário</th>
                     <th scope='col'>Hóspede</th>
@@ -92,8 +91,11 @@ function ListagemAgendamentos() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.horarioInicio}</td>
-                      <td>{new Date(dado.data.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
+                      <td>{new Date(dado.reserva).toLocaleDateString("pt-br")} {new Date(dado.reserva).toLocaleTimeString("pt-br", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                      </td>
                       <td>{dado.servico}</td>
                       <td>{dado.funcionario}</td>
                       <td>{dado.hospedeRegistrado}</td>

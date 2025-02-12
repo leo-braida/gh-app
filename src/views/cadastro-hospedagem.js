@@ -237,7 +237,7 @@ function CadastroHospedagem() {
             <div className='bs-component'>
               <FormGroup label='Check-in: *' htmlFor='inputCheckIn'>
                 <input
-                  type='text'
+                  type='datetime-local'
                   id='inputCkeckIn'
                   value={checkIn}
                   className='form-control'
@@ -247,7 +247,7 @@ function CadastroHospedagem() {
               </FormGroup>
               <FormGroup label='Check-out: *' htmlFor='inputCheckOut'>
                 <input
-                  type='text'
+                  type='datetime-local'
                   id='inputCheckOut'
                   value={checkOut}
                   className='form-control'

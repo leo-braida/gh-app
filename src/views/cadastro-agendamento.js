@@ -21,9 +21,8 @@ function CadastroAgendamento(){
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
-  const [horarioInicio, setHorarioInicio] = useState('');
+  const [reserva, setReserva] = useState('');
   const [idServicos, setIdServicos] = useState('');
-  const [data, setData] = useState('');
   const [funcionario, setFuncionario] = useState("");
   const [quarto, setQuarto] = useState("");
   const [hospede, setHospede] = useState("");
@@ -34,9 +33,8 @@ function CadastroAgendamento(){
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setHorarioInicio('');
+      setReserva('');
       setIdServicos('');
-      setData('');
       setFuncionario('');
       setQuarto('');
       setHospede('');
@@ -45,9 +43,8 @@ function CadastroAgendamento(){
     } 
     else {
         setId(dados.id);
-        setHorarioInicio(dados.horario);
+        setReserva(dados.horario);
         setIdServicos(dados.idServicos);
-        setData(dados.data);
         setFuncionario(dados.funcionario);
         setQuarto(dados.quarto);
         setHospede(dados.hospede);
@@ -58,9 +55,8 @@ function CadastroAgendamento(){
     async function salvar() {
     let data = {
       id,
-      horarioInicio,
+      reserva,
       idServicos,
-      data,
       funcionario,
       quarto,
       hospede,
@@ -101,7 +97,7 @@ function CadastroAgendamento(){
         setDados(response.data);
       });
       setId(dados.id);
-      setHorarioInicio(dados.horarioInicio);
+      setReserva(dados.reserva);
       setIdServicos(dados.idServicos);
     }
   }
@@ -135,14 +131,14 @@ return (
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Horário: *' htmlFor='inputHorarioInicio'>
+              <FormGroup label='Reserva: *' htmlFor='inputReserva'>
                 <input
-                  type='text'
-                  id='inputHorarioInicio'
-                  value={horarioInicio}
+                  type='datetime-local'
+                  id='inputReserva'
+                  value={reserva}
                   className='form-control'
-                  name='horarioInicio'
-                  onChange={(e) => setHorarioInicio(e.target.value)}
+                  name='reserva'
+                  onChange={(e) => setReserva(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label='Serviço: *' htmlFor='selectServicos'>
@@ -162,16 +158,6 @@ return (
                     </option>
                   ))}
                 </select>
-              </FormGroup>
-              <FormGroup label='Data: *' htmlFor='inputData'>
-                <input
-                  type='date'
-                  id='inputData'
-                  value={data}
-                  className='form-control'
-                  name='data'
-                  onChange={(e) => setData(e.target.value)}
-                />
               </FormGroup>
               <FormGroup label='Funcionário: *' htmlFor='inputFuncionario'>
                 <input
@@ -202,31 +188,6 @@ return (
                   name='hospede'
                   onChange={(e) => setHospede(e.target.value)}
                 />
-                
-
-                {/* <input
-                  type='hidden'
-                  id='inputId'
-                  value={id}
-                  className='form-control'
-                  name='id'
-                /> */}
-
-                {/* <input
-                  type='hidden'
-                  id='inputData'
-                  value={data}
-                  className='form-control'
-                  name='data'
-                /> */}
-
-                {/* <input
-                  type='hidden'
-                  id='inputFuncionario'
-                  value={funcionario}
-                  className='form-control'
-                  name='funcionario'
-                /> */}
               </FormGroup>
               <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                 <select

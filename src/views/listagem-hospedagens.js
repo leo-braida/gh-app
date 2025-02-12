@@ -95,8 +95,18 @@ function ListagemHospedagens() {
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.checkIn.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
-                      <td>{dado.checkOut.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
+                      <td>
+                        {new Date(dado.checkIn).toLocaleDateString("pt-br")} {new Date(dado.checkIn).toLocaleTimeString("pt-br", {
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
+                      </td>
+                      <td>
+                        {new Date(dado.checkOut).toLocaleDateString("pt-br")} {new Date(dado.checkOut).toLocaleTimeString("pt-br", {
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
+                      </td>
                       <td>{dado.hospede}</td>
                       <td>{dado.adultos}</td>
                       <td>{dado.criancas}</td>
