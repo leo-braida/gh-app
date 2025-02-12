@@ -39,7 +39,7 @@ function ListagemTiposQuarto() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Serviço excluído com sucesso!`); //*CORRIGIR
+      mensagemSucesso(`Tipo de quarto excluído com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -47,7 +47,7 @@ function ListagemTiposQuarto() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir serviço`);//*CORRIGIR
+      mensagemErro(`Erro ao excluir tipo de quarto`);
     });
   }
   
