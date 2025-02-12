@@ -46,7 +46,7 @@ function ListagemReservas() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir Reserva`);
+      mensagemErro(`Erro ao excluir reserva`);
     });
   }
 

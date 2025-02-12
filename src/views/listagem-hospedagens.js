@@ -39,7 +39,7 @@ function ListagemHospedagens() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Hospedagem excluído com sucesso!`);
+      mensagemSucesso(`Hospedagem excluída com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;

@@ -46,7 +46,7 @@ function ListagemHospedes() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir tipo de cama`);
+      mensagemErro(`Erro ao excluir hóspede`);
     });
   }
 

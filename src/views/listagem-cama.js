@@ -38,7 +38,7 @@ function ListagemCama() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Tipo de cama excluído com sucesso!`);
+      mensagemSucesso(`Cama excluída com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;

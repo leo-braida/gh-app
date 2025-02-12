@@ -137,6 +137,7 @@ function CadastroHospedagem() {
   const [dadosCamas, setDadosCamas] = useState(null);
   
   const [selectedCamas, setSelectedCamas] = useState({});
+  const [selectedItens, setSelectedItens] = useState({});
     
   const handleSelectionChange = (e, dados, setSelected) => {
     const { value, checked } = e.target;
@@ -340,23 +341,33 @@ function CadastroHospedagem() {
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Itens: *' htmlFor='selectItem'>
-                <select
-                  id='selectItem'
-                  value={idItem}
-                  multiple
-                  className='form-select'
-                  name='idItem'
-                  onChange={handleItemChange}
-                >
-                  {dadosItens.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+              <FormGroup label={<strong> Itens Extras: *</strong>} htmlFor='selectItem'>
+                {dadosItens.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.id}
+                        checked={selectedItens[dado.id] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, dadosItens, setSelectedItens);
+                        }}
+                      />
                       {dado.nome}
-                    </option>
-                  ))}
-                </select>
+                    </label>
+                    {selectedItens[dado.id] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedItens[dado.id]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedItens)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
               </FormGroup>
-              <FormGroup label='Camas Extras: *' htmlFor='selectCama'>
+              <FormGroup label={<strong> Camas Extras: *</strong>} htmlFor='selectCama'>
                 {dadosCamas.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
