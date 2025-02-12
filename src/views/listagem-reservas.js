@@ -90,8 +90,8 @@ function ListagemReservas() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{new Date(dado.dataChegada.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
-                      <td>{new Date(dado.dataSaida.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
+                      <td>{dado.chegada.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
+                      <td>{dado.saida.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
                       <td>{dado.hospede}</td>
                       <td>{dado.tipoDeQuarto}</td>
                       <td>{dado.hotel}</td>
