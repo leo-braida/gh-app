@@ -110,7 +110,7 @@ function CadastroHospede() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Hóspede ${nome} alterado com sucesso!`);
+          mensagemSucesso(`Hóspede ${nome} alterado(a) com sucesso!`);
           navigate(`/listagem-hospedes`);
         })
         .catch(function (error) {

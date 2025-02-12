@@ -80,7 +80,7 @@ function CadastroHotel() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Hotel ${nome} cadastrada com sucesso!`)
+          mensagemSucesso(`Hotel ${nome} cadastrado com sucesso!`)
           navigate(`/listagem-hoteis`);
       }) 
         .catch(function (error) {

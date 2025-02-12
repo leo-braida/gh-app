@@ -58,7 +58,7 @@ function CadastroTipoCama() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Tipo de cama ${tipo} cadastrada com sucesso!`)
+          mensagemSucesso(`Tipo de cama ${tipo} cadastrado com sucesso!`)
           navigate(`/listagem-tipos-cama`);
       }) 
         .catch(function (error) {

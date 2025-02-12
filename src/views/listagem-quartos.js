@@ -74,7 +74,6 @@ function ListagemQuartos() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Hotel</th>
                     <th scope='col'>Tipo de Quarto</th>
                     <th scope='col'>Número</th>
                     <th scope='col'>Situção</th>
@@ -86,7 +85,6 @@ function ListagemQuartos() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.hotel}</td>
                       <td>{dado.tipoDeQuarto}</td>
                       <td>{dado.numero}</td>
                       <td>{dado.situacao}</td>

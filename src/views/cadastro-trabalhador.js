@@ -55,7 +55,7 @@ function CadastroTrabalhador(){
                 headers: { 'Content-Type': 'application/json' },
               })
               .then(function (response) {
-                mensagemSucesso(`Trabalhador: ${id} cadastrado com sucesso!`)
+                mensagemSucesso(`Trabalhador ${nome} cadastrado com sucesso!`)
                 navigate(`/listagem-trabalhadores`);
             }) 
               .catch(function (error) {
@@ -68,7 +68,7 @@ function CadastroTrabalhador(){
                 headers: { 'Content-Type': 'application/json' },
               })
               .then(function (response) {
-                mensagemSucesso(`Trabalhador: ${id} alterado com sucesso!`);
+                mensagemSucesso(`Trabalhador ${nome} alterado com sucesso!`);
                 navigate(`/listagem-trabalhadores`);
               })
               .catch(function (error) {
