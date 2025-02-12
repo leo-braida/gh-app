@@ -64,6 +64,8 @@ function CadastroHospedagem() {
       setIdItem(dados.idItem);
       setIdHotel(dados.idHotel);
       setIdCamas(dados.idCamas);
+      setSelectedItens(processarSelecionados(dados.itensExtras));
+      setSelectedCamas(processarSelecionados(dados.camasExtras));
     } 
   }
 
@@ -135,32 +137,54 @@ function CadastroHospedagem() {
   const [dadosItens, setDadosItens] = useState(null);
   const [dadosHoteis, setDadosHoteis] = useState(null);
   const [dadosCamas, setDadosCamas] = useState(null);
-  
-  const [selectedCamas, setSelectedCamas] = useState({});
-  const [selectedItens, setSelectedItens] = useState({});
-    
-  const handleSelectionChange = (e, dados, setSelected) => {
-    const { value, checked } = e.target;
-    
-      setSelected((prev) => {
-        const updatedSelection = { ...prev };
-    
-        if (checked) {
-          const tipo = dados.find((item) => item.id === value)?.tipo || "";
-          updatedSelection[value] = { tipo, quantidade: 1 };
-        } else {
-          delete updatedSelection[value];
-        }
-    
-        return updatedSelection;
-      });
-    };
-    
-    const handleQuantidadeChange = (id, quantidade, setSelected) =>{
-      setSelected((prev) => ({...prev,
-        [id]: {...prev[id], quantidade },
-      }));
+ 
+
+const [selectedCamas, setSelectedCamas] = useState({});
+const [selectedItens, setSelectedItens] = useState({});
+
+const processarSelecionados = (dadosString) => {
+    if (!dadosString) return {};
+
+    return dadosString.split("\n").reduce((acc, item) => {
+      const match = item.match(/(\d+)x (.+)/);
+      if (match) {
+        const quantidade = parseInt(match[1], 10);
+        const nome = match[2].trim();
+        acc[nome] = { quantidade };
+      }
+      return acc;
+    }, {});
+  };
+
+useEffect(() => {
+    if (dados) {
+      setSelectedCamas(processarSelecionados(dados.camasExtras));
+      setSelectedItens(processarSelecionados(dados.itensExtras));
     }
+  }, [dados]);
+
+const handleSelectionChange = (e, setSelected) => {
+  const { value, checked } = e.target;
+
+  setSelected((prev) => {
+    const updatedSelection = { ...prev };
+
+    if (checked) {
+      updatedSelection[value] = { quantidade: 1 };
+    } else {
+      delete updatedSelection[value];
+    }
+
+    return updatedSelection;
+  });
+};
+
+const handleQuantidadeChange = (id, quantidade, setSelected) =>{
+  setSelected((prev) => ({...prev,
+    [id]: {...prev[id], quantidade },
+  }));
+}
+
 
   const handleHospedeChange = (e) => {
     const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
@@ -175,11 +199,6 @@ function CadastroHospedagem() {
   const handleServicoChange = (e) => {
     const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
     setIdServico(selectedValues);
-  };
-
-  const handleItemChange = (e) => {
-    const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-    setIdItem(selectedValues);
   };
 
   useEffect(() => {
@@ -350,52 +369,55 @@ function CadastroHospedagem() {
                     <label key={dado.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        value={dado.id}
-                        checked={selectedItens[dado.id] !== undefined}
+                        value={dado.nome}
+                        checked={selectedItens[dado.nome] !== undefined}
                         onChange={(e) => {
-                          handleSelectionChange(e, dadosItens, setSelectedItens);
+                          handleSelectionChange(e, setSelectedItens);
                         }}
                       />
                       {dado.nome}
                     </label>
-                    {selectedItens[dado.id] !== undefined && (
+                    {selectedItens[dado.nome] !== undefined && (
                       <input
                         type="number"
                         min="1"
-                        value={selectedItens[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedItens)}
+                        value={selectedItens[dado.nome]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.nome, e.target.value, setSelectedItens)}
                         className="border p-1 w-16"
                       />
                     )}
                   </div>
                 ))}
               </FormGroup>
-              <FormGroup label={<strong> Camas Extras: *</strong>} htmlFor='selectCama'>
+       
+              <FormGroup label={<strong>Camas extras: </strong>} htmlFor='selectCama'>
                 {dadosCamas.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        value={dado.id}
-                        checked={selectedCamas[dado.id] !== undefined}
+                        value={dado.tipo}
+                        checked={selectedCamas[dado.tipo] !== undefined}
                         onChange={(e) => {
-                          handleSelectionChange(e, dadosCamas, setSelectedCamas);
+                          handleSelectionChange(e, setSelectedCamas);
                         }}
                       />
                       {dado.tipo}
                     </label>
-                    {selectedCamas[dado.id] !== undefined && (
+                    {selectedCamas[dado.tipo] !== undefined && (
                       <input
                         type="number"
                         min="1"
-                        value={selectedCamas[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedCamas)}
+                        value={selectedCamas[dado.tipo]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.tipo, e.target.value, setSelectedCamas)}
                         className="border p-1 w-16"
                       />
                     )}
                   </div>
                 ))}
               </FormGroup>
+
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}
