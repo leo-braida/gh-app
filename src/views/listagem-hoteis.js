@@ -81,7 +81,8 @@ function ListagemHoteis() {
                     <th scope='col'>Bairro</th>
                     <th scope='col'>Logradouro</th>
                     <th scope='col'>Número</th>
-                    <th scope='col'>Telefones</th>
+                    <th scope='col'>Telefone</th>
+                    <th scope='col'>Celular</th>
                     <th scope='col'>Email</th>
                     <th scope='col'>Ações</th>
                   </tr>
@@ -99,6 +100,9 @@ function ListagemHoteis() {
                       <td>{dado.numero}</td>
                       <td>
                         {dado.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}
+                      </td>
+                      <td>
+                        {dado.celular.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}
                       </td>
                       <td>{dado.email}</td>
                       <td>

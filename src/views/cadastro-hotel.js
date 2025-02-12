@@ -54,7 +54,7 @@ function CadastroHotel() {
         setLogradouro(dados.logradouro);
         setNumero(dados.numero);
         setTelefone(dados.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
-        setCelular(dados.celular);
+        setCelular(dados.celular.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
         setEmail(dados.email);
     }
   }
@@ -116,7 +116,7 @@ function CadastroHotel() {
         setLogradouro(dados.logradouro);
         setNumero(dados.numero);
         setTelefone(dados.telefone?.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
-        setCelular(dados.celular);
+        setCelular(dados.celular?.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
         setEmail(dados.email);
     }
   }
@@ -214,10 +214,13 @@ function CadastroHotel() {
                   name='telefone'
                   onChange={(e) => {
                     const valor = (e.target.value.replace(/\D/g, ""));
+                    if (valor.length <= 2) {
+                      return setTelefone(valor);
+                    }
                     if (valor.length <= 7) {
-                      setTelefone(valor);
+                      return setTelefone(valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2"));
                     } else {
-                      setTelefone(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
+                      return setTelefone(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
                     }
                     }
                   }
@@ -230,7 +233,18 @@ function CadastroHotel() {
                   value={celular}
                   className='form-control'
                   name='celular'
-                  onChange={(e) => setCelular(e.target.value)}
+                  onChange={(e) => {
+                    const valor = (e.target.value.replace(/\D/g, ""));
+                    if (valor.length <= 2) {
+                      return setCelular(valor);
+                    }
+                    if (valor.length <= 7) {
+                      return setCelular(valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2"));
+                    } else {
+                      return setCelular(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
+                    }
+                    }
+                  }
                 />
               </FormGroup>
               <FormGroup label='Email: *' htmlFor='inputEmail'>
