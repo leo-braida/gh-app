@@ -120,7 +120,6 @@ function CadastroTipoCama() {
                   onChange={(e) => setQuantidadeAdultos(e.target.value)}
                 />
               </FormGroup>
-              
               <FormGroup label='Quantidade de crianças: *' htmlFor='inputQuantidadeCriancas'>
                 <input
                   type='number'
