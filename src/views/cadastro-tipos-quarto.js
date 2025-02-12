@@ -36,6 +36,8 @@ function CadastroTipoQuarto() {
       setPreco(0);
       setIdCama('');
       setIdItem('');
+      setSelectedCamas('');
+      setSelectedItens('');
     } 
     else {
         setId(dados.id);
@@ -44,6 +46,8 @@ function CadastroTipoQuarto() {
         setPreco(dados.preco);
         setIdCama(dados.idCama);
         setIdItem(dados.idItem);
+        setSelectedCamas(processarSelecionados(dados.camas));
+        setSelectedItens(processarSelecionados(dados.itens));
     } 
   }
 
@@ -102,21 +106,38 @@ function CadastroTipoQuarto() {
 const [dadosCamas, setDadosCamas] = useState([]);
 const [dadosItens, setDadosItens] = useState([]);
 
-// INÍCIO DO NEGÓCIO DE CONTA by GPT, Chat.
-
-
 const [selectedCamas, setSelectedCamas] = useState({});
 const [selectedItens, setSelectedItens] = useState({});
 
-const handleSelectionChange = (e, dados, setSelected) => {
+const processarSelecionados = (dadosString) => {
+    if (!dadosString) return {};
+
+    return dadosString.split("\n").reduce((acc, item) => {
+      const match = item.match(/(\d+)x (.+)/);
+      if (match) {
+        const quantidade = parseInt(match[1], 10);
+        const nome = match[2].trim();
+        acc[nome] = { quantidade };
+      }
+      return acc;
+    }, {});
+  };
+
+useEffect(() => {
+    if (dados) {
+      setSelectedCamas(processarSelecionados(dados.camas));
+      setSelectedItens(processarSelecionados(dados.itens));
+    }
+  }, [dados]);
+
+const handleSelectionChange = (e, setSelected) => {
   const { value, checked } = e.target;
 
   setSelected((prev) => {
     const updatedSelection = { ...prev };
 
     if (checked) {
-      const tipo = dados.find((item) => item.id === value)?.tipo || "";
-      updatedSelection[value] = { tipo, quantidade: 1 };
+      updatedSelection[value] = { quantidade: 1 };
     } else {
       delete updatedSelection[value];
     }
@@ -193,20 +214,20 @@ if (!dadosItens) return null;
                     <label key={dado.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        value={dado.id}
-                        checked={selectedCamas[dado.id] !== undefined}
+                        value={dado.tipo}
+                        checked={selectedCamas[dado.tipo] !== undefined}
                         onChange={(e) => {
-                          handleSelectionChange(e, dadosCamas, setSelectedCamas);
+                          handleSelectionChange(e, setSelectedCamas);
                         }}
                       />
                       {dado.tipo}
                     </label>
-                    {selectedCamas[dado.id] !== undefined && (
+                    {selectedCamas[dado.tipo] !== undefined && (
                       <input
                         type="number"
                         min="1"
-                        value={selectedCamas[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedCamas)}
+                        value={selectedCamas[dado.tipo]?.quantidade || ""}
+                        onChange={(e) => handleQuantidadeChange(dado.tipo, e.target.value, setSelectedCamas)}
                         className="border p-1 w-16"
                       />
                     )}
@@ -219,19 +240,19 @@ if (!dadosItens) return null;
                     <label key={dado.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        value={dado.id}
-                        checked={selectedItens[dado.id] !== undefined}
+                        value={dado.nome}
+                        checked={selectedItens[dado.nome] !== undefined}
                         onChange={(e) => {
-                          handleSelectionChange(e, dadosItens, setSelectedItens)}}
+                          handleSelectionChange(e, setSelectedItens)}}
                       />
                       {dado.nome}
                     </label>
-                    {selectedItens[dado.id] !== undefined && (
+                    {selectedItens[dado.nome] !== undefined && (
                       <input
                         type="number"
                         min="1"
-                        value={selectedItens[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedItens)}
+                        value={selectedItens[dado.nome]?.quantidade || ""}
+                        onChange={(e) => handleQuantidadeChange(dado.nome, e.target.value, setSelectedItens)}
                         className="border p-1 w-16"
                       />
                     )}
