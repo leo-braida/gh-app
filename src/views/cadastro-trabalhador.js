@@ -22,9 +22,9 @@ function CadastroTrabalhador() {
 
     const [id, setId] = useState('');
     const [nome, setNome] = useState('');
+    const [telefone, setTelefone] = useState('');
     const [cargo, setCargo] = useState('');
-    const [idHotel, setIdHotel] = useState('');
-    const [idCargos, setIdCargos] = useState([]);
+    const [hotel, setHotel] = useState('');
 
     const [dados, setDados] = useState([]);
 
@@ -32,16 +32,16 @@ function CadastroTrabalhador() {
         if (idParam == null) {
             setId('');
             setNome('');
+            setTelefone('');
             setCargo('');
-            setIdHotel('');
-            setIdCargos([]);
+            setHotel('');
         }
         else {
             setId(dados.id);
             setNome(dados.nome);
+            setTelefone(dados.telefone);
             setCargo(dados.cargo);
-            setIdHotel(dados.idHotel);
-            setIdCargos(dados.cargos);
+            setHotel(dados.hotel);
         }
     }
 
@@ -49,9 +49,9 @@ function CadastroTrabalhador() {
         let data = {
             id,
             nome,
+            telefone,
             cargo,
-            idHotel,
-            idCargos,
+            hotel,
         };
         data = JSON.stringify(data);
         if (idParam == null) {
@@ -90,9 +90,9 @@ function CadastroTrabalhador() {
             });
             setId(dados.id);
             setNome(dados.nome);
+            setTelefone(dados.telefone);
             setCargo(dados.cargo);
-            setIdHotel(dados.idHotel);
-            setIdCargos(dados.cargos);
+            setHotel(dados.hotel);
         }
     }
 
@@ -125,7 +125,7 @@ function CadastroTrabalhador() {
                 <div className='row'>
                     <div className='col-lg-12'>
                         <div className='bs-component'>
-                            <FormGroup label='Nome: *' htmlFor='inputQuantidadeTotal'>
+                            <FormGroup label='Nome: *' htmlFor='inputNome'>
                                 <input
                                     type='text'
                                     id='inputNome'
@@ -133,6 +133,16 @@ function CadastroTrabalhador() {
                                     className='form-control'
                                     name='nome'
                                     onChange={(e) => setNome(e.target.value)}
+                                />
+                            </FormGroup>
+                            <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+                                <input
+                                    type='text'
+                                    id='inputTelefone'
+                                    value={telefone}
+                                    className='form-control'
+                                    name='telefone'
+                                    onChange={(e) => setTelefone(e.target.value)}
                                 />
                             </FormGroup>
                             <FormGroup label='Cargo: *' htmlFor='selectCargo'>
@@ -147,7 +157,7 @@ function CadastroTrabalhador() {
                                         {' '}
                                     </option>
                                     {dadosCargos.map((dado) => (
-                                        <option key={dado.id} value={dado.id}>
+                                        <option key={dado.id} value={dado.nome}>
                                             {dado.nome}
                                         </option>
                                     ))}
@@ -156,16 +166,16 @@ function CadastroTrabalhador() {
                             <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                                 <select
                                     id='selectHotel'
-                                    value={idHotel}
+                                    value={hotel}
                                     className='form-select'
-                                    name='idHotel'
-                                    onChange={(e) => setIdHotel(e.target.value)}
+                                    name='hotel'
+                                    onChange={(e) => setHotel(e.target.value)}
                                 >
                                     <option key='0' value='0'>
                                         {' '}
                                     </option>
                                     {dadosHotel.map((dado) => (
-                                        <option key={dado.id} value={dado.id}>
+                                        <option key={dado.id} value={dado.nome}>
                                             {dado.nome}
                                         </option>
                                     ))}

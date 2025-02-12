@@ -9,11 +9,14 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL2, BASE_URL3 } from '../config/axios';
+import { BASE_URL, BASE_URL2, BASE_URL3 } from '../config/axios';
 
 const baseURL = `${BASE_URL3}/agendamentos`;
 const baseURLServicos = `${BASE_URL2}/servicos`;
-const baseURLHotel = `${BASE_URL2}/hoteis`
+const baseURLHotel = `${BASE_URL2}/hoteis`;
+const baseURLFuncionario = `${BASE_URL2}/trabalhadores`;
+const baseURLHospede = `${BASE_URL}/hospedes`;
+const baseURLQuarto = `${BASE_URL3}/quartos`;
 
 function CadastroAgendamento(){
   const { idParam } = useParams();
@@ -22,11 +25,11 @@ function CadastroAgendamento(){
 
   const [id, setId] = useState('');
   const [reserva, setReserva] = useState('');
-  const [idServicos, setIdServicos] = useState('');
-  const [funcionario, setFuncionario] = useState("");
-  const [quarto, setQuarto] = useState("");
-  const [hospede, setHospede] = useState("");
-  const [idHotel, setIdHotel] = useState('');
+  const [servico, setServico] = useState('');
+  const [funcionario, setFuncionario] = useState('');
+  const [quarto, setQuarto] = useState(0);
+  const [hospede, setHospede] = useState('');
+  const [hotel, setHotel] = useState('');
 
   const [dados, setDados] = useState([]);
 
@@ -34,21 +37,21 @@ function CadastroAgendamento(){
     if (idParam == null) {
       setId('');
       setReserva('');
-      setIdServicos('');
+      setServico('');
       setFuncionario('');
-      setQuarto('');
+      setQuarto(0);
       setHospede('');
-      setIdHotel(dados.idHotel);
+      setHotel('');
       
     } 
     else {
         setId(dados.id);
         setReserva(dados.horario);
-        setIdServicos(dados.idServicos);
+        setServico(dados.servico);
         setFuncionario(dados.funcionario);
         setQuarto(dados.quarto);
         setHospede(dados.hospede);
-        setIdHotel(dados.idHotel);
+        setHotel(dados.hotel);
     } 
   }
 
@@ -56,11 +59,11 @@ function CadastroAgendamento(){
     let data = {
       id,
       reserva,
-      idServicos,
+      servico,
       funcionario,
       quarto,
       hospede,
-      idHotel,
+      hotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -98,17 +101,42 @@ function CadastroAgendamento(){
       });
       setId(dados.id);
       setReserva(dados.reserva);
-      setIdServicos(dados.idServicos);
+      setServico(dados.servico);
+      setFuncionario(dados.funcionario);
+      setHospede(dados.hospede);
+      setQuarto(dados.quarto);
+      setHotel(dados.hotel);
     }
   }
 
 const [dadosServicos, setDadosServicos] = useState(null);
+const [dadosFuncionario, setDadosFuncionario] = useState(null);
+const [dadosHospedes, setDadosHospedes] = useState(null);
+const [dadosQuartos, setDadosQuartos] = useState(null);
 const [dadosHotel, setDadosHotel] = useState(null);
 
 useEffect(() => {
     axios.get(baseURLServicos).then((response) => {
       setDadosServicos(response.data);
     });
+}, []);
+
+useEffect(() => {
+  axios.get(baseURLFuncionario).then((response) => {
+    setDadosFuncionario(response.data);
+  });
+}, []);
+
+useEffect(() => {
+  axios.get(baseURLHospede).then((response) => {
+    setDadosHospedes(response.data);
+  });
+}, []);
+
+useEffect(() => {
+  axios.get(baseURLQuarto).then((response) => {
+    setDadosQuartos(response.data);
+  });
 }, []);
 
 useEffect(() => {
@@ -123,6 +151,9 @@ useEffect(() => {
 
 if (!dados) return null;
 if (!dadosServicos) return null;
+if (!dadosFuncionario) return null;
+if (!dadosHospedes) return null;
+if (!dadosQuartos) return null;
 if (!dadosHotel) return null;
 
 return (
@@ -144,64 +175,88 @@ return (
               <FormGroup label='Serviço: *' htmlFor='selectServicos'>
                 <select
                   id='selectServicos'
-                  value={idServicos}
+                  value={servico}
                   className='form-select'
-                  name='idServicos'
-                  onChange={(e) => setIdServicos(e.target.value)}
+                  name='servico'
+                  onChange={(e) => setServico(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosServicos.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Funcionário: *' htmlFor='inputFuncionario'>
-                <input
-                  type='text'
-                  id='inputFuncionario'
+              <FormGroup label='Trabalhador: *' htmlFor='inputFuncionario'>
+                <select
+                  id='selectTrabalhador'
                   value={funcionario}
-                  className='form-control'
-                  name='funcionario'
+                  className='form-select'
+                  name='trabalhador'
                   onChange={(e) => setFuncionario(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup label='Quarto: *' htmlFor='inputQuarto'>
-                <input
-                  type='text'
-                  id='inputQuarto'
-                  value={quarto}
-                  className='form-control'
-                  name='quarto'
-                  onChange={(e) => setQuarto(e.target.value)}
-                />
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosFuncionario.map((dado) => (
+                    <option key={dado.id} value={dado.nome}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
               <FormGroup label='Hóspede: *' htmlFor='inputHospede'>
-                <input
-                  type='text'
+                <select
                   id='inputHospede'
                   value={hospede}
-                  className='form-control'
+                  className='form-select'
                   name='hospede'
                   onChange={(e) => setHospede(e.target.value)}
-                />
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosHospedes.map((dado) => (
+                    <option key={dado.id} value={dado.nome}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+              <FormGroup label='Quarto: *' htmlFor='inputQuarto'>
+                <select
+                  id='inputQuarto'
+                  value={quarto}
+                  className='form-select'
+                  name='quarto'
+                  onChange={(e) => setQuarto(e.target.value)}
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosQuartos.map((dado) => (
+                    <option key={dado.id} value={dado.numero}>
+                      {dado.numero}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
               <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
-                  value={idHotel}
+                  value={hotel}
                   className='form-select'
-                  name='idHotel'
-                  onChange={(e) => setIdHotel(e.target.value)}
+                  name='hotel'
+                  onChange={(e) => setHotel(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosHotel.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}

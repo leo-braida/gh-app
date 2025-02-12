@@ -26,10 +26,10 @@ function CadastroReserva(){
     const [id, setId] = useState('');
     const [chegada, setChegada] = useState('');
     const [saida, setSaida] = useState('');
-    const [idHospede, setIdHospede] = useState('');
+    const [hospede, setHospede] = useState('');
     const [idTipoQuarto, setIdTipoQuarto] = useState('');
     const [dados, setDados] = useState([]);
-    const [idHotel, setIdHotel] = useState('');
+    const [hotel, setHotel] = useState('');
     const [idCamas, setIdCamas] = useState('');
     const [idItens, setIdItens] = useState('');
   
@@ -38,9 +38,9 @@ function CadastroReserva(){
         setId('');
         setChegada('');
         setSaida('');
-        setIdHospede('');
+        setHospede('');
         setIdTipoQuarto('');
-        setIdHotel('');
+        setHotel('');
         setIdCamas('');
         setIdItens('');
       } 
@@ -48,9 +48,9 @@ function CadastroReserva(){
         setId(dados.id);
         setChegada(dados.dataChegada);
         setSaida(dados.dataSaida);
-        setIdHospede(dados.idHospede);
+        setHospede(dados.hospede);
         setIdTipoQuarto(dados.idTipoQuarto);
-        setIdHotel(dados.hotel);
+        setHotel(dados.hotel);
         setIdCamas(dados.camas);
         setIdItens(dados.itens);
         setSelectedQuartos(processarSelecionados(dados.tiposDeQuarto));
@@ -64,9 +64,9 @@ function CadastroReserva(){
         id,
         chegada,
         saida,
-        idHospede,
+        hospede,
         idTipoQuarto,
-        idHotel,
+        hotel,
         idCamas,
         idItens,
       };
@@ -107,9 +107,9 @@ function CadastroReserva(){
         setId(dados.id);
         setChegada(dados.chegada);
         setSaida(dados.saida);
-        setIdHospede(dados.idHospede);
+        setHospede(dados.hospede);
         setIdTipoQuarto(dados.idTipoQuarto);
-        setIdHotel(dados.hotel);
+        setHotel(dados.hotel);
       }
     }
 
@@ -237,16 +237,16 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                 <FormGroup label='Hospede: *' htmlFor='selectHospede'>
                   <select
                     id='selectHospede'
-                    value={idHospede}
+                    value={hospede}
                     className='form-select'
-                    name='idHospede'
-                    onChange={(e) => setIdHospede(e.target.value)}
+                    name='hospede'
+                    onChange={(e) => setHospede(e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
                     </option>
                     {dadosHospede.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
+                      <option key={dado.id} value={dado.nome}>
                         {dado.nome}
                       </option>
                     ))}
@@ -255,16 +255,16 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                 <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                   <select
                     id='selectHotel'
-                    value={idHotel}
+                    value={hotel}
                     className='form-select'
-                    name='idHotel'
-                    onChange={(e) => setIdHotel(e.target.value)}
+                    name='hotel'
+                    onChange={(e) => setHotel(e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
                     </option>
                     {dadosHotel.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
+                      <option key={dado.id} value={dado.nome}>
                         {dado.nome}
                       </option>
                     ))}

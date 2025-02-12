@@ -22,7 +22,7 @@ function CadastroItem() {
   const [quantidadeEmEstoque, setQuantidadeEmEstoque] = useState(0);
   const [nome, setNome] = useState('');
   const [preco, setPreco] = useState(0);
-  const [Hotel, setHotel] = useState('');
+  const [hotel, setHotel] = useState('');
 
   const [dados, setDados] = useState([]);
   
@@ -51,7 +51,7 @@ function CadastroItem() {
       quantidadeEmEstoque,
       nome,
       preco,
-      Hotel,
+      hotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -177,16 +177,16 @@ function CadastroItem() {
                 
                 <select
                   id='selectHotel'
-                  value={Hotel}
+                  value={hotel}
                   className='form-select'
-                  name='idHotel'
+                  name='hotel'
                   onChange={(e) => setHotel(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosHoteis.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}

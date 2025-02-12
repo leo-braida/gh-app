@@ -21,9 +21,9 @@ function CadastroTipoCama() {
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
-  const [idTipoDeCama, setIdTipoDeCama] = useState('');
+  const [tipo, setTipo] = useState('');
   const [quantidade, setQuantidade] = useState(0);
-  const [idHotel, setIdHotel] = useState('');
+  const [hotel, setHotel] = useState('');
   const [quantidadeAdultos, setQuantidadeAdultos] = useState(0);
   const [quantidadeCriancas, setQuantidadeCriancas] = useState(0);
 
@@ -32,17 +32,17 @@ function CadastroTipoCama() {
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setIdTipoDeCama('');
+      setTipo('');
       setQuantidade(0);
-      setIdHotel('');
+      setHotel('');
       setQuantidadeAdultos(0);
       setQuantidadeCriancas(0);
     } 
     else {
       setId(dados.id);
-      setIdTipoDeCama(dados.idTipoDeCama);
+      setTipo(dados.tipo);
       setQuantidade(dados.quantidade);
-      setIdHotel(dados.idHotel);
+      setHotel(dados.hotel);
       setQuantidadeAdultos(dados.quantidadeAdultos);
       setQuantidadeCriancas(dados.quantidadeCriancas);
     }
@@ -51,9 +51,9 @@ function CadastroTipoCama() {
   async function salvar() {
     let data = {
       id,
-      idTipoDeCama,
+      tipo,
       quantidade,
-      idHotel,
+      hotel,
       quantidadeAdultos,
       quantidadeCriancas,
     };
@@ -92,9 +92,9 @@ function CadastroTipoCama() {
         setDados(response.data);
       });
       setId(dados.id);
-      setIdTipoDeCama(dados.idTipoDeCama);
+      setTipo(dados.tipo);
       setQuantidade(dados.quantidade);
-      setIdHotel(dados.idHotel);
+      setHotel(dados.hotel);
       setQuantidadeAdultos(dados.quantidadeAdultos);
       setQuantidadeCriancas(dados.quantidadeCriancas);
     }
@@ -132,16 +132,16 @@ function CadastroTipoCama() {
               <FormGroup label='Tipo de Cama: *' htmlFor='selectTipoDeCama'>
                   <select
                     id='selectTipoDeCama'
-                    value={idTipoDeCama}
+                    value={tipo}
                     className='form-select'
-                    name='idTipoDeCama'
-                    onChange={(e) => setIdTipoDeCama(e.target.value)}
+                    name='tipoDeCama'
+                    onChange={(e) => setTipo(e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
                     </option>
                     {dadosTipoDeCama.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
+                      <option key={dado.id} value={dado.tipo}>
                         {dado.tipo}
                       </option>
                     ))}
@@ -160,16 +160,16 @@ function CadastroTipoCama() {
               <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                   <select
                     id='selectHotel'
-                    value={idHotel}
+                    value={hotel}
                     className='form-select'
-                    name='idHotel'
-                    onChange={(e) => setIdHotel(e.target.value)}
+                    name='hotel'
+                    onChange={(e) => setHotel(e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
                     </option>
                     {dadosHotel.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
+                      <option key={dado.id} value={dado.nome}>
                         {dado.nome}
                       </option>
                     ))}

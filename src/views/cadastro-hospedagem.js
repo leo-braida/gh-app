@@ -27,13 +27,13 @@ function CadastroHospedagem() {
   const [id, setId] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
-  const [idHospede, setIdHospede] = useState('');
+  const [hospede, setHospede] = useState('');
   const [adultos, setAdultos] = useState(0);
   const [criancas, setCriancas] = useState(0);
   const [idQuarto, setIdQuarto] = useState('');
   const [idServico, setIdServico] = useState('');
   const [idItem, setIdItem] = useState('');
-  const [idHotel, setIdHotel] = useState('');
+  const [hotel, setHotel] = useState('');
   const [idCamas, setIdCamas] = useState('');
 
   const [dados, setDados] = useState([]);
@@ -43,26 +43,26 @@ function CadastroHospedagem() {
       setId('');
       setCheckIn('');
       setCheckOut('');
-      setIdHospede('');
+      setHospede('');
       setAdultos(0);
       setCriancas(0);
       setIdQuarto('');
       setIdServico('');
       setIdItem('');
-      setIdHotel('');
+      setHotel('');
       setIdCamas('');
     } 
     else {
       setId(dados.id);
       setCheckIn(dados.checkIn);
       setCheckOut(dados.checkOut);
-      setIdHospede(dados.idHospede);
+      setHospede(dados.hospede);
       setAdultos(dados.adultos);
       setCriancas(dados.criancas);
       setIdQuarto(dados.idQuarto);
       setIdServico(dados.idServico);
       setIdItem(dados.idItem);
-      setIdHotel(dados.idHotel);
+      setHotel(dados.hotel);
       setIdCamas(dados.idCamas);
       setSelectedItens(processarSelecionados(dados.itensExtras));
       setSelectedCamas(processarSelecionados(dados.camasExtras));
@@ -74,13 +74,13 @@ function CadastroHospedagem() {
       id,
       checkIn,
       checkOut,
-      idHospede,
+      hospede,
       adultos,
       criancas,
       idQuarto,
       idServico,
       idItem,
-      idHotel,
+      hotel,
       idCamas,
     };
     data = JSON.stringify(data);
@@ -120,13 +120,13 @@ function CadastroHospedagem() {
       setId(dados.id);
       setCheckIn(dados.checkIn);
       setCheckOut(dados.checkOut);
-      setIdHospede(dados.idHospede);
+      setHospede(dados.hospede);
       setAdultos(dados.adultos);
       setCriancas(dados.criancas);
       setIdQuarto(dados.idQuarto);
       setIdServico(dados.idServico);
       setIdItem(dados.idItem);
-      setIdHotel(dados.idHotel);
+      setHotel(dados.hotel);
       setIdCamas(dados.idCamas);
     }
   }
@@ -188,7 +188,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
 
   const handleHospedeChange = (e) => {
     const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-    setIdHospede(selectedValues);
+    setHospede(selectedValues);
   };
 
   const handleQuartoChange = (e) => {
@@ -278,16 +278,16 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
               <FormGroup label='Hóspede Responsável: *' htmlFor='selectHospede'>
                 <select
                   id='selectHospede'
-                  value={idHospede}
+                  value={hospede}
                   className='form-select'
-                  name='idHospede'
-                  onChange={(e) => setIdHospede(e.target.value)}
+                  name='hospede'
+                  onChange={(e) => setHospede(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosHospedes.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}
@@ -348,16 +348,16 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
               <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
-                  value={idHotel}
+                  value={hotel}
                   className='form-select'
-                  name='idHotel'
-                  onChange={(e) => setIdHotel(e.target.value)}
+                  name='hotel'
+                  onChange={(e) => setHotel(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosHoteis.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}
