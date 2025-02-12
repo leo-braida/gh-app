@@ -15,6 +15,8 @@ const baseURL = `${BASE_URL}/reservas`;
 const baseURLHospede = `${BASE_URL}/hospedes`;
 const baseURLTipoQuarto = `${BASE_URL3}/tipoDeQuartos`;
 const baseURLHotel = `${BASE_URL2}/hoteis`;
+const baseURLItem = `${BASE_URL}/itens`;
+const baseURLCama = `${BASE_URL3}/camas`;
 
 function CadastroReserva(){
     const { idParam } = useParams();
@@ -28,6 +30,8 @@ function CadastroReserva(){
     const [idTipoQuarto, setIdTipoQuarto] = useState('');
     const [dados, setDados] = useState([]);
     const [idHotel, setIdHotel] = useState('');
+    const [idCamas, setIdCamas] = useState('');
+    const [idItens, setIdItens] = useState('');
   
     function inicializar() {
       if (idParam == null) {
@@ -37,6 +41,8 @@ function CadastroReserva(){
         setIdHospede('');
         setIdTipoQuarto('');
         setIdHotel('');
+        setIdCamas('');
+        setIdItens('');
       } 
       else {
           setId(dados.id);
@@ -45,6 +51,8 @@ function CadastroReserva(){
           setIdHospede(dados.idHospede);
           setIdTipoQuarto(dados.idTipoQuarto);
           setIdHotel(dados.hotel);
+          setIdCamas(dados.camas);
+          setIdItens(dados.itens);
       } 
     }
   
@@ -56,6 +64,8 @@ function CadastroReserva(){
         idHospede,
         idTipoQuarto,
         idHotel,
+        idCamas,
+        idItens,
       };
       data = JSON.stringify(data);
       if (idParam == null) {
@@ -103,6 +113,34 @@ function CadastroReserva(){
   const [dadosHospede, setDadosHospede] = useState(null);
   const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
   const [dadosHotel, setDadosHotel] = useState(null);
+  const [dadosCamas, setDadosCamas] = useState(null);
+  const [dadosItens, setDadosItens] = useState(null);
+
+  const [selectedCamas, setSelectedCamas] = useState({});
+  const [selectedItens, setSelectedItens] = useState({});
+  
+  const handleSelectionChange = (e, dados, setSelected) => {
+    const { value, checked } = e.target;
+  
+    setSelected((prev) => {
+      const updatedSelection = { ...prev };
+  
+      if (checked) {
+        const tipo = dados.find((item) => item.id === value)?.tipo || "";
+        updatedSelection[value] = { tipo, quantidade: 1 };
+      } else {
+        delete updatedSelection[value];
+      }
+  
+      return updatedSelection;
+    });
+  };
+  
+  const handleQuantidadeChange = (id, quantidade, setSelected) =>{
+    setSelected((prev) => ({...prev,
+      [id]: {...prev[id], quantidade },
+    }));
+  }
 
   useEffect(() => {
     axios.get(baseURLHospede).then((response) => {
@@ -121,6 +159,18 @@ function CadastroReserva(){
       setDadosHotel(response.data);
     });
 }, []);
+
+  useEffect(() => {
+    axios.get(baseURLCama).then((response) => {
+        setDadosCamas(response.data);
+    });
+}, []);
+
+  useEffect(() => {
+    axios.get(baseURLItem).then((response) => {
+        setDadosItens(response.data);
+    });
+}, []);
   
   useEffect(() => {
     buscar();
@@ -130,6 +180,8 @@ function CadastroReserva(){
   if (!dadosHospede) return null;
   if (!dadosTipoQuarto) return null;
   if (!dadosHotel) return null;
+  if (!dadosCamas) return null;
+  if (!dadosItens) return null;
   
   return (
       <div className='container'>
@@ -211,7 +263,57 @@ function CadastroReserva(){
                     ))}
                   </select>
                 </FormGroup>
-                    
+                <FormGroup label='Camas: *' htmlFor='selectCama'>
+                {dadosCamas.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.id}
+                        checked={selectedCamas[dado.id] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, dadosCamas, setSelectedCamas);
+                        }}
+                      />
+                      {dado.tipo}
+                    </label>
+                    {selectedCamas[dado.id] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedCamas[dado.id]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedCamas)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
+              </FormGroup>
+              <FormGroup label='Itens: *' htmlFor='selectItem'>
+                {dadosItens.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.id}
+                        checked={selectedItens[dado.id] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, dadosItens, setSelectedItens)}}
+                      />
+                      {dado.nome}
+                    </label>
+                    {selectedItens[dado.id] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedItens[dado.id]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedItens)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
+              </FormGroup>
                 <Stack spacing={1} padding={1} direction='row'>
                   <button
                     onClick={salvar}

@@ -45,7 +45,7 @@ function Navbar(props) {
             <NavbarItem
               render='true'
               href='/listagem-cama'
-              label='Camas por Hotel'
+              label='Camas'
               />
           </ul>
          </div>
@@ -144,7 +144,7 @@ function Navbar(props) {
             <NavbarItem
               render='true'
               href='/cadastro-reserva'
-              label='Fazer reserva'
+              label='Reservar'
             />
           </ul>
         </div>
