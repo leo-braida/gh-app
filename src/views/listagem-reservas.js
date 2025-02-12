@@ -104,8 +104,8 @@ function ListagemReservas() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.dataChegada}</td>
-                      <td>{dado.dataSaida}</td>
+                      <td>{new Date(dado.dataChegada.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
+                      <td>{new Date(dado.dataSaida.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
                       <td>{dado.hospede}
                         {/*hospedesNaReserva
                           .filter((hospedeNaReserva) => hospedeNaReserva.idReserva === dado.id)

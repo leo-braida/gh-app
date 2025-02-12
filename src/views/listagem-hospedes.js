@@ -97,7 +97,7 @@ function ListagemHospedes() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.genero}</td>
-                      <td>{dado.dataNasc}</td>
+                      <td>{new Date(dado.dataNasc.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.email}</td>
                       <td>{dado.cpf}</td>
