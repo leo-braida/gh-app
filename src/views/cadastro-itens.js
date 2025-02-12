@@ -9,9 +9,9 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
-
+import { BASE_URL, BASE_URL2 } from '../config/axios';
 const baseURL = `${BASE_URL}/itens`;
+const baseURLHotel = `${BASE_URL2}/hoteis`
 
 function CadastroItem() {
   const { idParam } = useParams();
@@ -22,6 +22,7 @@ function CadastroItem() {
   const [quantidadeEmEstoque, setQuantidadeEmEstoque] = useState(0);
   const [nome, setNome] = useState('');
   const [preco, setPreco] = useState(0);
+  const [idHotel, setIdHotel] = useState('');
 
   const [dados, setDados] = useState([]);
   
@@ -31,12 +32,14 @@ function CadastroItem() {
       setQuantidadeEmEstoque(0);
       setNome('');
       setPreco(0);
+      setIdHotel('');
     } 
     else {
         setId(dados.id);
         setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
         setPreco(dados.preco);
+        setIdHotel(dados.hotelId);
     }
   }
 
@@ -46,6 +49,7 @@ function CadastroItem() {
       quantidadeEmEstoque,
       nome,
       preco,
+      idHotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -85,14 +89,28 @@ function CadastroItem() {
         setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
         setPreco(dados.preco);
+        setIdHotel(dados.hotelId);
     }
   }
+
+  useEffect(() => {
+      buscar();
+    }, [id]);
+
+  const [dadosHoteis, setDadosHoteis] = useState(null);
+
+  useEffect(() => {
+    axios.get(baseURLHotel).then((response) => {
+      setDadosHoteis(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     buscar();
   }, [id]);
 
   if (!dados) return null;
+  if (!dadosHoteis) return null;
 
   return (
     <div className='container'>
@@ -129,6 +147,25 @@ function CadastroItem() {
                   name='preco'
                   onChange={(e) => setPreco(e.target.value)}
                 />
+              </FormGroup>
+              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                
+                <select
+                  id='selectHotel'
+                  value={idHotel}
+                  className='form-select'
+                  name='idHotel'
+                  onChange={(e) => setIdHotel(e.target.value)}
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosHoteis.map((dado) => (
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
 
               <Stack spacing={1} padding={1} direction='row'>

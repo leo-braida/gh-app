@@ -77,6 +77,7 @@ function ListagemItens() {
                     <th scope='col'>Nome</th>
                     <th scope='col'>Quantidade</th>
                     <th scope='col'>Preço</th>
+                    <th scope='col'>Hotel</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -87,6 +88,7 @@ function ListagemItens() {
                       <td>{dado.nome}</td>
                       <td>{dado.quantidadeEmEstoque}</td>
                       <td>{dado.preco}</td>
+                      <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
