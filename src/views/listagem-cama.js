@@ -12,24 +12,23 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL3} from '../config/axios';
+import { BASE_URL3 } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/hospedagens`;
+const baseURL = `${BASE_URL3}/camas`;
 
-function ListagemHospedagens() {
+function ListagemCama() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastro-hospedagem`);
+    navigate(`/cadastro-cama`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-hospedagem/${id}`);
+    navigate(`/cadastro-cama/${id}`);
   };
 
-
   const [dados, setDados] = React.useState(null);
-
+  
   async function excluir(id) {
     let data = JSON.stringify({ id });
     let url = `${baseURL}/${id}`;
@@ -39,7 +38,7 @@ function ListagemHospedagens() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Hospedagem excluído com sucesso!`);
+      mensagemSucesso(`Tipo de cama excluído com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -47,24 +46,21 @@ function ListagemHospedagens() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir hospedagem`);
+      mensagemErro(`Erro ao excluir cama`);
     });
   }
- 
+
   React.useEffect(() => {
-    Promise.all([
-    axios.get(baseURL),
-    ])
-    .then((responses) => {
-        setDados(responses[0].data);
-      })
+    axios.get(baseURL).then((response) => {
+      setDados(response.data);
+    });
   }, []);
 
   if (!dados) return null;
-  
+
   return (
     <div className='container'>
-      <Card title='Listagem de hospedagens'>
+      <Card title='Listagem de Camas'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -73,37 +69,28 @@ function ListagemHospedagens() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
                 >
-                Nova hospedagem
+                Nova cama
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Check-in</th>
-                    <th scope='col'>Check-out</th>
-                    <th scope='col'>Hóspede responsável</th>
-                    <th scope='col'>Adultos</th>
-                    <th scope='col'>Crianças</th>
-                    <th scope='col'>Quartos</th>
-                    <th scope='col'>Serviços</th>
-                    <th scope='col'>Itens usados</th>
-                    <th scope='col'>Fez reserva?</th>
+                    <th scope='col'>Tipo</th>
+                    <th scope='col'>Quantidade de camas</th>
                     <th scope='col'>Hotel</th>
+                    <th scope='col'>Quantidade de adultos</th>
+                    <th scope='col'>Quantidade de crianças</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
+                  
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.checkIn.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
-                      <td>{dado.checkOut.replace(/[-T]/g, " ").replace(/^(\d{4}) (\d{2}) (\d{2})/, "$3/$2/$1")}</td>
-                      <td>{dado.hospede}</td>
-                      <td>{dado.adultos}</td>
-                      <td>{dado.criancas}</td>
-                      <td>{dado.quarto}</td> 
-                      <td>{dado.servicos}</td>
-                      <td>{dado.itens}</td>
-                      <td>{dado.reserva}</td>
+                      <td>{dado.tipo}</td>
+                      <td>{dado.quantidade}</td>
                       <td>{dado.hotel}</td>
+                      <td>{dado.quantidadeAdultos}</td>
+                      <td>{dado.quantidadeCriancas}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -133,4 +120,4 @@ function ListagemHospedagens() {
   );
 }
 
-export default ListagemHospedagens;
+export default ListagemCama;

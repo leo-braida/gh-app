@@ -93,7 +93,7 @@ function ListagemAgendamentos() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.horarioInicio}</td>
-                      <td>{dado.data}</td>
+                      <td>{new Date(dado.data.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
                       <td>{dado.servico}</td>
                       <td>{dado.funcionario}</td>
                       <td>{dado.hospedeRegistrado}</td>
