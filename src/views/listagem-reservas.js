@@ -80,7 +80,7 @@ function ListagemReservas() {
                     <th scope='col'>Data de chegada</th>
                     <th scope='col'>Data de saída</th>
                     <th scope='col'>Hóspedes na Reserva</th>
-                    <th scope='col'>Tipo de quarto</th>
+                    <th scope='col'>Tipos de quartos</th>
                     <th scope='col'>Hotel</th>
                     <th scope='col'>Itens pedidos</th>
                     <th scope='col'>Camas extras</th>
@@ -102,7 +102,13 @@ function ListagemReservas() {
                       })}
                       </td>
                       <td>{dado.hospede}</td>
-                      <td>{dado.tipoDeQuarto}</td>
+                      <td>
+                        {dado.tiposDeQuartos !== undefined && (
+                          dado.tiposDeQuartos.split("\n").map((linha, index) => (
+                          <p key={index}>{linha}</p>
+                          ))
+                        )}
+                      </td>
                       <td>{dado.hotel}</td>
                       <td>
                         {dado.itensExtras !== undefined && (

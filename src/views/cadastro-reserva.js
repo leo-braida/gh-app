@@ -118,6 +118,7 @@ function CadastroReserva(){
 
   const [selectedCamas, setSelectedCamas] = useState({});
   const [selectedItens, setSelectedItens] = useState({});
+  const [selectedTiposDeQuarto, setSelectedTiposDeQuarto] = useState({});
   
   const handleSelectionChange = (e, dados, setSelected) => {
     const { value, checked } = e.target;
@@ -227,24 +228,6 @@ function CadastroReserva(){
                     ))}
                   </select>
                 </FormGroup>         
-                <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
-                  <select
-                    id='selectTipoQuarto'
-                    value={idTipoQuarto}
-                    className='form-select'
-                    name='idTipoQuarto'
-                    onChange={(e) => setIdTipoQuarto(e.target.value)}
-                  >
-                    <option key='0' value='0'>
-                      {' '}
-                    </option>
-                    {dadosTipoQuarto.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
-                        {dado.tipo}
-                      </option>
-                    ))}
-                  </select>
-                </FormGroup>
                 <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                   <select
                     id='selectHotel'
@@ -263,7 +246,33 @@ function CadastroReserva(){
                     ))}
                   </select>
                 </FormGroup>
-                <FormGroup label='Camas: *' htmlFor='selectCama'>
+                <FormGroup label={<strong>Tipos de Quarto: *</strong>} htmlFor='selectTipoDeQuarto'>
+                {dadosTipoQuarto.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.id}
+                        checked={selectedTiposDeQuarto[dado.id] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, dadosCamas, setSelectedTiposDeQuarto);
+                        }}
+                      />
+                      {dado.tipo}
+                    </label>
+                    {selectedTiposDeQuarto[dado.id] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedTiposDeQuarto[dado.id]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedTiposDeQuarto)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
+              </FormGroup>
+                <FormGroup label={<strong>Camas: *</strong>} htmlFor='selectCama'>
                 {dadosCamas.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
@@ -289,7 +298,7 @@ function CadastroReserva(){
                   </div>
                 ))}
               </FormGroup>
-              <FormGroup label='Itens: *' htmlFor='selectItem'>
+              <FormGroup label={<strong> Itens: *</strong>} htmlFor='selectItem'>
                 {dadosItens.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
