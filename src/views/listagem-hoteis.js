@@ -38,7 +38,7 @@ function ListagemHoteis() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Tipo de cama excluído com sucesso!`);
+      mensagemSucesso(`Hotel excluído com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -46,7 +46,7 @@ function ListagemHoteis() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir tipo de cama`);
+      mensagemErro(`Erro ao excluir hotel`);
     });
   }
 

@@ -73,7 +73,7 @@ function ListagemServicos() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
                 >
-                Nova agenda
+                Novo serviço
               </button>
               <table className='table table-hover'>
                 <thead>

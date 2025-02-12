@@ -46,7 +46,7 @@ function ListagemQuartos() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir Quarto`);
+      mensagemErro(`Erro ao excluir quarto`);
     });
   }
 

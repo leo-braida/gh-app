@@ -47,7 +47,7 @@ function ListagemTrabalhadores() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir Trabalhador`);
+      mensagemErro(`Erro ao excluir trabalhador`);
     });
   }
 
