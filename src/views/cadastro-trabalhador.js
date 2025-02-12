@@ -133,7 +133,7 @@ if (!dadosHotel) return null;
                             </FormGroup>          */}
                             <FormGroup label='Cargo: *' htmlFor='selectCargo'>
                                 <select
-                                id='selectHotel'
+                                id='selectCargo'
                                 value={cargo}
                                 className='form-select'
                                 name='cargo'
