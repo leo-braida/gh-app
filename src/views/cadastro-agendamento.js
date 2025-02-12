@@ -82,7 +82,7 @@ function CadastroAgendamento(){
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Agendamento: ${id} alterado com sucesso!`);
+          mensagemSucesso(`Agendamento ${id} alterado com sucesso!`);
           navigate(`/listagem-agendamentos`);
         })
         .catch(function (error) {

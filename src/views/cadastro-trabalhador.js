@@ -56,29 +56,29 @@ function CadastroTrabalhador() {
         data = JSON.stringify(data);
         if (idParam == null) {
             await axios
-                .post(baseURL, data, {
-                    headers: { 'Content-Type': 'application/json' },
-                })
-                .then(function (response) {
-                    mensagemSucesso(`Trabalhador: ${id} cadastrado com sucesso!`)
-                    navigate(`/listagem-trabalhadores`);
-                })
-                .catch(function (error) {
-                    mensagemErro(error.response.data);
-                });
+              .post(baseURL, data, {
+                headers: { 'Content-Type': 'application/json' },
+              })
+              .then(function (response) {
+                mensagemSucesso(`Trabalhador ${nome} cadastrado com sucesso!`)
+                navigate(`/listagem-trabalhadores`);
+            }) 
+              .catch(function (error) {
+                mensagemErro(error.response.data);
+            });
         }
         else {
             await axios
-                .put(`${baseURL}/${idParam}`, data, {
-                    headers: { 'Content-Type': 'application/json' },
-                })
-                .then(function (response) {
-                    mensagemSucesso(`Trabalhador: ${id} alterado com sucesso!`);
-                    navigate(`/listagem-trabalhadores`);
-                })
-                .catch(function (error) {
-                    mensagemErro(error.response.data);
-                });
+              .put(`${baseURL}/${idParam}`, data, {
+                headers: { 'Content-Type': 'application/json' },
+              })
+              .then(function (response) {
+                mensagemSucesso(`Trabalhador ${nome} alterado com sucesso!`);
+                navigate(`/listagem-trabalhadores`);
+              })
+              .catch(function (error) {
+                mensagemErro(error.response.data);
+            });
         }
 
     }

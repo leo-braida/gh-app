@@ -58,7 +58,7 @@ function CadastroItem() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Item ${nome} cadastrada com sucesso!`)
+          mensagemSucesso(`Item ${nome} cadastrado com sucesso!`)
           navigate(`/listagem-itens`);
       }) 
         .catch(function (error) {

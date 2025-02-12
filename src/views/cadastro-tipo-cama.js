@@ -20,7 +20,6 @@ function CadastroTipoCama() {
 
   const [id, setId] = useState('');
   const [tipo, setTipo] = useState('');
-  const [quantidade, setQuantidade] = useState(0);
   const [quantidadeAdultos, setQuantidadeAdultos] = useState(0);
   const [quantidadeCriancas, setQuantidadeCriancas] = useState(0);
 
@@ -30,14 +29,12 @@ function CadastroTipoCama() {
     if (idParam == null) {
       setId('');
       setTipo('');
-      setQuantidade(0);
       setQuantidadeAdultos(0);
       setQuantidadeCriancas(0);
     } 
     else {
       setId(dados.id);
       setTipo(dados.tipo);
-      setQuantidade(dados.quantidade);
       setQuantidadeAdultos(dados.quantidadeAdultos);
       setQuantidadeCriancas(dados.quantidadeCriancas);
     }
@@ -47,7 +44,6 @@ function CadastroTipoCama() {
     let data = {
       id,
       tipo,
-      quantidade,
       quantidadeAdultos,
       quantidadeCriancas,
     };
@@ -58,7 +54,7 @@ function CadastroTipoCama() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Tipo de cama ${tipo} cadastrada com sucesso!`)
+          mensagemSucesso(`Tipo de cama ${tipo} cadastrado com sucesso!`)
           navigate(`/listagem-tipos-cama`);
       }) 
         .catch(function (error) {
@@ -87,7 +83,6 @@ function CadastroTipoCama() {
       });
       setId(dados.id);
       setTipo(dados.tipo);
-      setQuantidade(dados.quantidade);
       setQuantidadeAdultos(dados.quantidadeAdultos);
       setQuantidadeCriancas(dados.quantidadeCriancas);
     }
@@ -114,7 +109,7 @@ function CadastroTipoCama() {
                   name='tipo'
                   onChange={(e) => setTipo(e.target.value)}
                 />
-              </FormGroup>     
+              </FormGroup>
               <FormGroup label='Quantidade de adultos: *' htmlFor='inputQuantidadeAdultos'>
                 <input
                   type='number'

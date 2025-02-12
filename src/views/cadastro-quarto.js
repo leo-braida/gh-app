@@ -23,25 +23,25 @@ function CadastroQuarto(){
   const [id, setId] = useState('');
   const [situacao, setSituacao] = useState('');
   const [numero, setNumero] = useState('');
-  const [tipoQuarto, setTipoQuarto] = useState('');
-  const [hotel, setHotel] = useState('');
-  const [dados, setDados] = useState([]);
+  const [idTipoQuarto, setIdTipoQuarto] = useState('');
   const [idHotel, setIdHotel] = useState('');
+
+  const [dados, setDados] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
       setId('');
       setSituacao('');
-      setNumero('');
-      setTipoQuarto('');
+      setNumero(0);
+      setIdTipoQuarto('');
       setIdHotel('');
     } 
     else {
       setId(dados.id);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
-      setTipoQuarto(dados.idTipoQuarto);
-      setIdHotel(dados.hotel);
+      setIdTipoQuarto(dados.idTipoQuarto);
+      setIdHotel(dados.idHotel);
     } 
   }
 
@@ -50,8 +50,8 @@ function CadastroQuarto(){
       id,
       situacao,
       numero,
-      tipoQuarto,
-      hotel,
+      idTipoQuarto,
+      idHotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -60,7 +60,7 @@ function CadastroQuarto(){
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Quarto: ${id} cadastrado com sucesso!`)
+          mensagemSucesso(`Quarto ${numero} cadastrado com sucesso!`)
           navigate(`/listagem-quartos`);
       }) 
         .catch(function (error) {
@@ -73,7 +73,7 @@ function CadastroQuarto(){
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Quarto: ${id} alterado com sucesso!`);
+          mensagemSucesso(`Quarto ${numero} alterado com sucesso!`);
           navigate(`/listagem-quartos`);
         })
         .catch(function (error) {
@@ -96,16 +96,10 @@ function CadastroQuarto(){
       setId(dados.id);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
-      setTipoQuarto(dados.tipoQuarto);
-      setIdHotel(dados.hotel);
+      setIdTipoQuarto(dados.tipoQuarto);
+      setIdHotel(dados.idHotel);
     }
   
-
-
-  useEffect(() => {
-    buscar();
-  }, [id]);
-
   const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
   const [dadosHoteis, setDadosHoteis] = useState(null);
 
@@ -135,37 +129,13 @@ function CadastroQuarto(){
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Situação: *' htmlFor='inputSituacao'>
-                <input
-                  type='text'
-                  id='inputSituacao'
-                  value={situacao}
-                  className='form-control'
-                  name='situacao'
-                  onChange={(e) => setSituacao(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup label='Número: *' htmlFor='inputNumero'>
-                <input
-                  type='number'
-                  id='inputNumero'
-                  value={numero}
-                  className='form-control'
-                  name='numero'
-                  onChange={(e) => setNumero(e.target.value)}
-                />
-              </FormGroup>
-              <script>
-                /*
-              <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
-                
+            <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
                 <select
-                  
                   id='selectTipoQuarto'
-                  //value={idTipoQuarto}
+                  value={idTipoQuarto}
                   className='form-select'
-                  //name='idTipoQuarto'
-                  //onChange={(e) => setIdTipoQuarto(e.target.value)}
+                  name='idTipoQuarto'
+                  onChange={(e) => setIdTipoQuarto(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
@@ -177,10 +147,27 @@ function CadastroQuarto(){
                   ))}
                 </select>
               </FormGroup>
-                */ 
-                </script>
-                <FormGroup label='Hotel: *' htmlFor='selectHotel'>
-                
+              <FormGroup label='Número: *' htmlFor='inputNumero'>
+                <input
+                  type='number'
+                  id='inputNumero'
+                  value={numero}
+                  className='form-control'
+                  name='numero'
+                  onChange={(e) => setNumero(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label='Situação: *' htmlFor='inputSituacao'>
+                <input
+                  type='text'
+                  id='inputSituacao'
+                  value={situacao}
+                  className='form-control'
+                  name='situacao'
+                  onChange={(e) => setSituacao(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
                   value={idHotel}
