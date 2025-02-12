@@ -78,6 +78,7 @@ function ListagemQuartos() {
                     <th scope='col'>Tipo de Quarto</th>
                     <th scope='col'>Número</th>
                     <th scope='col'>Situção</th>
+                    <th scope='col'>Hotel</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -89,6 +90,7 @@ function ListagemQuartos() {
                       <td>{dado.tipoDeQuarto}</td>
                       <td>{dado.numero}</td>
                       <td>{dado.situacao}</td>
+                      <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

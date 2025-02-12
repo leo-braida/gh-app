@@ -16,6 +16,7 @@ const baseURLHospede = `${BASE_URL}/hospedes`;
 const baseURLQuarto = `${BASE_URL3}/quartos`;
 const baseURLServico = `${BASE_URL2}/servicos`;
 const baseURLItem = `${BASE_URL}/itens`;
+const baseURLHotel = `${BASE_URL2}/hoteis`;
 
 function CadastroHospedagem() {
   const { idParam } = useParams();
@@ -31,6 +32,7 @@ function CadastroHospedagem() {
   const [idQuarto, setIdQuarto] = useState('');
   const [idServico, setIdServico] = useState('');
   const [idItem, setIdItem] = useState('');
+  const [idHotel, setIdHotel] = useState('');
 
   const [dados, setDados] = useState([]);
   
@@ -45,6 +47,7 @@ function CadastroHospedagem() {
       setIdQuarto('');
       setIdServico('');
       setIdItem('');
+      setIdHotel('');
     } 
     else {
       setId(dados.id);
@@ -56,6 +59,7 @@ function CadastroHospedagem() {
       setIdQuarto(dados.idQuarto);
       setIdServico(dados.idServico);
       setIdItem(dados.idItem);
+      setIdHotel(dados.idHotel);
     } 
   }
 
@@ -70,6 +74,7 @@ function CadastroHospedagem() {
       idQuarto,
       idServico,
       idItem,
+      idHotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -114,6 +119,7 @@ function CadastroHospedagem() {
       setIdQuarto(dados.idQuarto);
       setIdServico(dados.idServico);
       setIdItem(dados.idItem);
+      setIdHotel(dados.idHotel);
     }
   }
 
@@ -121,6 +127,7 @@ function CadastroHospedagem() {
   const [dadosQuartos, setDadosQuartos] = useState(null);
   const [dadosServicos, setDadosServicos] = useState(null);
   const [dadosItens, setDadosItens] = useState(null);
+  const [dadosHoteis, setDadosHoteis] = useState(null);
 
   const handleHospedeChange = (e) => {
     const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
@@ -167,6 +174,12 @@ function CadastroHospedagem() {
   }, []);
 
   useEffect(() => {
+    axios.get(baseURLHotel).then((response) => {
+        setDadosHoteis(response.data);
+    })
+  }, []);
+
+  useEffect(() => {
     buscar();
   }, [id]);
 
@@ -175,6 +188,7 @@ function CadastroHospedagem() {
   if (!dadosQuartos) return null;
   if (!dadosServicos) return null;
   if (!dadosItens) return null;
+  if (!dadosHoteis) return null;
 
   return (
     <div className='container'>
@@ -282,6 +296,21 @@ function CadastroHospedagem() {
                   onChange={handleItemChange}
                 >
                   {dadosItens.map((dado) => (
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                <select
+                  id='selectHotel'
+                  value={idHotel}
+                  className='form-select'
+                  name='idHotel'
+                  onChange={(e) => setIdHotel(e.target.value)}
+                >
+                  {dadosHoteis.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}
                     </option>

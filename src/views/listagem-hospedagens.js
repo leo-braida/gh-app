@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL3 } from '../config/axios';
+import { BASE_URL3} from '../config/axios';
 
 const baseURL = `${BASE_URL3}/hospedagens`;
 
@@ -87,6 +87,7 @@ function ListagemHospedagens() {
                     <th scope='col'>Serviços</th>
                     <th scope='col'>Itens usados</th>
                     <th scope='col'>Fez reserva?</th>
+                    <th scope='col'>Hotel</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -102,6 +103,7 @@ function ListagemHospedagens() {
                       <td>{dado.servicos}</td>
                       <td>{dado.itens}</td>
                       <td>{dado.reserva}</td>
+                      <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

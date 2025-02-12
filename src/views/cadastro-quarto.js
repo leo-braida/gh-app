@@ -26,7 +26,7 @@ function CadastroQuarto(){
   const [tipoQuarto, setTipoQuarto] = useState('');
   const [hotel, setHotel] = useState('');
   const [dados, setDados] = useState([]);
-  const [hoteis, setHoteis] = useState([]);
+  const [idHotel, setIdHotel] = useState('');
 
   function inicializar() {
     if (idParam == null) {
@@ -34,14 +34,14 @@ function CadastroQuarto(){
       setSituacao('');
       setNumero('');
       setTipoQuarto('');
-      setHotel('');
+      setIdHotel('');
     } 
     else {
       setId(dados.id);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
       setTipoQuarto(dados.idTipoQuarto);
-      setHotel(dados.hotel);
+      setIdHotel(dados.hotel);
     } 
   }
 
@@ -90,13 +90,14 @@ function CadastroQuarto(){
       ])
       .then((responses) => {
           setDados(responses[0].data);
-          setHoteis(responses[1].data);
+          setIdHotel(responses[1].data);
         })
       };
       setId(dados.id);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
       setTipoQuarto(dados.tipoQuarto);
+      setIdHotel(dados.hotel);
     }
   
 
@@ -106,10 +107,17 @@ function CadastroQuarto(){
   }, [id]);
 
   const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
+  const [dadosHoteis, setDadosHoteis] = useState(null);
 
   useEffect(() => {
     axios.get(baseURLTipoQuarto).then((response) => {
       setDadosTipoQuarto(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(baseURLHoteis).then((response) => {
+      setDadosHoteis(response.data);
     });
   }, []);
 
@@ -119,6 +127,7 @@ function CadastroQuarto(){
 
   if (!dados) return null;
   if (!dadosTipoQuarto) return null;
+  if (!dadosHoteis) return null;
 
   return (
     <div className='container'>
@@ -170,6 +179,25 @@ function CadastroQuarto(){
               </FormGroup>
                 */ 
                 </script>
+                <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                
+                <select
+                  id='selectHotel'
+                  value={idHotel}
+                  className='form-select'
+                  name='idHotel'
+                  onChange={(e) => setIdHotel(e.target.value)}
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosHoteis.map((dado) => (
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}
