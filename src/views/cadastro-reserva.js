@@ -272,7 +272,7 @@ function CadastroReserva(){
                   </div>
                 ))}
               </FormGroup>
-                <FormGroup label={<strong>Camas: *</strong>} htmlFor='selectCama'>
+              <FormGroup label={<strong>Camas extras: *</strong>} htmlFor='selectCama'>
                 {dadosCamas.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
@@ -298,7 +298,7 @@ function CadastroReserva(){
                   </div>
                 ))}
               </FormGroup>
-              <FormGroup label={<strong> Itens: *</strong>} htmlFor='selectItem'>
+              <FormGroup label={<strong>Itens extras: *</strong>} htmlFor='selectItem'>
                 {dadosItens.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">

@@ -53,7 +53,7 @@ function CadastroHotel() {
         setBairro(dados.bairro);
         setLogradouro(dados.logradouro);
         setNumero(dados.numero);
-        setTelefone(dados.telefone);
+        setTelefone(dados.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
         setCelular(dados.celular);
         setEmail(dados.email);
     }
@@ -115,7 +115,7 @@ function CadastroHotel() {
         setBairro(dados.bairro);
         setLogradouro(dados.logradouro);
         setNumero(dados.numero);
-        setTelefone(dados.telefone);
+        setTelefone(dados.telefone?.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
         setCelular(dados.celular);
         setEmail(dados.email);
     }
@@ -206,12 +206,21 @@ function CadastroHotel() {
               </FormGroup>
               <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
                 <input
-                  type='text'
+                  type='tel'
                   id='inputTelefone'
                   value={telefone}
                   className='form-control'
+                  placeholder="(00) 00000-0000"
                   name='telefone'
-                  onChange={(e) => setTelefone(e.target.value)}
+                  onChange={(e) => {
+                    const valor = (e.target.value.replace(/\D/g, ""));
+                    if (valor.length <= 7) {
+                      setTelefone(valor);
+                    } else {
+                      setTelefone(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
+                    }
+                    }
+                  }
                 />
               </FormGroup>
               <FormGroup label='Celular: *' htmlFor='inputCelular'>

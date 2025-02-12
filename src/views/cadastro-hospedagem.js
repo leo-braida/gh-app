@@ -334,6 +334,9 @@ function CadastroHospedagem() {
                   name='idHotel'
                   onChange={(e) => setIdHotel(e.target.value)}
                 >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
                   {dadosHoteis.map((dado) => (
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}
