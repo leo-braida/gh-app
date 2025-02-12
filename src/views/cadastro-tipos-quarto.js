@@ -106,47 +106,30 @@ const [dadosItens, setDadosItens] = useState([]);
 
 
 const [selectedCamas, setSelectedCamas] = useState({});
-
-const handleCamaChange = (e) => {
-  const { value, checked } = e.target;
-
-  setSelectedCamas((prev) => {
-    const updatedCamas = { ...prev };
-
-    if (checked) {
-      const tipo = dadosCamas.find((cama) => cama.id === value)?.tipo || ""; updatedCamas[value] = { tipo, quantidade:1 };
-    } else {
-      delete updatedCamas[value];
-    }
-
-    return updatedCamas;
-  });
-};
-
 const [selectedItens, setSelectedItens] = useState({});
 
-const handleItemChange = (e) => {
+const handleSelectionChange = (e, dados, setSelected) => {
   const { value, checked } = e.target;
 
-  setSelectedItens((prev) => {
-    const updatedItens = { ...prev };
+  setSelected((prev) => {
+    const updatedSelection = { ...prev };
 
     if (checked) {
-      const tipo = dadosItens.find((item) => item.id === value)?.tipo || ""; updatedItens[value] = { tipo, quantidade:1 };
+      const tipo = dados.find((item) => item.id === value)?.tipo || "";
+      updatedSelection[value] = { tipo, quantidade: 1 };
     } else {
-      delete updatedItens[value];
+      delete updatedSelection[value];
     }
 
-    return updatedItens;
+    return updatedSelection;
   });
 };
 
-const handleQuantidadeChange = (id, quantidade) => {
-  setSelectedCamas((prev) => ({
-    ...prev,
-    [id]: { ...prev[id], quantidade },
+const handleQuantidadeChange = (id, quantidade, setSelected) =>{
+  setSelected((prev) => ({...prev,
+    [id]: {...prev[id], quantidade },
   }));
-};
+}
 
 useEffect(() => {
   axios.get(baseURLCamas).then((response) => {
@@ -212,7 +195,9 @@ if (!dadosItens) return null;
                         type="checkbox"
                         value={dado.id}
                         checked={selectedCamas[dado.id] !== undefined}
-                        onChange={handleCamaChange}
+                        onChange={(e) => {
+                          handleSelectionChange(e, dadosCamas, setSelectedCamas);
+                        }}
                       />
                       {dado.tipo}
                     </label>
@@ -221,7 +206,7 @@ if (!dadosItens) return null;
                         type="number"
                         min="1"
                         value={selectedCamas[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value)}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedCamas)}
                         className="border p-1 w-16"
                       />
                     )}
@@ -236,7 +221,8 @@ if (!dadosItens) return null;
                         type="checkbox"
                         value={dado.id}
                         checked={selectedItens[dado.id] !== undefined}
-                        onChange={handleItemChange}
+                        onChange={(e) => {
+                          handleSelectionChange(e, dadosItens, setSelectedItens)}}
                       />
                       {dado.nome}
                     </label>
@@ -245,7 +231,7 @@ if (!dadosItens) return null;
                         type="number"
                         min="1"
                         value={selectedItens[dado.id]?.quantidade || 1}
-                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value)}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedItens)}
                         className="border p-1 w-16"
                       />
                     )}
