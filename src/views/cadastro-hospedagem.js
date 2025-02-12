@@ -17,6 +17,7 @@ const baseURLQuarto = `${BASE_URL3}/quartos`;
 const baseURLServico = `${BASE_URL2}/servicos`;
 const baseURLItem = `${BASE_URL}/itens`;
 const baseURLHotel = `${BASE_URL2}/hoteis`;
+const baseURLCama = `${BASE_URL3}/camas`;
 
 function CadastroHospedagem() {
   const { idParam } = useParams();
@@ -33,6 +34,7 @@ function CadastroHospedagem() {
   const [idServico, setIdServico] = useState('');
   const [idItem, setIdItem] = useState('');
   const [idHotel, setIdHotel] = useState('');
+  const [idCamas, setIdCamas] = useState('');
 
   const [dados, setDados] = useState([]);
   
@@ -48,6 +50,7 @@ function CadastroHospedagem() {
       setIdServico('');
       setIdItem('');
       setIdHotel('');
+      setIdCamas('');
     } 
     else {
       setId(dados.id);
@@ -60,6 +63,7 @@ function CadastroHospedagem() {
       setIdServico(dados.idServico);
       setIdItem(dados.idItem);
       setIdHotel(dados.idHotel);
+      setIdCamas(dados.idCamas);
     } 
   }
 
@@ -75,6 +79,7 @@ function CadastroHospedagem() {
       idServico,
       idItem,
       idHotel,
+      idCamas,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -120,6 +125,7 @@ function CadastroHospedagem() {
       setIdServico(dados.idServico);
       setIdItem(dados.idItem);
       setIdHotel(dados.idHotel);
+      setIdCamas(dados.idCamas);
     }
   }
 
@@ -128,6 +134,32 @@ function CadastroHospedagem() {
   const [dadosServicos, setDadosServicos] = useState(null);
   const [dadosItens, setDadosItens] = useState(null);
   const [dadosHoteis, setDadosHoteis] = useState(null);
+  const [dadosCamas, setDadosCamas] = useState(null);
+  
+  const [selectedCamas, setSelectedCamas] = useState({});
+    
+  const handleSelectionChange = (e, dados, setSelected) => {
+    const { value, checked } = e.target;
+    
+      setSelected((prev) => {
+        const updatedSelection = { ...prev };
+    
+        if (checked) {
+          const tipo = dados.find((item) => item.id === value)?.tipo || "";
+          updatedSelection[value] = { tipo, quantidade: 1 };
+        } else {
+          delete updatedSelection[value];
+        }
+    
+        return updatedSelection;
+      });
+    };
+    
+    const handleQuantidadeChange = (id, quantidade, setSelected) =>{
+      setSelected((prev) => ({...prev,
+        [id]: {...prev[id], quantidade },
+      }));
+    }
 
   const handleHospedeChange = (e) => {
     const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
@@ -153,6 +185,12 @@ function CadastroHospedagem() {
     axios.get(baseURLHospede).then((response) => {
         setDadosHospedes(response.data);
     })
+  }, []);
+
+  useEffect(() => {
+    axios.get(baseURLCama).then((response) => {
+        setDadosCamas(response.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -189,6 +227,7 @@ function CadastroHospedagem() {
   if (!dadosServicos) return null;
   if (!dadosItens) return null;
   if (!dadosHoteis) return null;
+  if (!dadosCamas) return null;
 
   return (
     <div className='container'>
@@ -286,6 +325,21 @@ function CadastroHospedagem() {
                   ))}
                 </select>
               </FormGroup>
+              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                <select
+                  id='selectHotel'
+                  value={idHotel}
+                  className='form-select'
+                  name='idHotel'
+                  onChange={(e) => setIdHotel(e.target.value)}
+                >
+                  {dadosHoteis.map((dado) => (
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
               <FormGroup label='Itens: *' htmlFor='selectItem'>
                 <select
                   id='selectItem'
@@ -302,20 +356,31 @@ function CadastroHospedagem() {
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
-                <select
-                  id='selectHotel'
-                  value={idHotel}
-                  className='form-select'
-                  name='idHotel'
-                  onChange={(e) => setIdHotel(e.target.value)}
-                >
-                  {dadosHoteis.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
+              <FormGroup label='Camas Extras: *' htmlFor='selectCama'>
+                {dadosCamas.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.id}
+                        checked={selectedCamas[dado.id] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, dadosCamas, setSelectedCamas);
+                        }}
+                      />
+                      {dado.tipo}
+                    </label>
+                    {selectedCamas[dado.id] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedCamas[dado.id]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.id, e.target.value, setSelectedCamas)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
               </FormGroup>
               <Stack spacing={1} padding={1} direction='row'>
                 <button
