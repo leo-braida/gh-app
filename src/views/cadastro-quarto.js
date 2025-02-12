@@ -21,37 +21,37 @@ function CadastroQuarto(){
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
+  const [tipoDeQuarto, setTipoDeQuarto] = useState('');
   const [situacao, setSituacao] = useState('');
   const [numero, setNumero] = useState('');
-  const [idTipoQuarto, setIdTipoQuarto] = useState('');
-  const [idHotel, setIdHotel] = useState('');
+  const [hotel, setHotel] = useState('');
 
   const [dados, setDados] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
       setId('');
+      setTipoDeQuarto('');
       setSituacao('');
       setNumero(0);
-      setIdTipoQuarto('');
-      setIdHotel('');
+      setHotel('');
     } 
     else {
       setId(dados.id);
+      setTipoDeQuarto(dados.tipoDeQuarto);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
-      setIdTipoQuarto(dados.idTipoQuarto);
-      setIdHotel(dados.idHotel);
+      setHotel(dados.hotel);
     } 
   }
 
     async function salvar() {
     let data = {
       id,
+      tipoDeQuarto,
       situacao,
       numero,
-      idTipoQuarto,
-      idHotel,
+      hotel
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -84,21 +84,16 @@ function CadastroQuarto(){
 
   async function buscar() {
     if (idParam != null){
-      await Promise.all([
-        axios.get(`${baseURL}/${idParam}`),
-        axios.get(`${baseURLHoteis}`)
-      ])
-      .then((responses) => {
-          setDados(responses[0].data);
-          setIdHotel(responses[1].data);
-        })
-      };
+      await axios.get(`${baseURL}/${idParam}`).then((response) => {
+        setDados(response.data);
+      });
       setId(dados.id);
-      setSituacao(dados.situacao);
+      setTipoDeQuarto(dados.tipoDeQuarto);
       setNumero(dados.numero);
-      setIdTipoQuarto(dados.tipoQuarto);
-      setIdHotel(dados.idHotel);
+      setSituacao(dados.situacao);
+      setHotel(dados.hotel);
     }
+  }
   
   const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
   const [dadosHoteis, setDadosHoteis] = useState(null);
@@ -132,16 +127,16 @@ function CadastroQuarto(){
             <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
                 <select
                   id='selectTipoQuarto'
-                  value={idTipoQuarto}
+                  value={tipoDeQuarto}
                   className='form-select'
                   name='idTipoQuarto'
-                  onChange={(e) => setIdTipoQuarto(e.target.value)}
+                  onChange={(e) => setTipoDeQuarto(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosTipoQuarto.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.tipo}>
                       {dado.tipo}
                     </option>
                   ))}
@@ -170,16 +165,16 @@ function CadastroQuarto(){
               <FormGroup label='Hotel: *' htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
-                  value={idHotel}
+                  value={hotel}
                   className='form-select'
-                  name='idHotel'
-                  onChange={(e) => setIdHotel(e.target.value)}
+                  name='Hotel'
+                  onChange={(e) => setHotel(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosHoteis.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}
