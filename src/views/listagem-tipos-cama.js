@@ -75,7 +75,6 @@ function ListagemTiposCama() {
                 <thead>
                   <tr>
                     <th scope='col'>Tipo</th>
-                    <th scope='col'>Quantidade de camas</th>
                     <th scope='col'>Quantidade de adultos</th>
                     <th scope='col'>Quantidade de crianças</th>
                     <th scope='col'>Ações</th>
@@ -86,7 +85,6 @@ function ListagemTiposCama() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.tipo}</td>
-                      <td>{dado.quantidade}</td>
                       <td>{dado.quantidadeAdultos}</td>
                       <td>{dado.quantidadeCriancas}</td>
                       <td>

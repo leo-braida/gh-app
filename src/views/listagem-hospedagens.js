@@ -88,6 +88,7 @@ function ListagemHospedagens() {
                     <th scope='col'>Itens usados</th>
                     <th scope='col'>Fez reserva?</th>
                     <th scope='col'>Hotel</th>
+                    <th scope='col'>Extras no quarto</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -104,6 +105,11 @@ function ListagemHospedagens() {
                       <td>{dado.itens}</td>
                       <td>{dado.reserva}</td>
                       <td>{dado.hotel}</td>
+                      <td>
+                        {dado.extras.split("\n").map((linha, index) => (
+                          <p key={index}>{linha}</p>
+                        ))}
+                      </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

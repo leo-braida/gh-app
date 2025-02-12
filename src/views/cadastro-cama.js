@@ -121,6 +121,7 @@ function CadastroTipoCama() {
 
   if (!dados) return null;
   if (!dadosHotel) return null;
+  if (!dadosTipoDeCama) return null;
 
   return (
     <div className='container'>

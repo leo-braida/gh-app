@@ -50,27 +50,12 @@ function ListagemReservas() {
     });
   }
 
-  const [hospedes, setHospedes] = React.useState(null);
-  const [hospedesNaReserva, setHospedesNaReserva] = React.useState(null);
-  const [tipoDeQuartosNaReserva, setTipoDeQuartosNaReserva] = React.useState(null);
-  const [tipoDeQuartos, setTipoDeQuarto] = React.useState(null);
-  const [hotel, setHotel] = React.useState(null);
-
   React.useEffect(() => {
     Promise.all([
-    axios.get(baseURL),
-    /*axios.get(baseURLHospede),
-    axios.get(baseURLHospedeNaReserva),
-    axios.get(baseURLTipoDeQuartoNaReserva),
-    axios.get(baseURLTipoDeQuarto)*/
-    
+    axios.get(baseURL),   
     ])
     .then((responses) => {
         setDados(responses[0].data);
-        /*setHospedes(responses[1].data);
-        setHospedesNaReserva(responses[2].data);
-        setTipoDeQuartosNaReserva(responses[3].data);
-        setTipoDeQuarto(responses[4].data)*/;
       })
   }, []);
 
@@ -97,6 +82,7 @@ function ListagemReservas() {
                     <th scope='col'>Hóspedes na Reserva</th>
                     <th scope='col'>Tipo de quarto</th>
                     <th scope='col'>Hotel</th>
+                    <th scope='col'>Extras no quarto</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -106,31 +92,14 @@ function ListagemReservas() {
                     <tr key={dado.id}>
                       <td>{new Date(dado.dataChegada.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
                       <td>{new Date(dado.dataSaida.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
-                      <td>{dado.hospede}
-                        {/*hospedesNaReserva
-                          .filter((hospedeNaReserva) => hospedeNaReserva.idReserva === dado.id)
-                          .map((hospedeNaReserva) => {
-                            const hospede = hospedes.find((h) => h.id === hospedeNaReserva.idHospede);
-                            return (
-                              <div key={hospedeNaReserva.id}>
-                                {hospede.nome}
-                              </div>
-                            );
-                          })*/}
-                      </td>
-                      <td>{dado.tipoDeQuarto}
-                        {/*tipoDeQuartosNaReserva
-                          .filter((tipoReserva) => tipoReserva.idReserva === dado.id)
-                          .map((tipoReserva) => {
-                            const tipoQuarto = tipoDeQuartos.find((tq) => tq.id === tipoReserva.idTipoDeQuarto);
-                            return (
-                              <div key={tipoReserva.id}>
-                                {tipoQuarto.tipo}
-                              </div>
-                            );
-                          })*/}
-                      </td>
+                      <td>{dado.hospede}</td>
+                      <td>{dado.tipoDeQuarto}</td>
                       <td>{dado.hotel}</td>
+                      <td>
+                        {dado.extras.split("\n").map((linha, index) => (
+                          <p key={index}>{linha}</p>
+                        ))}
+                      </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
