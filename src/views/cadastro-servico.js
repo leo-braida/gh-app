@@ -12,7 +12,6 @@ import axios from 'axios';
 import { BASE_URL2 } from '../config/axios';
 
 const baseURL = `${BASE_URL2}/servicos`;
-const baseURLHoteis = `${BASE_URL2}/hoteis`;
 const baseURLTrabalhadores = `${BASE_URL2}/trabalhadores`;
 
 function CadastroServico() {
@@ -24,7 +23,6 @@ function CadastroServico() {
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [preco, setPreco] = useState(0);
-  const [idHotel, setIdHotel] = useState('');
   const [minutosPorAgendamento, setMinutosPorAgendamento] = useState(0);
   const [idTrabalhadores, setIdTrabalhadores] = useState(null);
  
@@ -36,7 +34,6 @@ function CadastroServico() {
       setNome('');
       setDescricao('');
       setPreco(0);
-      setIdHotel('');
       setMinutosPorAgendamento(0);
       setIdTrabalhadores(null)
     } 
@@ -45,7 +42,6 @@ function CadastroServico() {
       setNome(dados.nome);
       setDescricao(dados.descricao);
       setPreco(dados.preco);
-      setIdHotel(dados.idHotel);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
       setIdTrabalhadores(dados.idTrabalhadores);
     } 
@@ -57,7 +53,6 @@ function CadastroServico() {
       nome,
       descricao,
       preco,
-      idHotel,
       minutosPorAgendamento,
       idTrabalhadores,
     };
@@ -99,18 +94,10 @@ function CadastroServico() {
       setNome(dados.nome);
       setDescricao(dados.descricao);
       setPreco(dados.preco);
-      setIdHotel(dados.idHotel);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
       setIdTrabalhadores(dados.idTrabalhadores);
     }
   }
-
-  const [dadosHoteis, setDadosHoteis] = useState(null);
-  useEffect(() => {
-    axios.get(baseURLHoteis).then((response) => {
-      setDadosHoteis(response.data);
-    })
-  }, []);
 
   const [dadosTrabalhadores, setDadosTrabalhadores] = useState(null);
   useEffect(() => {
@@ -124,7 +111,6 @@ function CadastroServico() {
   }, [id]);
 
   if (!dados) return null;
-  if (!dadosHoteis) return null;
   if (!dadosTrabalhadores) return null;
 
   return (
@@ -163,26 +149,7 @@ function CadastroServico() {
                   onChange={(e) => setPreco(e.target.value)}
                 />
               </FormGroup>
-              
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
-                <select
-                  id='selectHotel'
-                  value={idHotel}
-                  className='form-select'
-                  name='idHotel'
-                  onChange={(e) => setIdHotel(e.target.value)}
-                >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
-                  {dadosHoteis.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
-              
+        
               <FormGroup label='Minutos por agendamento: *' htmlFor='inputMinutosPorAgendamento'>
                 <input
                   type='number'

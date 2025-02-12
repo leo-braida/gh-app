@@ -84,7 +84,7 @@ function CadastroQuarto(){
 
   async function buscar() {
     if (idParam != null){
-      Promise.all([
+      await Promise.all([
         axios.get(`${baseURL}/${idParam}`),
         axios.get(`${baseURLHoteis}`)
       ])
