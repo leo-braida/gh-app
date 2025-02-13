@@ -35,6 +35,7 @@ function CadastroHospedagem() {
   const [idItem, setIdItem] = useState('');
   const [hotel, setHotel] = useState('');
   const [idCamas, setIdCamas] = useState('');
+  const [servico, setServico] = useState('');
 
   const [dados, setDados] = useState([]);
   
@@ -51,6 +52,10 @@ function CadastroHospedagem() {
       setIdItem('');
       setHotel('');
       setIdCamas('');
+      setServico('');
+      setSelectedItens('');
+      setSelectedCamas('');
+      setSelectedServicos('');
     } 
     else {
       setId(dados.id);
@@ -66,7 +71,7 @@ function CadastroHospedagem() {
       setIdCamas(dados.idCamas);
       setSelectedItens(processarSelecionados(dados.itensExtras));
       setSelectedCamas(processarSelecionados(dados.camasExtras));
-      setSelectedServicos(processarSelecionados(dados.servicos));
+      setSelectedServicos(processarSelecionados(dados.servico));
 
     } 
   }
@@ -84,6 +89,8 @@ function CadastroHospedagem() {
       idItem,
       hotel,
       idCamas,
+      servico,
+      
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -130,6 +137,7 @@ function CadastroHospedagem() {
       setIdItem(dados.idItem);
       setHotel(dados.hotel);
       setIdCamas(dados.idCamas);
+      setIdServico(dados.idServico);
     }
   }
 
