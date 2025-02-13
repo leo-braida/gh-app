@@ -340,7 +340,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label={<strong> Serviços: *</strong>} htmlFor='selectServico'>
+              <FormGroup label={<strong> Serviços:</strong>} htmlFor='selectServico'>
                 {dadosServicos.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">

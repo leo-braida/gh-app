@@ -284,7 +284,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label={<strong>Complemento: *</strong>} htmlFor='inputComplemento'>
+              <FormGroup label={<strong>Complemento:</strong>} htmlFor='inputComplemento'>
                 <input
                   type='text'
                   id='inputComplemento'
