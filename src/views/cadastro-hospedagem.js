@@ -71,8 +71,7 @@ function CadastroHospedagem() {
       setIdCamas(dados.idCamas);
       setSelectedItens(processarSelecionados(dados.itensExtras));
       setSelectedCamas(processarSelecionados(dados.camasExtras));
-      setSelectedServicos(processarSelecionados(dados.servico));
-
+      setSelectedServicos(processarSelecionados(dados.servicos));
     } 
   }
 
