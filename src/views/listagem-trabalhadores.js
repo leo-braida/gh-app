@@ -93,7 +93,9 @@ function ListagemTrabalhadores() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.telefone}</td>
+                      <td>
+                        {dado.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}
+                      </td>
                       <td>{dado.hotel}
                       </td>
                       <td>{dado.cargo}</td>

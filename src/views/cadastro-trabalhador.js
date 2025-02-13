@@ -90,7 +90,7 @@ function CadastroTrabalhador() {
             });
             setId(dados.id);
             setNome(dados.nome);
-            setTelefone(dados.telefone);
+            setTelefone(dados.telefone?.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
             setCargo(dados.cargo);
             setHotel(dados.hotel);
         }
@@ -137,12 +137,24 @@ function CadastroTrabalhador() {
                             </FormGroup>
                             <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
                                 <input
-                                    type='text'
-                                    id='inputTelefone'
-                                    value={telefone}
-                                    className='form-control'
-                                    name='telefone'
-                                    onChange={(e) => setTelefone(e.target.value)}
+                                type='tel'
+                                id='inputTelefone'
+                                value={telefone}
+                                className='form-control'
+                                placeholder="(00) 00000-0000"
+                                name='telefone'
+                                onChange={(e) => {
+                                    const valor = (e.target.value.replace(/\D/g, ""));
+                                    if (valor.length <= 2) {
+                                    return setTelefone(valor);
+                                    }
+                                    if (valor.length <= 7) {
+                                    return setTelefone(valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2"));
+                                    } else {
+                                    return setTelefone(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
+                                    }
+                                    }
+                                }
                                 />
                             </FormGroup>
                             <FormGroup label='Cargo: *' htmlFor='selectCargo'>

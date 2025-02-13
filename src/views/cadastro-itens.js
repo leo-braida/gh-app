@@ -10,6 +10,7 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
 import { BASE_URL, BASE_URL2 } from '../config/axios';
+
 const baseURL = `${BASE_URL}/itens`;
 const baseURLHotel = `${BASE_URL2}/hoteis`
 

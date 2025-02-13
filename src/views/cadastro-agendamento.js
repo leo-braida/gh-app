@@ -14,7 +14,7 @@ import { BASE_URL, BASE_URL2, BASE_URL3 } from '../config/axios';
 const baseURL = `${BASE_URL3}/agendamentos`;
 const baseURLServicos = `${BASE_URL2}/servicos`;
 const baseURLHotel = `${BASE_URL2}/hoteis`;
-const baseURLFuncionario = `${BASE_URL2}/trabalhadores`;
+const baseURLTrabalhador = `${BASE_URL2}/trabalhadores`;
 const baseURLHospede = `${BASE_URL}/hospedes`;
 const baseURLQuarto = `${BASE_URL3}/quartos`;
 
@@ -26,7 +26,7 @@ function CadastroAgendamento(){
   const [id, setId] = useState('');
   const [reserva, setReserva] = useState('');
   const [servico, setServico] = useState('');
-  const [funcionario, setFuncionario] = useState('');
+  const [trabalhador, setTrabalhador] = useState('');
   const [quarto, setQuarto] = useState(0);
   const [hospede, setHospede] = useState('');
   const [hotel, setHotel] = useState('');
@@ -38,7 +38,7 @@ function CadastroAgendamento(){
       setId('');
       setReserva('');
       setServico('');
-      setFuncionario('');
+      setTrabalhador('');
       setQuarto(0);
       setHospede('');
       setHotel('');
@@ -48,7 +48,7 @@ function CadastroAgendamento(){
         setId(dados.id);
         setReserva(dados.horario);
         setServico(dados.servico);
-        setFuncionario(dados.funcionario);
+        setTrabalhador(dados.trabalhador);
         setQuarto(dados.quarto);
         setHospede(dados.hospede);
         setHotel(dados.hotel);
@@ -60,11 +60,12 @@ function CadastroAgendamento(){
       id,
       reserva,
       servico,
-      funcionario,
+      trabalhador,
       quarto,
       hospede,
       hotel,
     };
+    
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -102,7 +103,7 @@ function CadastroAgendamento(){
       setId(dados.id);
       setReserva(dados.reserva);
       setServico(dados.servico);
-      setFuncionario(dados.funcionario);
+      setTrabalhador(dados.trabalhador);
       setHospede(dados.hospede);
       setQuarto(dados.quarto);
       setHotel(dados.hotel);
@@ -110,8 +111,8 @@ function CadastroAgendamento(){
   }
 
 const [dadosServicos, setDadosServicos] = useState(null);
-const [dadosFuncionario, setDadosFuncionario] = useState(null);
-const [dadosHospedes, setDadosHospedes] = useState(null);
+const [dadosTrabalhador, setDadosTrabalhador] = useState(null);
+const [dadosHospede, setDadosHospede] = useState(null);
 const [dadosQuartos, setDadosQuartos] = useState(null);
 const [dadosHotel, setDadosHotel] = useState(null);
 
@@ -122,14 +123,14 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  axios.get(baseURLFuncionario).then((response) => {
-    setDadosFuncionario(response.data);
+  axios.get(baseURLTrabalhador).then((response) => {
+    setDadosTrabalhador(response.data);
   });
 }, []);
 
 useEffect(() => {
   axios.get(baseURLHospede).then((response) => {
-    setDadosHospedes(response.data);
+    setDadosHospede(response.data);
   });
 }, []);
 
@@ -151,8 +152,8 @@ useEffect(() => {
 
 if (!dados) return null;
 if (!dadosServicos) return null;
-if (!dadosFuncionario) return null;
-if (!dadosHospedes) return null;
+if (!dadosTrabalhador) return null;
+if (!dadosHospede) return null;
 if (!dadosQuartos) return null;
 if (!dadosHotel) return null;
 
@@ -190,45 +191,45 @@ return (
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Trabalhador: *' htmlFor='inputFuncionario'>
+              <FormGroup label='Trabalhador: *' htmlFor='selectTrabalhador'>
                 <select
                   id='selectTrabalhador'
-                  value={funcionario}
+                  value={trabalhador}
                   className='form-select'
                   name='trabalhador'
-                  onChange={(e) => setFuncionario(e.target.value)}
+                  onChange={(e) => setTrabalhador(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
-                  {dadosFuncionario.map((dado) => (
+                  {dadosTrabalhador.map((dado) => (
                     <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Hóspede: *' htmlFor='inputHospede'>
-                <select
-                  id='inputHospede'
-                  value={hospede}
-                  className='form-select'
-                  name='hospede'
-                  onChange={(e) => setHospede(e.target.value)}
-                >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
-                  {dadosHospedes.map((dado) => (
-                    <option key={dado.id} value={dado.nome}>
-                      {dado.nome}
+              <FormGroup label='Hospede: *' htmlFor='selectHospede'>
+                  <select
+                    id='selectHospede'
+                    value={hospede}
+                    className='form-select'
+                    name='hospede'
+                    onChange={(e) => setHospede(e.target.value)}
+                  >
+                    <option key='0' value='0'>
+                      {' '}
                     </option>
-                  ))}
-                </select>
-              </FormGroup>
-              <FormGroup label='Quarto: *' htmlFor='inputQuarto'>
+                    {dadosHospede.map((dado) => (
+                      <option key={dado.id} value={dado.nome}>
+                        {dado.nome}
+                      </option>
+                    ))}
+                  </select>
+                </FormGroup>         
+              <FormGroup label='Quarto: *' htmlFor='selectQuarto'>
                 <select
-                  id='inputQuarto'
+                  id='selectQuarto'
                   value={quarto}
                   className='form-select'
                   name='quarto'
