@@ -30,7 +30,6 @@ function Navbar(props) {
             />
           </ul>
         </div>
-        {/* Falta completar com os href após fazer as rotas */}
         <div className='collapse navbar-collapse' id='navbarResponsive'>
           <ul className='navbar-nav'>
             <NavbarItem

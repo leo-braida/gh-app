@@ -124,7 +124,7 @@ function CadastroQuarto(){
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
+            <FormGroup label={<strong>Tipo de Quarto: *</strong>} htmlFor='selectTipoQuarto'>
                 <select
                   id='selectTipoQuarto'
                   value={tipoDeQuarto}
@@ -142,7 +142,7 @@ function CadastroQuarto(){
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Número: *' htmlFor='inputNumero'>
+              <FormGroup label={<strong>Número: *</strong>} htmlFor='inputNumero'>
                 <input
                   type='number'
                   id='inputNumero'
@@ -152,7 +152,7 @@ function CadastroQuarto(){
                   onChange={(e) => setNumero(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Situação: *' htmlFor='inputSituacao'>
+              <FormGroup label={<strong>Situação: *</strong>} htmlFor='inputSituacao'>
                 <input
                   type='text'
                   id='inputSituacao'
@@ -162,7 +162,7 @@ function CadastroQuarto(){
                   onChange={(e) => setSituacao(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+              <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
                   value={hotel}

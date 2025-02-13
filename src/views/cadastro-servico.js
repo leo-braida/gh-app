@@ -105,7 +105,7 @@ function CadastroServico() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Nome: *' htmlFor='inputNome'>
+              <FormGroup label={<strong>Nome: *</strong>} htmlFor='inputNome'>
                 <input
                   type='text'
                   id='inputNome'
@@ -115,7 +115,7 @@ function CadastroServico() {
                   onChange={(e) => setNome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Descrição: *' htmlFor='inputDescricao'>
+              <FormGroup label={<strong>Descrição: *</strong>} htmlFor='inputDescricao'>
                 <input
                   type='text'
                   id='inputDescricao'
@@ -126,7 +126,7 @@ function CadastroServico() {
                 />
               </FormGroup>         
 
-              <FormGroup label='Preço: *' htmlFor='inputPreco'>
+              <FormGroup label={<strong>Preço: *</strong>} htmlFor='inputPreco'>
                 <input
                   type='text'
                   id='inputPreco'
@@ -140,7 +140,7 @@ function CadastroServico() {
                       }}
                 />
               </FormGroup>
-              <FormGroup label='Minutos por agendamento: *' htmlFor='inputMinutosPorAgendamento'>
+              <FormGroup label={<strong>Minutos por agendamento: *</strong>} htmlFor='inputMinutosPorAgendamento'>
                 <input
                   type='number'
                   id='inputMinutosPorAgendamento'

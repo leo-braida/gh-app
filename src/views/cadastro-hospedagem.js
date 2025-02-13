@@ -266,7 +266,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Check-in: *' htmlFor='inputCheckIn'>
+              <FormGroup label={<strong>Check-in: *</strong>} htmlFor='inputCheckIn'>
                 <input
                   type='datetime-local'
                   id='inputCkeckIn'
@@ -276,7 +276,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   onChange={(e) => setCheckIn(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Check-out: *' htmlFor='inputCheckOut'>
+              <FormGroup label={<strong>Check-out: *</strong>} htmlFor='inputCheckOut'>
                 <input
                   type='datetime-local'
                   id='inputCheckOut'
@@ -286,7 +286,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   onChange={(e) => setCheckOut(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Hóspede Responsável: *' htmlFor='selectHospede'>
+              <FormGroup label={<strong>Hóspede Responsável: *</strong>} htmlFor='selectHospede'>
                 <select
                   id='selectHospede'
                   value={hospede}
@@ -304,7 +304,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   ))}
                 </select>
               </FormGroup>   
-              <FormGroup label='Adultos: *' htmlFor='inputAdultos'>
+              <FormGroup label={<strong>Adultos: *</strong>} htmlFor='inputAdultos'>
                 <input
                   type='number'
                   id='inputAdultos'
@@ -314,7 +314,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   onChange={(e) => setAdultos(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Crianças: *' htmlFor='inputCriancas'>
+              <FormGroup label={<strong>Crianças: *</strong>} htmlFor='inputCriancas'>
                 <input
                   type='number'
                   id='inputCriancas'
@@ -324,7 +324,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   onChange={(e) => setCriancas(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Quartos: *' htmlFor='selectQuarto'>
+              <FormGroup label={<strong>Quartos: *</strong>} htmlFor='selectQuarto'>
                 <select
                   id='selectQuarto'
                   value={idQuarto}
@@ -366,7 +366,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   </div>
                 ))}
               </FormGroup>
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+              <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
                   value={hotel}
@@ -384,7 +384,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label={<strong> Itens Extras: *</strong>} htmlFor='selectItem'>
+              <FormGroup label={<strong>Itens Extras:</strong>} htmlFor='selectItem'>
                 {dadosItens.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
@@ -411,7 +411,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                 ))}
               </FormGroup>
        
-              <FormGroup label={<strong>Camas extras: </strong>} htmlFor='selectCama'>
+              <FormGroup label={<strong>Camas extras:</strong>} htmlFor='selectCama'>
                 {dadosCamas.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">

@@ -153,7 +153,7 @@ function CadastroHospede() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Nome: *' htmlFor='inputNome'>
+              <FormGroup label={<strong>Nome: *</strong>} htmlFor='inputNome'>
                 <input
                   type='text'
                   id='inputNome'
@@ -163,7 +163,7 @@ function CadastroHospede() {
                   onChange={(e) => setNome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Gênero: *' htmlFor='inputGenero'>
+              <FormGroup label={<strong>Gênero: *</strong>} htmlFor='inputGenero'>
                 <input
                   type='text'
                   id='inputGenero'
@@ -173,7 +173,7 @@ function CadastroHospede() {
                   onChange={(e) => setGenero(e.target.value)}
                 />
               </FormGroup>         
-              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+              <FormGroup label={<strong>Telefone: *</strong>} htmlFor='inputTelefone'>
                 <input
                   type='tel'
                   id='inputTelefone'
@@ -196,7 +196,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
               
-              <FormGroup label='E-mail: *' htmlFor='inputEmail'>
+              <FormGroup label={<strong>E-mail: *</strong>} htmlFor='inputEmail'>
                 <input
                   type='email'
                   id='inputEmail'
@@ -207,7 +207,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
               
-              <FormGroup label='CPF: *' htmlFor='inputCpf'>
+              <FormGroup label={<strong>CPF: *</strong>} htmlFor='inputCpf'>
                 <input
                   type='text'
                   id='inputCpf'
@@ -218,7 +218,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='Estado: *' htmlFor='inputEstado'>
+              <FormGroup label={<strong>Estado: *</strong>} htmlFor='inputEstado'>
                 <input
                   type='text'
                   id='inputEstado'
@@ -229,7 +229,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='Cidade: *' htmlFor='inputCidade'>
+              <FormGroup label={<strong>Cidade: *</strong>} htmlFor='inputCidade'>
                 <input
                   type='text'
                   id='inputCidade'
@@ -240,7 +240,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='CEP: *' htmlFor='inputCep'>
+              <FormGroup label={<strong>CEP: *</strong>} htmlFor='inputCep'>
                 <input
                   type='text'
                   id='inputCep'
@@ -251,7 +251,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='Bairro: *' htmlFor='inputBairro'>
+              <FormGroup label={<strong>Bairro: *</strong>} htmlFor='inputBairro'>
                 <input
                   type='text'
                   id='inputBairro'
@@ -262,7 +262,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='Logradouro: *' htmlFor='inputLogradouro'>
+              <FormGroup label={<strong>Logradouro: *</strong>} htmlFor='inputLogradouro'>
                 <input
                   type='text'
                   id='inputLogradouro'
@@ -273,7 +273,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='Número: *' htmlFor='inputNumero'>
+              <FormGroup label={<strong>Número: *</strong>} htmlFor='inputNumero'>
                 <input
                   type='text'
                   id='inputNumero'
@@ -284,7 +284,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='Complemento: *' htmlFor='inputComplemento'>
+              <FormGroup label={<strong>Complemento: *</strong>} htmlFor='inputComplemento'>
                 <input
                   type='text'
                   id='inputComplemento'
@@ -295,7 +295,7 @@ function CadastroHospede() {
                 />
               </FormGroup>
 
-              <FormGroup label='Data de Nascimento: *' htmlFor='inputDataNasc'>
+              <FormGroup label={<strong>Data de Nascimento: *</strong>} htmlFor='inputDataNasc'>
                 <input
                   type='date'
                   id='inputDataNasc'

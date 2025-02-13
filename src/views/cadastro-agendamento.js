@@ -163,7 +163,7 @@ return (
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Reserva: *' htmlFor='inputReserva'>
+              <FormGroup label={<strong>Reserva: *</strong>} htmlFor='inputReserva'>
                 <input
                   type='datetime-local'
                   id='inputReserva'
@@ -173,7 +173,7 @@ return (
                   onChange={(e) => setReserva(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Serviço: *' htmlFor='selectServicos'>
+              <FormGroup label={<strong>Serviço: *</strong>} htmlFor='selectServicos'>
                 <select
                   id='selectServicos'
                   value={servico}
@@ -191,7 +191,7 @@ return (
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Trabalhador: *' htmlFor='selectTrabalhador'>
+              <FormGroup label={<strong>Trabalhador: *</strong>} htmlFor='selectTrabalhador'>
                 <select
                   id='selectTrabalhador'
                   value={funcionario}
@@ -209,7 +209,7 @@ return (
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Hospede: *' htmlFor='selectHospedeRegistrado'>
+              <FormGroup label={<strong>Hospede: *</strong>} htmlFor='selectHospedeRegistrado'>
                   <select
                     id='selectHospedeRegistrado'
                     value={hospedeRegistrado}
@@ -227,7 +227,7 @@ return (
                     ))}
                   </select>
                 </FormGroup>         
-              <FormGroup label='Quarto: *' htmlFor='selectQuarto'>
+              <FormGroup label={<strong>Quarto: *</strong>} htmlFor='selectQuarto'>
                 <select
                   id='selectQuarto'
                   value={quarto}
@@ -245,7 +245,7 @@ return (
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+              <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
                   value={hotel}

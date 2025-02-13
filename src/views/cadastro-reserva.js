@@ -214,7 +214,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
           <div className='row'>
             <div className='col-lg-12'>
               <div className='bs-component'>
-                <FormGroup label='Chegada: *' htmlFor='inputChegada'>
+                <FormGroup label={<strong>Chegada: *</strong>} htmlFor='inputChegada'>
                   <input
                     type='datetime-local'
                     id='inputChegada'
@@ -224,7 +224,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                     onChange={(e) => setChegada(e.target.value)}
                   />
                 </FormGroup>
-                <FormGroup label='Saída: *' htmlFor='inputSaida'>
+                <FormGroup label={<strong>Saída: *</strong>} htmlFor='inputSaida'>
                   <input
                     type='datetime-local'
                     id='inputSaida'
@@ -234,7 +234,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                     onChange={(e) => setSaida(e.target.value)}
                   />
                 </FormGroup>
-                <FormGroup label='Hospede: *' htmlFor='selectHospede'>
+                <FormGroup label={<strong>Hospede: *</strong>} htmlFor='selectHospede'>
                   <select
                     id='selectHospede'
                     value={hospede}
@@ -252,7 +252,7 @@ const handleQuantidadeChange = (id, quantidade, setSelected) =>{
                     ))}
                   </select>
                 </FormGroup>         
-                <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                   <select
                     id='selectHotel'
                     value={hotel}

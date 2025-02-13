@@ -95,7 +95,7 @@ function CadastroCargo() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Nome: *' htmlFor='inputNome'>
+              <FormGroup label={<strong>Nome: *</strong>} htmlFor='inputNome'>
                 <input
                   type='text'
                   id='inputNome'
@@ -105,7 +105,7 @@ function CadastroCargo() {
                   onChange={(e) => setNome(e.target.value)}
                 />
               </FormGroup>       
-              <FormGroup label='Descrição: *' htmlFor='inputDescricao'>
+              <FormGroup label={<strong>Descrição: *</strong>} htmlFor='inputDescricao'>
                 <input
                   type='text'
                   id='inputDescricao'

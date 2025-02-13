@@ -144,7 +144,7 @@ function CadastroItem() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Nome: *' htmlFor='inputNome'>
+              <FormGroup label={<strong>Nome: *</strong>} htmlFor='inputNome'>
                 <input
                   type='text'
                   id='inputNome'
@@ -154,7 +154,7 @@ function CadastroItem() {
                   onChange={(e) => setNome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Quantidade Em Estoque: *' htmlFor='inputQuantidadeEmEstoque'>
+              <FormGroup label={<strong>Quantidade Em Estoque: *</strong>} htmlFor='inputQuantidadeEmEstoque'>
                 <input
                   type='number'
                   id='inputQuantidadeEmEstoque'
@@ -164,7 +164,7 @@ function CadastroItem() {
                   onChange={(e) => setQuantidadeEmEstoque(e.target.value)}
                 />
               </FormGroup>         
-              <FormGroup label='Preço: *' htmlFor='inputPreco'>
+              <FormGroup label={<strong>Preço: *</strong>} htmlFor='inputPreco'>
                 <input
                   type='text'
                   id='inputPreco'
@@ -178,7 +178,7 @@ function CadastroItem() {
                       }}
                 />
               </FormGroup>
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+              <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                 
                 <select
                   id='selectHotel'

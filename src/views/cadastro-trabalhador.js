@@ -125,7 +125,7 @@ function CadastroTrabalhador() {
                 <div className='row'>
                     <div className='col-lg-12'>
                         <div className='bs-component'>
-                            <FormGroup label='Nome: *' htmlFor='inputNome'>
+                            <FormGroup label={<strong>Nome: *</strong>} htmlFor='inputNome'>
                                 <input
                                     type='text'
                                     id='inputNome'
@@ -135,7 +135,7 @@ function CadastroTrabalhador() {
                                     onChange={(e) => setNome(e.target.value)}
                                 />
                             </FormGroup>
-                            <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+                            <FormGroup label={<strong>Telefone: *</strong>} htmlFor='inputTelefone'>
                                 <input
                                 type='tel'
                                 id='inputTelefone'
@@ -157,7 +157,7 @@ function CadastroTrabalhador() {
                                 }
                                 />
                             </FormGroup>
-                            <FormGroup label='Cargo: *' htmlFor='selectCargo'>
+                            <FormGroup label={<strong>Cargo: *</strong>} htmlFor='selectCargo'>
                                 <select
                                     id='selectCargo'
                                     value={cargo}
@@ -175,7 +175,7 @@ function CadastroTrabalhador() {
                                     ))}
                                 </select>
                             </FormGroup>
-                            <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                            <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                                 <select
                                     id='selectHotel'
                                     value={hotel}
