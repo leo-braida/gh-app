@@ -100,7 +100,7 @@ function CadastroTipoCama() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Tipo: *' htmlFor='inputTipo'>
+              <FormGroup label={<strong> Tipo: *</strong>} htmlFor='inputTipo'>
                 <input
                   type='text'
                   id='inputTipo'
@@ -110,7 +110,7 @@ function CadastroTipoCama() {
                   onChange={(e) => setTipo(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Quantidade de adultos: *' htmlFor='inputQuantidadeAdultos'>
+              <FormGroup label={<strong> Quantidade de adultos: *</strong>} htmlFor='inputQuantidadeAdultos'>
                 <input
                   type='number'
                   id='inputQuantidadeAdultos'
@@ -120,7 +120,7 @@ function CadastroTipoCama() {
                   onChange={(e) => setQuantidadeAdultos(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Quantidade de crianças: *' htmlFor='inputQuantidadeCriancas'>
+              <FormGroup label={<strong> Quantidade de crianças: *</strong>} htmlFor='inputQuantidadeCriancas'>
                 <input
                   type='number'
                   id='inputQuantidadeCriancas'

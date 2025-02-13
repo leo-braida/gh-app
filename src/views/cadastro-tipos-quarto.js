@@ -178,7 +178,7 @@ if (!dadosItens) return null;
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Tipo: *' htmlFor='inputTipo'>
+              <FormGroup label={<strong> Tipo: *</strong>} htmlFor='inputTipo'>
                 <input
                   type='text'
                   id='inputTipo'
@@ -188,7 +188,7 @@ if (!dadosItens) return null;
                   onChange={(e) => setTipo(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Quantidade: *' htmlFor='inputQuantidadeTotal'>
+              <FormGroup label={<strong> Quantidade: *</strong>} htmlFor='inputQuantidadeTotal'>
                 <input
                   type='number'
                   id='inputQuantidadeTotal'
@@ -198,7 +198,7 @@ if (!dadosItens) return null;
                   onChange={(e) => setQuantidadeTotal(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Preço: *' htmlFor='inputPreco'>
+              <FormGroup label={<strong> Preço: *</strong>} htmlFor='inputPreco'>
                 <input
                   type='text'
                   id='inputPreco'
@@ -213,7 +213,7 @@ if (!dadosItens) return null;
                       }}
                 />
               </FormGroup>         
-              <FormGroup label='Camas: *' htmlFor='selectCama'>
+              <FormGroup label={<strong> Camas: *</strong>} htmlFor='selectCama'>
                 {dadosCamas.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
@@ -239,7 +239,7 @@ if (!dadosItens) return null;
                   </div>
                 ))}
               </FormGroup>
-              <FormGroup label='Itens: *' htmlFor='selectItem'>
+              <FormGroup label={<strong> Itens: *</strong>} htmlFor='selectItem'>
                 {dadosItens.map((dado) => (
                   <div key={dado.id} className="flex items-center gap-2">
                     <label key={dado.id} className="flex items-center gap-2">
