@@ -41,7 +41,7 @@ function CadastroServico() {
       setId(dados.id);
       setNome(dados.nome);
       setDescricao(dados.descricao);
-      setPreco(dados.preco);
+      setPreco(`R$ ${dados.preco}`);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
       setIdTrabalhadores(dados.idTrabalhadores);
     } 
@@ -93,7 +93,7 @@ function CadastroServico() {
       setId(dados.id);
       setNome(dados.nome);
       setDescricao(dados.descricao);
-      setPreco(dados.preco);
+      setPreco(`R$ ${dados.preco}`);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
       setIdTrabalhadores(dados.idTrabalhadores);
     }
@@ -139,17 +139,21 @@ function CadastroServico() {
                   onChange={(e) => setDescricao(e.target.value)}
                 />
               </FormGroup>         
+
               <FormGroup label='Preço: *' htmlFor='inputPreco'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputPreco'
                   value={preco}
                   className='form-control'
                   name='preco'
-                  onChange={(e) => setPreco(e.target.value)}
+                  onChange={(e) => {
+                      let valor = (e.target.value.replace(/[^\d,]/g, ""));
+                      valor = `R$ ${valor}`;
+                      setPreco(valor);
+                      }}
                 />
               </FormGroup>
-        
               <FormGroup label='Minutos por agendamento: *' htmlFor='inputMinutosPorAgendamento'>
                 <input
                   type='number'

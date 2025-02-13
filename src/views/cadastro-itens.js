@@ -40,7 +40,7 @@ function CadastroItem() {
         setId(dados.id);
         setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
-        setPreco(dados.preco);
+        setPreco(`R$ ${dados.preco}`);
         setHotel(dados.hotel);
         setSelectedHotel(processarSelecionados(dados.hotel));
     }
@@ -91,7 +91,7 @@ function CadastroItem() {
         setId(dados.id);
         setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
-        setPreco(dados.preco);
+        setPreco(`R$ ${dados.preco}`);
         setHotel(dados.hotel);
     }
   }
@@ -166,12 +166,16 @@ function CadastroItem() {
               </FormGroup>         
               <FormGroup label='Preço: *' htmlFor='inputPreco'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputPreco'
                   value={preco}
                   className='form-control'
                   name='preco'
-                  onChange={(e) => setPreco(e.target.value)}
+                  onChange={(e) => {
+                      let valor = (e.target.value.replace(/[^\d,]/g, ""));
+                      valor = `R$ ${valor}`;
+                      setPreco(valor);
+                      }}
                 />
               </FormGroup>
               <FormGroup label='Hotel: *' htmlFor='selectHotel'>

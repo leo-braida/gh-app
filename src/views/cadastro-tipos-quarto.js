@@ -43,7 +43,7 @@ function CadastroTipoQuarto() {
         setId(dados.id);
         setTipo(dados.tipo);
         setQuantidadeTotal(dados.quantidadeTotal);
-        setPreco(dados.preco);
+        setPreco(`R$ ${dados.preco}`);
         setIdCama(dados.idCama);
         setIdItem(dados.idItem);
         setSelectedCamas(processarSelecionados(dados.camas));
@@ -97,7 +97,7 @@ function CadastroTipoQuarto() {
       setId(dados.id);
       setTipo(dados.tipo);
       setQuantidadeTotal(dados.quantidadeTotal);
-      setPreco(dados.preco);
+      setPreco(`R$ ${dados.preco}`);
       setIdCama(dados.idCama);
       setIdItem(dados.idItem);
     }
@@ -200,12 +200,17 @@ if (!dadosItens) return null;
               </FormGroup>
               <FormGroup label='Preço: *' htmlFor='inputPreco'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputPreco'
                   value={preco}
                   className='form-control'
                   name='preco'
-                  onChange={(e) => setPreco(e.target.value)}
+                  onChange={(e) => {
+                      let valor = (e.target.value.replace(/[^\d,]/g, ""));
+                      valor = `R$ ${valor}`;
+
+                      setPreco(valor);
+                      }}
                 />
               </FormGroup>         
               <FormGroup label='Camas: *' htmlFor='selectCama'>

@@ -87,7 +87,7 @@ function ListagemItens() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.quantidadeEmEstoque}</td>
-                      <td>{dado.preco}</td>
+                      <td>{dado.preco.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</td>
                       <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

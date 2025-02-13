@@ -95,7 +95,7 @@ function ListagemTiposQuarto() {
                     <tr key={dado.id}>
                       <td>{dado.tipo}</td>
                       <td>{dado.quantidadeTotal}</td>
-                      <td>{dado.preco}</td>
+                      <td>{dado.preco.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</td>
                       <td>
                         {dado.camas.split("\n").map((linha, index) => (
                           <p key={index}>{linha}</p>
