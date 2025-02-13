@@ -12,7 +12,6 @@ import axios from 'axios';
 import { BASE_URL2 } from '../config/axios';
 
 const baseURL = `${BASE_URL2}/servicos`;
-const baseURLTrabalhadores = `${BASE_URL2}/trabalhadores`;
 
 function CadastroServico() {
   const { idParam } = useParams();
@@ -24,7 +23,6 @@ function CadastroServico() {
   const [descricao, setDescricao] = useState('');
   const [preco, setPreco] = useState(0);
   const [minutosPorAgendamento, setMinutosPorAgendamento] = useState(0);
-  const [idTrabalhadores, setIdTrabalhadores] = useState(null);
  
   const [dados, setDados] = useState([]);
   
@@ -35,7 +33,6 @@ function CadastroServico() {
       setDescricao('');
       setPreco(0);
       setMinutosPorAgendamento(0);
-      setIdTrabalhadores(null)
     } 
     else {
       setId(dados.id);
@@ -43,7 +40,6 @@ function CadastroServico() {
       setDescricao(dados.descricao);
       setPreco(dados.preco);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
-      setIdTrabalhadores(dados.idTrabalhadores);
     } 
   }
 
@@ -53,8 +49,7 @@ function CadastroServico() {
       nome,
       descricao,
       preco,
-      minutosPorAgendamento,
-      idTrabalhadores,
+      minutosPorAgendamento
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -95,23 +90,14 @@ function CadastroServico() {
       setDescricao(dados.descricao);
       setPreco(dados.preco);
       setMinutosPorAgendamento(dados.minutosPorAgendamento);
-      setIdTrabalhadores(dados.idTrabalhadores);
     }
   }
-
-  const [dadosTrabalhadores, setDadosTrabalhadores] = useState(null);
-  useEffect(() => {
-    axios.get(baseURLTrabalhadores).then((response) => {
-      setDadosTrabalhadores(response.data);
-    })
-  }, []);
 
   useEffect(() => {
     buscar();
   }, [id]);
 
   if (!dados) return null;
-  if (!dadosTrabalhadores) return null;
 
   return (
     <div className='container'>
@@ -159,27 +145,6 @@ function CadastroServico() {
                   name='minutosPorAgendamento'
                   onChange={(e) => setMinutosPorAgendamento(e.target.value)}
                 />
-              </FormGroup>
-
-              
-              <FormGroup label="Selecione os trabalhadores: " htmlFor="selectTrabalhadores">
-                <select
-                  id='selectTrabalhador'
-                  multiple
-                  value={idTrabalhadores}
-                  className='form-select'
-                  name='idTrabalhador'
-                  onChange={(e) => setIdTrabalhadores(Array.from(e.target.selectedOptions, (option) => option.value))}
-                >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
-                  {dadosTrabalhadores.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
               </FormGroup>
 
               <Stack spacing={1} padding={1} direction='row'>

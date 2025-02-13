@@ -15,7 +15,7 @@ const baseURL = `${BASE_URL3}/agendamentos`;
 const baseURLServicos = `${BASE_URL2}/servicos`;
 const baseURLHotel = `${BASE_URL2}/hoteis`;
 const baseURLTrabalhador = `${BASE_URL2}/trabalhadores`;
-const baseURLHospede = `${BASE_URL}/hospedes`;
+const baseURLHospedeRegistrado = `${BASE_URL}/hospedes`;
 const baseURLQuarto = `${BASE_URL3}/quartos`;
 
 function CadastroAgendamento(){
@@ -26,9 +26,9 @@ function CadastroAgendamento(){
   const [id, setId] = useState('');
   const [reserva, setReserva] = useState('');
   const [servico, setServico] = useState('');
-  const [trabalhador, setTrabalhador] = useState('');
+  const [funcionario, setFuncionario] = useState('');
   const [quarto, setQuarto] = useState(0);
-  const [hospede, setHospede] = useState('');
+  const [hospedeRegistrado, setHospedeRegistrado] = useState('');
   const [hotel, setHotel] = useState('');
 
   const [dados, setDados] = useState([]);
@@ -38,9 +38,9 @@ function CadastroAgendamento(){
       setId('');
       setReserva('');
       setServico('');
-      setTrabalhador('');
+      setFuncionario('');
       setQuarto(0);
-      setHospede('');
+      setHospedeRegistrado('');
       setHotel('');
       
     } 
@@ -48,9 +48,9 @@ function CadastroAgendamento(){
         setId(dados.id);
         setReserva(dados.horario);
         setServico(dados.servico);
-        setTrabalhador(dados.trabalhador);
+        setFuncionario(dados.funcionario);
         setQuarto(dados.quarto);
-        setHospede(dados.hospede);
+        setHospedeRegistrado(dados.hospedeRegistrado);
         setHotel(dados.hotel);
     } 
   }
@@ -60,9 +60,9 @@ function CadastroAgendamento(){
       id,
       reserva,
       servico,
-      trabalhador,
+      funcionario,
       quarto,
-      hospede,
+      hospedeRegistrado,
       hotel,
     };
     
@@ -103,8 +103,8 @@ function CadastroAgendamento(){
       setId(dados.id);
       setReserva(dados.reserva);
       setServico(dados.servico);
-      setTrabalhador(dados.trabalhador);
-      setHospede(dados.hospede);
+      setFuncionario(dados.funcionario);
+      setHospedeRegistrado(dados.hospedeRegistrado);
       setQuarto(dados.quarto);
       setHotel(dados.hotel);
     }
@@ -112,7 +112,7 @@ function CadastroAgendamento(){
 
 const [dadosServicos, setDadosServicos] = useState(null);
 const [dadosTrabalhador, setDadosTrabalhador] = useState(null);
-const [dadosHospede, setDadosHospede] = useState(null);
+const [dadosHospedeRegistrado, setDadosHospedeRegistrado] = useState(null);
 const [dadosQuartos, setDadosQuartos] = useState(null);
 const [dadosHotel, setDadosHotel] = useState(null);
 
@@ -129,8 +129,8 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  axios.get(baseURLHospede).then((response) => {
-    setDadosHospede(response.data);
+  axios.get(baseURLHospedeRegistrado).then((response) => {
+    setDadosHospedeRegistrado(response.data);
   });
 }, []);
 
@@ -153,7 +153,7 @@ useEffect(() => {
 if (!dados) return null;
 if (!dadosServicos) return null;
 if (!dadosTrabalhador) return null;
-if (!dadosHospede) return null;
+if (!dadosHospedeRegistrado) return null;
 if (!dadosQuartos) return null;
 if (!dadosHotel) return null;
 
@@ -194,10 +194,10 @@ return (
               <FormGroup label='Trabalhador: *' htmlFor='selectTrabalhador'>
                 <select
                   id='selectTrabalhador'
-                  value={trabalhador}
+                  value={funcionario}
                   className='form-select'
                   name='trabalhador'
-                  onChange={(e) => setTrabalhador(e.target.value)}
+                  onChange={(e) => setFuncionario(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
@@ -209,18 +209,18 @@ return (
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Hospede: *' htmlFor='selectHospede'>
+              <FormGroup label='Hospede: *' htmlFor='selectHospedeRegistrado'>
                   <select
-                    id='selectHospede'
-                    value={hospede}
+                    id='selectHospedeRegistrado'
+                    value={hospedeRegistrado}
                     className='form-select'
                     name='hospede'
-                    onChange={(e) => setHospede(e.target.value)}
+                    onChange={(e) => setHospedeRegistrado(e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
                     </option>
-                    {dadosHospede.map((dado) => (
+                    {dadosHospedeRegistrado.map((dado) => (
                       <option key={dado.id} value={dado.nome}>
                         {dado.nome}
                       </option>
