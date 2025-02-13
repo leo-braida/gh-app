@@ -133,7 +133,7 @@ function CadastroHotel() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Nome: *' htmlFor='inputNome'>
+              <FormGroup label={<strong> Nome: *</strong>} htmlFor='inputNome'>
                 <input
                   type='text'
                   id='inputNome'
@@ -143,7 +143,7 @@ function CadastroHotel() {
                   onChange={(e) => setNome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Estado: *' htmlFor='inputEstado'>
+              <FormGroup label={<strong> Estado: *</strong>} htmlFor='inputEstado'>
                 <input
                   type='text'
                   id='inputEstado'
@@ -153,7 +153,7 @@ function CadastroHotel() {
                   onChange={(e) => setEstado(e.target.value)}
                 />
               </FormGroup>         
-              <FormGroup label='Cidade: *' htmlFor='inputCidade'>
+              <FormGroup label={<strong> Cidade: *</strong>} htmlFor='inputCidade'>
                 <input
                   type='text'
                   id='inputCidade'
@@ -164,7 +164,7 @@ function CadastroHotel() {
                 />
               </FormGroup>
               
-              <FormGroup label='Cep: *' htmlFor='inputCep'>
+              <FormGroup label={<strong> Cep: *</strong>} htmlFor='inputCep'>
                 <input
                   type='text'
                   id='inputCep'
@@ -174,7 +174,7 @@ function CadastroHotel() {
                   onChange={(e) => setCep(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Bairro: *' htmlFor='inputBairro'>
+              <FormGroup label={<strong> Bairro: *</strong>} htmlFor='inputBairro'>
                 <input
                   type='text'
                   id='inputBairro'
@@ -184,7 +184,7 @@ function CadastroHotel() {
                   onChange={(e) => setBairro(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Logradouro: *' htmlFor='inputLogradouro'>
+              <FormGroup label={<strong> Logradouro: *</strong>} htmlFor='inputLogradouro'>
                 <input
                   type='text'
                   id='inputLogradouro'
@@ -194,7 +194,7 @@ function CadastroHotel() {
                   onChange={(e) => setLogradouro(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Número: *' htmlFor='inputNumero'>
+              <FormGroup label={<strong> Número: *</strong>} htmlFor='inputNumero'>
                 <input
                   type='text'
                   id='inputNumero'
@@ -204,7 +204,7 @@ function CadastroHotel() {
                   onChange={(e) => setNumero(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+              <FormGroup label={<strong> Telefone: *</strong>} htmlFor='inputTelefone'>
                 <input
                   type='tel'
                   id='inputTelefone'
@@ -226,7 +226,7 @@ function CadastroHotel() {
                   }
                 />
               </FormGroup>
-              <FormGroup label='Celular: *' htmlFor='inputCelular'>
+              <FormGroup label={<strong> Celular: *</strong>} htmlFor='inputCelular'>
                 <input
                   type='text'
                   id='inputCelular'
@@ -247,7 +247,7 @@ function CadastroHotel() {
                   }
                 />
               </FormGroup>
-              <FormGroup label='Email: *' htmlFor='inputEmail'>
+              <FormGroup label={<strong> Email: *</strong>} htmlFor='inputEmail'>
                 <input
                   type='text'
                   id='inputEmail'

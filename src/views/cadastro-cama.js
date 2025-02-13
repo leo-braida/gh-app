@@ -129,7 +129,7 @@ function CadastroTipoCama() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Tipo de Cama: *' htmlFor='selectTipoDeCama'>
+              <FormGroup label={<strong> Tipo de cama: *</strong>} htmlFor='selectTipoDeCama'>
                   <select
                     id='selectTipoDeCama'
                     value={tipo}
@@ -147,7 +147,7 @@ function CadastroTipoCama() {
                     ))}
                   </select>
               </FormGroup>
-              <FormGroup label='Quantidade: *' htmlFor='inputQuantidade'>
+              <FormGroup label={<strong> Quantidade: *</strong>} htmlFor='inputQuantidade'>
                 <input
                   type='number'
                   id='inputQuantidade'
@@ -157,7 +157,7 @@ function CadastroTipoCama() {
                   onChange={(e) => setQuantidade(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+              <FormGroup label={<strong> Hotel: *</strong>} htmlFor='selectHotel'>
                   <select
                     id='selectHotel'
                     value={hotel}
@@ -175,7 +175,7 @@ function CadastroTipoCama() {
                     ))}
                   </select>
               </FormGroup>
-              <FormGroup label='Quantidade de adultos: *' htmlFor='inputQuantidadeAdultos'>
+              <FormGroup label={<strong> Quantidade de adultos: *</strong>} htmlFor='inputQuantidadeAdultos'>
                 <input
                   type='number'
                   id='inputQuantidadeAdultos'
@@ -186,7 +186,7 @@ function CadastroTipoCama() {
                 />
               </FormGroup>
               
-              <FormGroup label='Quantidade de crianças: *' htmlFor='inputQuantidadeCriancas'>
+              <FormGroup label={<strong> Quantidade de crianças: *</strong>} htmlFor='inputQuantidadeCriancas'>
                 <input
                   type='number'
                   id='inputQuantidadeCriancas'
