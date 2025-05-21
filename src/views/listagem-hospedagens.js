@@ -112,6 +112,10 @@ function ListagemHospedagens() {
                       <td>{dado.criancas}</td>
                       <td>{dado.quarto}</td> 
                       <td>{dado.servicos}</td>
+<<<<<<< Updated upstream
+=======
+                      <td>{dado.itensExtras}</td>
+>>>>>>> Stashed changes
                       <td>{dado.reserva}</td>
                       <td>{dado.hotel}</td>
                       <td>
