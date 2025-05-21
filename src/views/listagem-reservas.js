@@ -91,7 +91,6 @@ function ListagemReservas() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-<<<<<<< Updated upstream
                       <td>{new Date(dado.chegada).toLocaleDateString("pt-br")} {new Date(dado.chegada).toLocaleTimeString("pt-br", {
                         hour: "2-digit",
                         minute: "2-digit"
@@ -109,12 +108,6 @@ function ListagemReservas() {
                           )
                         )}
                       </td>
-=======
-                      <td>{dado.chegada}</td>
-                      <td>{dado.saida}</td>
-                      <td>{dado.hospede}</td>
-                      <td>{dado.tiposDeQuarto}</td>
->>>>>>> Stashed changes
                       <td>{dado.hotel}</td>
                       <td>
                         {dado.itensExtras !== undefined && (
