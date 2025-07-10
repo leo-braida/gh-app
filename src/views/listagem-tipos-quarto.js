@@ -15,7 +15,7 @@ import axios from 'axios';
 import { BASE_URL3 } from '../config/axios';
 
 
-const baseURL = `${BASE_URL3}/tipoDequartos`;
+const baseURL = `${BASE_URL3}/tiposDeQuarto`;
 
 function ListagemTiposQuarto() {
   const navigate = useNavigate();

@@ -11,8 +11,8 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL, BASE_URL3 } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/tipoDeQuartos`;
-const baseURLCamas = `${BASE_URL}/tipoDeCama`;
+const baseURL = `${BASE_URL3}/tiposDeQuarto`;
+const baseURLCamas = `${BASE_URL}/tiposDeCama`;
 const baseURLItens = `${BASE_URL}/itens`;
 function CadastroTipoQuarto() {
   const { idParam } = useParams();

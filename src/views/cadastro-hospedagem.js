@@ -9,15 +9,15 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL2, BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/hospedagens`;
+const baseURL = `${BASE_URL}/hospedagens`;
 const baseURLHospede = `${BASE_URL}/hospedes`;
-const baseURLQuarto = `${BASE_URL3}/quartos`;
-const baseURLServico = `${BASE_URL2}/servicos`;
+const baseURLQuarto = `${BASE_URL}/quartos`;
+const baseURLServico = `${BASE_URL}/servicos`;
 const baseURLItem = `${BASE_URL}/itens`;
-const baseURLHotel = `${BASE_URL2}/hoteis`;
-const baseURLCama = `${BASE_URL3}/camas`;
+const baseURLHotel = `${BASE_URL}/hoteis`;
+const baseURLCama = `${BASE_URL}/camas`;
 
 function CadastroHospedagem() {
   const { idParam } = useParams();

@@ -11,7 +11,7 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/tipoDeCama`;
+const baseURL = `${BASE_URL}/tiposDeCama`;
 
 function CadastroTipoCama() {
   const { idParam } = useParams();

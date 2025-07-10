@@ -13,7 +13,7 @@ import { BASE_URL, BASE_URL3, BASE_URL2 } from '../config/axios';
 
 const baseURL = `${BASE_URL}/reservas`;
 const baseURLHospede = `${BASE_URL}/hospedes`;
-const baseURLTipoQuarto = `${BASE_URL3}/tipoDeQuartos`;
+const baseURLTipoQuarto = `${BASE_URL3}/tiposDeQuarto`;
 const baseURLHotel = `${BASE_URL2}/hoteis`;
 const baseURLItem = `${BASE_URL}/itens`;
 const baseURLCama = `${BASE_URL3}/camas`;

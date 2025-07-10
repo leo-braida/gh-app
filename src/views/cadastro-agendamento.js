@@ -9,14 +9,14 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL2, BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/agendamentos`;
-const baseURLServicos = `${BASE_URL2}/servicos`;
-const baseURLHotel = `${BASE_URL2}/hoteis`;
-const baseURLTrabalhador = `${BASE_URL2}/trabalhadores`;
+const baseURL = `${BASE_URL}/agendamentos`;
+const baseURLServicos = `${BASE_URL}/servicos`;
+const baseURLHotel = `${BASE_URL}/hoteis`;
+const baseURLTrabalhador = `${BASE_URL}/trabalhadores`;
 const baseURLHospedeRegistrado = `${BASE_URL}/hospedes`;
-const baseURLQuarto = `${BASE_URL3}/quartos`;
+const baseURLQuarto = `${BASE_URL}/quartos`;
 
 function CadastroAgendamento(){
   const { idParam } = useParams();
