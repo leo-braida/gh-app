@@ -12,7 +12,7 @@ import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/camas`;
-const baseURLTipoDeCama = `${BASE_URL}/tipoDeCama`;
+const baseURLTipoDeCama = `${BASE_URL}/tiposDeCama`;
 const baseURLHotel = `${BASE_URL}/hoteis`;
 
 function CadastroTipoCama() {

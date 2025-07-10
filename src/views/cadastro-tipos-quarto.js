@@ -9,9 +9,9 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/tiposDeQuarto`;
+const baseURL = `${BASE_URL}/tiposDeQuarto`;
 const baseURLCamas = `${BASE_URL}/tiposDeCama`;
 const baseURLItens = `${BASE_URL}/itens`;
 function CadastroTipoQuarto() {

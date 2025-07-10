@@ -9,14 +9,14 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL3, BASE_URL2 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/reservas`;
 const baseURLHospede = `${BASE_URL}/hospedes`;
-const baseURLTipoQuarto = `${BASE_URL3}/tiposDeQuarto`;
-const baseURLHotel = `${BASE_URL2}/hoteis`;
+const baseURLTipoQuarto = `${BASE_URL}/tiposDeQuarto`;
+const baseURLHotel = `${BASE_URL}/hoteis`;
 const baseURLItem = `${BASE_URL}/itens`;
-const baseURLCama = `${BASE_URL3}/camas`;
+const baseURLCama = `${BASE_URL}/camas`;
 
 function CadastroReserva(){
     const { idParam } = useParams();
