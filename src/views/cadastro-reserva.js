@@ -9,12 +9,14 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL3, BASE_URL2 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/reservas`;
 const baseURLHospede = `${BASE_URL}/hospedes`;
-const baseURLTipoQuarto = `${BASE_URL3}/tipoDeQuartos`;
-const baseURLHotel = `${BASE_URL2}/hoteis`;
+const baseURLTipoQuarto = `${BASE_URL}/tiposDeQuarto`;
+const baseURLHotel = `${BASE_URL}/hoteis`;
+const baseURLItem = `${BASE_URL}/itens`;
+const baseURLCama = `${BASE_URL}/camas`;
 
 function CadastroReserva(){
     const { idParam } = useParams();
@@ -22,40 +24,51 @@ function CadastroReserva(){
     const navigate = useNavigate();
   
     const [id, setId] = useState('');
-    const [dataChegada, setDataChegada] = useState('');
-    const [dataSaida, setDataSaida] = useState('');
-    const [idHospede, setIdHospede] = useState('');
+    const [chegada, setChegada] = useState('');
+    const [saida, setSaida] = useState('');
+    const [hospede, setHospede] = useState('');
     const [idTipoQuarto, setIdTipoQuarto] = useState('');
     const [dados, setDados] = useState([]);
-    const [idHotel, setIdHotel] = useState('');
+    const [hotel, setHotel] = useState('');
+    const [idCamas, setIdCamas] = useState('');
+    const [idItens, setIdItens] = useState('');
   
     function inicializar() {
       if (idParam == null) {
         setId('');
-        setDataChegada('');
-        setDataSaida('');
-        setIdHospede('');
+        setChegada('');
+        setSaida('');
+        setHospede('');
         setIdTipoQuarto('');
-        setIdHotel('');
+        setHotel('');
+        setIdCamas('');
+        setIdItens('');
       } 
       else {
-          setId(dados.id);
-          setDataChegada(dados.dataChegada);
-          setDataSaida(dados.dataSaida);
-          setIdHospede(dados.idHospede);
-          setIdTipoQuarto(dados.idTipoQuarto);
-          setIdHotel(dados.hotel);
-      } 
+        setId(dados.id);
+        setChegada(dados.dataChegada);
+        setSaida(dados.dataSaida);
+        setHospede(dados.hospede);
+        setIdTipoQuarto(dados.idTipoQuarto);
+        setHotel(dados.hotel);
+        setIdCamas(dados.camas);
+        setIdItens(dados.itens);
+        setSelectedQuartos(processarSelecionados(dados.tiposDeQuarto));
+        setSelectedCamas(processarSelecionados(dados.camasExtras));
+        setSelectedItens(processarSelecionados(dados.itensExtras));
+    } 
     }
   
       async function salvar() {
       let data = {
         id,
-        dataChegada,
-        dataSaida,
-        idHospede,
+        chegada,
+        saida,
+        hospede,
         idTipoQuarto,
-        idHotel,
+        hotel,
+        idCamas,
+        idItens,
       };
       data = JSON.stringify(data);
       if (idParam == null) {
@@ -92,17 +105,67 @@ function CadastroReserva(){
           setDados(response.data);
         });
         setId(dados.id);
-        setDataChegada(dados.dataChegada);
-        setDataSaida(dados.dataSaida);
-        setIdHospede(dados.idHospede);
+        setChegada(dados.chegada);
+        setSaida(dados.saida);
+        setHospede(dados.hospede);
         setIdTipoQuarto(dados.idTipoQuarto);
-        setIdHotel(dados.hotel);
+        setHotel(dados.hotel);
       }
     }
 
   const [dadosHospede, setDadosHospede] = useState(null);
   const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
   const [dadosHotel, setDadosHotel] = useState(null);
+  const [dadosCamas, setDadosCamas] = useState(null);
+  const [dadosItens, setDadosItens] = useState(null);
+
+const [selectedQuartos, setSelectedQuartos] = useState({});
+const [selectedCamas, setSelectedCamas] = useState({});
+const [selectedItens, setSelectedItens] = useState({});
+
+const processarSelecionados = (dadosString) => {
+    if (!dadosString) return {};
+
+    return dadosString.split("\n").reduce((acc, item) => {
+      const match = item.match(/(\d+)x (.+)/);
+      if (match) {
+        const quantidade = parseInt(match[1], 10);
+        const nome = match[2].trim();
+        acc[nome] = { quantidade };
+      }
+      return acc;
+    }, {});
+  };
+
+useEffect(() => {
+    if (dados) {
+      setSelectedQuartos(processarSelecionados(dados.tiposDeQuarto));
+      setSelectedCamas(processarSelecionados(dados.camasExtras));
+      setSelectedItens(processarSelecionados(dados.itensExtras));
+    }
+  }, [dados]);
+
+const handleSelectionChange = (e, setSelected) => {
+  const { value, checked } = e.target;
+
+  setSelected((prev) => {
+    const updatedSelection = { ...prev };
+
+    if (checked) {
+      updatedSelection[value] = { quantidade: 1 };
+    } else {
+      delete updatedSelection[value];
+    }
+
+    return updatedSelection;
+  });
+};
+
+const handleQuantidadeChange = (id, quantidade, setSelected) =>{
+  setSelected((prev) => ({...prev,
+    [id]: {...prev[id], quantidade },
+  }));
+}
 
   useEffect(() => {
     axios.get(baseURLHospede).then((response) => {
@@ -121,6 +184,18 @@ function CadastroReserva(){
       setDadosHotel(response.data);
     });
 }, []);
+
+  useEffect(() => {
+    axios.get(baseURLCama).then((response) => {
+        setDadosCamas(response.data);
+    });
+}, []);
+
+  useEffect(() => {
+    axios.get(baseURLItem).then((response) => {
+        setDadosItens(response.data);
+    });
+}, []);
   
   useEffect(() => {
     buscar();
@@ -130,6 +205,8 @@ function CadastroReserva(){
   if (!dadosHospede) return null;
   if (!dadosTipoQuarto) return null;
   if (!dadosHotel) return null;
+  if (!dadosCamas) return null;
+  if (!dadosItens) return null;
   
   return (
       <div className='container'>
@@ -137,81 +214,140 @@ function CadastroReserva(){
           <div className='row'>
             <div className='col-lg-12'>
               <div className='bs-component'>
-                <FormGroup label='Data de Chegada: *' htmlFor='inputDataChegada'>
+                <FormGroup label={<strong>Chegada: *</strong>} htmlFor='inputChegada'>
                   <input
-                    type='text'
-                    id='inputDataChegada'
-                    value={dataChegada}
+                    type='datetime-local'
+                    id='inputChegada'
+                    value={chegada}
                     className='form-control'
-                    name='dataChegada'
-                    onChange={(e) => setDataChegada(e.target.value)}
+                    name='chegada'
+                    onChange={(e) => setChegada(e.target.value)}
                   />
                 </FormGroup>
-                <FormGroup label='Data de Saída: *' htmlFor='inputDataSaida'>
+                <FormGroup label={<strong>Saída: *</strong>} htmlFor='inputSaida'>
                   <input
-                    type='text'
-                    id='inputDataSaida'
-                    value={dataSaida}
+                    type='datetime-local'
+                    id='inputSaida'
+                    value={saida}
                     className='form-control'
-                    name='dataSaida'
-                    onChange={(e) => setDataSaida(e.target.value)}
+                    name='saida'
+                    onChange={(e) => setSaida(e.target.value)}
                   />
                 </FormGroup>
-                <FormGroup label='Hospede: *' htmlFor='selectHospede'>
+                <FormGroup label={<strong>Hospede: *</strong>} htmlFor='selectHospede'>
                   <select
                     id='selectHospede'
-                    value={idHospede}
+                    value={hospede}
                     className='form-select'
-                    name='idHospede'
-                    onChange={(e) => setIdHospede(e.target.value)}
+                    name='hospede'
+                    onChange={(e) => setHospede(e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
                     </option>
                     {dadosHospede.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
+                      <option key={dado.id} value={dado.nome}>
                         {dado.nome}
                       </option>
                     ))}
                   </select>
                 </FormGroup>         
-                <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
-                  <select
-                    id='selectTipoQuarto'
-                    value={idTipoQuarto}
-                    className='form-select'
-                    name='idTipoQuarto'
-                    onChange={(e) => setIdTipoQuarto(e.target.value)}
-                  >
-                    <option key='0' value='0'>
-                      {' '}
-                    </option>
-                    {dadosTipoQuarto.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
-                        {dado.tipo}
-                      </option>
-                    ))}
-                  </select>
-                </FormGroup>
-                <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                   <select
                     id='selectHotel'
-                    value={idHotel}
+                    value={hotel}
                     className='form-select'
-                    name='idHotel'
-                    onChange={(e) => setIdHotel(e.target.value)}
+                    name='hotel'
+                    onChange={(e) => setHotel(e.target.value)}
                   >
                     <option key='0' value='0'>
                       {' '}
                     </option>
                     {dadosHotel.map((dado) => (
-                      <option key={dado.id} value={dado.id}>
+                      <option key={dado.id} value={dado.nome}>
                         {dado.nome}
                       </option>
                     ))}
                   </select>
                 </FormGroup>
-                    
+                <FormGroup label={<strong>Tipos de Quarto: *</strong>} htmlFor='selectTipoDeQuarto'>
+                {dadosTipoQuarto.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.tipo}
+                        checked={selectedQuartos[dado.tipo] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, setSelectedQuartos);
+                        }}
+                      />
+                      {dado.tipo}
+                    </label>
+                    {selectedQuartos[dado.tipo] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedQuartos[dado.tipo]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.tipo, e.target.value, setSelectedQuartos)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
+              </FormGroup>
+              <FormGroup label={<strong>Camas extras:</strong>} htmlFor='selectCama'>
+                {dadosCamas.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.tipo}
+                        checked={selectedCamas[dado.tipo] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, setSelectedCamas);
+                        }}
+                      />
+                      {dado.tipo}
+                    </label>
+                    {selectedCamas[dado.tipo] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedCamas[dado.tipo]?.quantidade || ""}
+                        onChange={(e) => handleQuantidadeChange(dado.tipo, e.target.value, setSelectedCamas)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
+
+              </FormGroup>
+              <FormGroup label={<strong>Itens extras:</strong>} htmlFor='selectItem'>
+                {dadosItens.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.nome}
+                        checked={selectedItens[dado.nome] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, setSelectedItens)}}
+                      />
+                      {dado.nome}
+                    </label>
+                    {selectedItens[dado.nome] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedItens[dado.nome]?.quantidade || 1}
+                        onChange={(e) => handleQuantidadeChange(dado.nome, e.target.value, setSelectedItens)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
+              </FormGroup>
                 <Stack spacing={1} padding={1} direction='row'>
                   <button
                     onClick={salvar}

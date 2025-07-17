@@ -9,10 +9,10 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL, BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/tipoDeQuartos`;
-const baseURLCamas = `${BASE_URL}/tipoDeCama`;
+const baseURL = `${BASE_URL}/tiposDeQuarto`;
+const baseURLCamas = `${BASE_URL}/tiposDeCama`;
 const baseURLItens = `${BASE_URL}/itens`;
 function CadastroTipoQuarto() {
   const { idParam } = useParams();
@@ -36,14 +36,18 @@ function CadastroTipoQuarto() {
       setPreco(0);
       setIdCama('');
       setIdItem('');
+      setSelectedCamas('');
+      setSelectedItens('');
     } 
     else {
         setId(dados.id);
         setTipo(dados.tipo);
         setQuantidadeTotal(dados.quantidadeTotal);
-        setPreco(dados.preco);
+        setPreco(`R$ ${dados.preco}`);
         setIdCama(dados.idCama);
         setIdItem(dados.idItem);
+        setSelectedCamas(processarSelecionados(dados.camas));
+        setSelectedItens(processarSelecionados(dados.itens));
     } 
   }
 
@@ -93,7 +97,7 @@ function CadastroTipoQuarto() {
       setId(dados.id);
       setTipo(dados.tipo);
       setQuantidadeTotal(dados.quantidadeTotal);
-      setPreco(dados.preco);
+      setPreco(`R$ ${dados.preco}`);
       setIdCama(dados.idCama);
       setIdItem(dados.idItem);
     }
@@ -102,15 +106,51 @@ function CadastroTipoQuarto() {
 const [dadosCamas, setDadosCamas] = useState([]);
 const [dadosItens, setDadosItens] = useState([]);
 
-const handleCamaChange = (e) => {
-  const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-  setIdCama(selectedValues);
+const [selectedCamas, setSelectedCamas] = useState({});
+const [selectedItens, setSelectedItens] = useState({});
+
+const processarSelecionados = (dadosString) => {
+    if (!dadosString) return {};
+
+    return dadosString.split("\n").reduce((acc, item) => {
+      const match = item.match(/(\d+)x (.+)/);
+      if (match) {
+        const quantidade = parseInt(match[1], 10);
+        const nome = match[2].trim();
+        acc[nome] = { quantidade };
+      }
+      return acc;
+    }, {});
+  };
+
+useEffect(() => {
+    if (dados) {
+      setSelectedCamas(processarSelecionados(dados.camas));
+      setSelectedItens(processarSelecionados(dados.itens));
+    }
+  }, [dados]);
+
+const handleSelectionChange = (e, setSelected) => {
+  const { value, checked } = e.target;
+
+  setSelected((prev) => {
+    const updatedSelection = { ...prev };
+
+    if (checked) {
+      updatedSelection[value] = { quantidade: 1 };
+    } else {
+      delete updatedSelection[value];
+    }
+
+    return updatedSelection;
+  });
 };
 
-const handleItemChange = (e) => {
-  const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-  setIdItem(selectedValues);
-};
+const handleQuantidadeChange = (id, quantidade, setSelected) =>{
+  setSelected((prev) => ({...prev,
+    [id]: {...prev[id], quantidade },
+  }));
+}
 
 useEffect(() => {
   axios.get(baseURLCamas).then((response) => {
@@ -138,7 +178,7 @@ if (!dadosItens) return null;
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Tipo: *' htmlFor='inputTipo'>
+              <FormGroup label={<strong> Tipo: *</strong>} htmlFor='inputTipo'>
                 <input
                   type='text'
                   id='inputTipo'
@@ -148,7 +188,7 @@ if (!dadosItens) return null;
                   onChange={(e) => setTipo(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Quantidade: *' htmlFor='inputQuantidadeTotal'>
+              <FormGroup label={<strong> Quantidade: *</strong>} htmlFor='inputQuantidadeTotal'>
                 <input
                   type='number'
                   id='inputQuantidadeTotal'
@@ -158,48 +198,71 @@ if (!dadosItens) return null;
                   onChange={(e) => setQuantidadeTotal(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Preço: *' htmlFor='inputPreco'>
+              <FormGroup label={<strong> Preço: *</strong>} htmlFor='inputPreco'>
                 <input
-                  type='number'
+                  type='text'
                   id='inputPreco'
                   value={preco}
                   className='form-control'
                   name='preco'
-                  onChange={(e) => setPreco(e.target.value)}
+                  onChange={(e) => {
+                      let valor = (e.target.value.replace(/[^\d,]/g, ""));
+                      valor = `R$ ${valor}`;
+
+                      setPreco(valor);
+                      }}
                 />
               </FormGroup>         
-              <FormGroup label='Cama: *' htmlFor='selectCama'>
-                <select
-                  id='selectCama'
-                  value={idCama}
-                  multiple
-                  className='form-select'
-                  name='idCama'
-                  onChange={handleCamaChange}
-                >
-                  {dadosCamas.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+              <FormGroup label={<strong> Camas: *</strong>} htmlFor='selectCama'>
+                {dadosCamas.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.tipo}
+                        checked={selectedCamas[dado.tipo] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, setSelectedCamas);
+                        }}
+                      />
                       {dado.tipo}
-                    </option>
-                  ))}
-                </select>
+                    </label>
+                    {selectedCamas[dado.tipo] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedCamas[dado.tipo]?.quantidade || ""}
+                        onChange={(e) => handleQuantidadeChange(dado.tipo, e.target.value, setSelectedCamas)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
               </FormGroup>
-
-              <FormGroup label='Item: *' htmlFor='selectItem'>
-                <select
-                  id='selectItem'
-                  value={idItem}
-                  multiple
-                  className='form-select'
-                  name='idItem'
-                  onChange={handleItemChange}
-                >
-                  {dadosItens.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+              <FormGroup label={<strong> Itens: *</strong>} htmlFor='selectItem'>
+                {dadosItens.map((dado) => (
+                  <div key={dado.id} className="flex items-center gap-2">
+                    <label key={dado.id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={dado.nome}
+                        checked={selectedItens[dado.nome] !== undefined}
+                        onChange={(e) => {
+                          handleSelectionChange(e, setSelectedItens)}}
+                      />
                       {dado.nome}
-                    </option>
-                  ))}
-                </select>
+                    </label>
+                    {selectedItens[dado.nome] !== undefined && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={selectedItens[dado.nome]?.quantidade || ""}
+                        onChange={(e) => handleQuantidadeChange(dado.nome, e.target.value, setSelectedItens)}
+                        className="border p-1 w-16"
+                      />
+                    )}
+                  </div>
+                ))}
               </FormGroup>
  
               <Stack spacing={1} padding={1} direction='row'>

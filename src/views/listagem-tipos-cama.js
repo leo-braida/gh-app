@@ -14,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/tipoDeCama`;
+const baseURL = `${BASE_URL}/tiposDeCama`;
 
 function ListagemTiposCama() {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ function ListagemTiposCama() {
 
   return (
     <div className='container'>
-      <Card title='Listagem dos Tipos de Camas'>
+      <Card title='Listagem dos tipos de camas'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -75,7 +75,6 @@ function ListagemTiposCama() {
                 <thead>
                   <tr>
                     <th scope='col'>Tipo</th>
-                    <th scope='col'>Quantidade de camas</th>
                     <th scope='col'>Quantidade de adultos</th>
                     <th scope='col'>Quantidade de crianças</th>
                     <th scope='col'>Ações</th>
@@ -86,7 +85,6 @@ function ListagemTiposCama() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.tipo}</td>
-                      <td>{dado.quantidade}</td>
                       <td>{dado.quantidadeAdultos}</td>
                       <td>{dado.quantidadeCriancas}</td>
                       <td>

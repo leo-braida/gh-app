@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/trabalhadores`;
+const baseURL = `${BASE_URL}/trabalhadores`;
 
 
 function ListagemTrabalhadores() {
@@ -47,7 +47,7 @@ function ListagemTrabalhadores() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir Trabalhador`);
+      mensagemErro(`Erro ao excluir trabalhador`);
     });
   }
 
@@ -93,7 +93,9 @@ function ListagemTrabalhadores() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.telefone}</td>
+                      <td>
+                        {dado.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}
+                      </td>
                       <td>{dado.hotel}
                       </td>
                       <td>{dado.cargo}</td>

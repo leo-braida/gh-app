@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/servicos`;
+const baseURL = `${BASE_URL}/servicos`;
 
 function ListagemServicos() {
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ function ListagemServicos() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
                 >
-                Nova agenda
+                Novo serviço
               </button>
               <table className='table table-hover'>
                 <thead>
@@ -91,7 +91,7 @@ function ListagemServicos() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.descricao}</td>
-                      <td>{dado.preco}</td>
+                      <td>{dado.preco.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</td>
                       <td>{dado.minutosPorAgendamento}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

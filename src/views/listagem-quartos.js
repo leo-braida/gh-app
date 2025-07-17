@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/quartos`;
+const baseURL = `${BASE_URL}/quartos`;
 
 function ListagemQuartos() {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ function ListagemQuartos() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir Quarto`);
+      mensagemErro(`Erro ao excluir quarto`);
     });
   }
 
@@ -74,10 +74,10 @@ function ListagemQuartos() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Hotel</th>
                     <th scope='col'>Tipo de Quarto</th>
                     <th scope='col'>Número</th>
                     <th scope='col'>Situção</th>
+                    <th scope='col'>Hotel</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -85,10 +85,10 @@ function ListagemQuartos() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.hotel}</td>
                       <td>{dado.tipoDeQuarto}</td>
                       <td>{dado.numero}</td>
                       <td>{dado.situacao}</td>
+                      <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

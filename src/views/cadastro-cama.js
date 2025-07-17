@@ -11,7 +11,9 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/tiposDeCama`;
+const baseURL = `${BASE_URL}/camas`;
+const baseURLTipoDeCama = `${BASE_URL}/tiposDeCama`;
+const baseURLHotel = `${BASE_URL}/hoteis`;
 
 function CadastroTipoCama() {
   const { idParam } = useParams();
@@ -20,6 +22,8 @@ function CadastroTipoCama() {
 
   const [id, setId] = useState('');
   const [tipo, setTipo] = useState('');
+  const [quantidade, setQuantidade] = useState(0);
+  const [hotel, setHotel] = useState('');
   const [quantidadeAdultos, setQuantidadeAdultos] = useState(0);
   const [quantidadeCriancas, setQuantidadeCriancas] = useState(0);
 
@@ -29,12 +33,16 @@ function CadastroTipoCama() {
     if (idParam == null) {
       setId('');
       setTipo('');
+      setQuantidade(0);
+      setHotel('');
       setQuantidadeAdultos(0);
       setQuantidadeCriancas(0);
     } 
     else {
       setId(dados.id);
       setTipo(dados.tipo);
+      setQuantidade(dados.quantidade);
+      setHotel(dados.hotel);
       setQuantidadeAdultos(dados.quantidadeAdultos);
       setQuantidadeCriancas(dados.quantidadeCriancas);
     }
@@ -44,6 +52,8 @@ function CadastroTipoCama() {
     let data = {
       id,
       tipo,
+      quantidade,
+      hotel,
       quantidadeAdultos,
       quantidadeCriancas,
     };
@@ -54,8 +64,8 @@ function CadastroTipoCama() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Tipo de cama ${tipo} cadastrado com sucesso!`)
-          navigate(`/listagem-tipos-cama`);
+          mensagemSucesso(`Cama cadastrada com sucesso!`)
+          navigate(`/listagem-cama`);
       }) 
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -67,8 +77,8 @@ function CadastroTipoCama() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Tipo de cama ${tipo} alterado com sucesso!`);
-          navigate(`/listagem-tipos-cama`);
+          mensagemSucesso(`Cama alterada com sucesso!`);
+          navigate(`/listagem-cama`);
         })
         .catch(function (error) {
           mensagemErro(error.response.data);
@@ -83,32 +93,87 @@ function CadastroTipoCama() {
       });
       setId(dados.id);
       setTipo(dados.tipo);
+      setQuantidade(dados.quantidade);
+      setHotel(dados.hotel);
       setQuantidadeAdultos(dados.quantidadeAdultos);
       setQuantidadeCriancas(dados.quantidadeCriancas);
     }
   }
+
+  const [dadosTipoDeCama, setDadosTipoDeCama] = useState(null);
+  const [dadosHotel, setDadosHotel] = useState(null);
+
+  useEffect(() => {
+    axios.get(baseURLTipoDeCama).then((response) => {
+        setDadosTipoDeCama(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(baseURLHotel).then((response) => {
+        setDadosHotel(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     buscar();
   }, [id]);
 
   if (!dados) return null;
+  if (!dadosHotel) return null;
+  if (!dadosTipoDeCama) return null;
 
   return (
     <div className='container'>
-      <Card title='Cadastro de Tipo de Cama'>
+      <Card title='Cadastro de Cama'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label={<strong> Tipo: *</strong>} htmlFor='inputTipo'>
+              <FormGroup label={<strong> Tipo de cama: *</strong>} htmlFor='selectTipoDeCama'>
+                  <select
+                    id='selectTipoDeCama'
+                    value={tipo}
+                    className='form-select'
+                    name='tipoDeCama'
+                    onChange={(e) => setTipo(e.target.value)}
+                  >
+                    <option key='0' value='0'>
+                      {' '}
+                    </option>
+                    {dadosTipoDeCama.map((dado) => (
+                      <option key={dado.id} value={dado.tipo}>
+                        {dado.tipo}
+                      </option>
+                    ))}
+                  </select>
+              </FormGroup>
+              <FormGroup label={<strong> Quantidade: *</strong>} htmlFor='inputQuantidade'>
                 <input
-                  type='text'
-                  id='inputTipo'
-                  value={tipo}
+                  type='number'
+                  id='inputQuantidade'
+                  value={quantidade}
                   className='form-control'
-                  name='tipo'
-                  onChange={(e) => setTipo(e.target.value)}
+                  name='quantidade'
+                  onChange={(e) => setQuantidade(e.target.value)}
                 />
+              </FormGroup>
+              <FormGroup label={<strong> Hotel: *</strong>} htmlFor='selectHotel'>
+                  <select
+                    id='selectHotel'
+                    value={hotel}
+                    className='form-select'
+                    name='hotel'
+                    onChange={(e) => setHotel(e.target.value)}
+                  >
+                    <option key='0' value='0'>
+                      {' '}
+                    </option>
+                    {dadosHotel.map((dado) => (
+                      <option key={dado.id} value={dado.nome}>
+                        {dado.nome}
+                      </option>
+                    ))}
+                  </select>
               </FormGroup>
               <FormGroup label={<strong> Quantidade de adultos: *</strong>} htmlFor='inputQuantidadeAdultos'>
                 <input
@@ -120,6 +185,7 @@ function CadastroTipoCama() {
                   onChange={(e) => setQuantidadeAdultos(e.target.value)}
                 />
               </FormGroup>
+              
               <FormGroup label={<strong> Quantidade de crianças: *</strong>} htmlFor='inputQuantidadeCriancas'>
                 <input
                   type='number'

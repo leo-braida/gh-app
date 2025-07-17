@@ -30,13 +30,21 @@ function Navbar(props) {
             />
           </ul>
         </div>
-        {/* Falta completar com os href após fazer as rotas */}
         <div className='collapse navbar-collapse' id='navbarResponsive'>
           <ul className='navbar-nav'>
             <NavbarItem
               render='true'
               href='/listagem-hoteis'
               label='Hotéis'
+              />
+          </ul>
+         </div>
+         <div className='collapse navbar-collapse' id='navbarResponsive'>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-cama'
+              label='Camas'
               />
           </ul>
          </div>
@@ -135,7 +143,7 @@ function Navbar(props) {
             <NavbarItem
               render='true'
               href='/cadastro-reserva'
-              label='Fazer reserva'
+              label='Reservar'
             />
           </ul>
         </div>

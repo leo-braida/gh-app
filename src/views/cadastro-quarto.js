@@ -9,11 +9,11 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL2, BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/quartos`;
-const baseURLTipoQuarto = `${BASE_URL3}/tipoDeQuartos`;
-const baseURLHoteis = `${BASE_URL2}/hoteis`;
+const baseURL = `${BASE_URL}/quartos`;
+const baseURLTipoQuarto = `${BASE_URL}/tiposDeQuarto`;
+const baseURLHoteis = `${BASE_URL}/hoteis`;
 
 function CadastroQuarto(){
   const { idParam } = useParams();
@@ -21,26 +21,26 @@ function CadastroQuarto(){
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
+  const [tipoDeQuarto, setTipoDeQuarto] = useState('');
   const [situacao, setSituacao] = useState('');
   const [numero, setNumero] = useState('');
-  const [tipoQuarto, setTipoQuarto] = useState('');
   const [hotel, setHotel] = useState('');
+
   const [dados, setDados] = useState([]);
-  const [hoteis, setHoteis] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
       setId('');
+      setTipoDeQuarto('');
       setSituacao('');
-      setNumero('');
-      setTipoQuarto('');
+      setNumero(0);
       setHotel('');
     } 
     else {
       setId(dados.id);
+      setTipoDeQuarto(dados.tipoDeQuarto);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
-      setTipoQuarto(dados.idTipoQuarto);
       setHotel(dados.hotel);
     } 
   }
@@ -48,10 +48,10 @@ function CadastroQuarto(){
     async function salvar() {
     let data = {
       id,
+      tipoDeQuarto,
       situacao,
       numero,
-      tipoQuarto,
-      hotel,
+      hotel
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -60,7 +60,7 @@ function CadastroQuarto(){
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Quarto: ${id} cadastrado com sucesso!`)
+          mensagemSucesso(`Quarto ${numero} cadastrado com sucesso!`)
           navigate(`/listagem-quartos`);
       }) 
         .catch(function (error) {
@@ -73,7 +73,7 @@ function CadastroQuarto(){
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Quarto: ${id} alterado com sucesso!`);
+          mensagemSucesso(`Quarto ${numero} alterado com sucesso!`);
           navigate(`/listagem-quartos`);
         })
         .catch(function (error) {
@@ -84,32 +84,29 @@ function CadastroQuarto(){
 
   async function buscar() {
     if (idParam != null){
-      Promise.all([
-        axios.get(`${baseURL}/${idParam}`),
-        axios.get(`${baseURLHoteis}`)
-      ])
-      .then((responses) => {
-          setDados(responses[0].data);
-          setHoteis(responses[1].data);
-        })
-      };
+      await axios.get(`${baseURL}/${idParam}`).then((response) => {
+        setDados(response.data);
+      });
       setId(dados.id);
-      setSituacao(dados.situacao);
+      setTipoDeQuarto(dados.tipoDeQuarto);
       setNumero(dados.numero);
-      setTipoQuarto(dados.tipoQuarto);
+      setSituacao(dados.situacao);
+      setHotel(dados.hotel);
     }
+  }
   
-
-
-  useEffect(() => {
-    buscar();
-  }, [id]);
-
   const [dadosTipoQuarto, setDadosTipoQuarto] = useState(null);
+  const [dadosHoteis, setDadosHoteis] = useState(null);
 
   useEffect(() => {
     axios.get(baseURLTipoQuarto).then((response) => {
       setDadosTipoQuarto(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(baseURLHoteis).then((response) => {
+      setDadosHoteis(response.data);
     });
   }, []);
 
@@ -119,6 +116,7 @@ function CadastroQuarto(){
 
   if (!dados) return null;
   if (!dadosTipoQuarto) return null;
+  if (!dadosHoteis) return null;
 
   return (
     <div className='container'>
@@ -126,17 +124,25 @@ function CadastroQuarto(){
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Situação: *' htmlFor='inputSituacao'>
-                <input
-                  type='text'
-                  id='inputSituacao'
-                  value={situacao}
-                  className='form-control'
-                  name='situacao'
-                  onChange={(e) => setSituacao(e.target.value)}
-                />
+            <FormGroup label={<strong>Tipo de Quarto: *</strong>} htmlFor='selectTipoQuarto'>
+                <select
+                  id='selectTipoQuarto'
+                  value={tipoDeQuarto}
+                  className='form-select'
+                  name='idTipoQuarto'
+                  onChange={(e) => setTipoDeQuarto(e.target.value)}
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosTipoQuarto.map((dado) => (
+                    <option key={dado.id} value={dado.tipo}>
+                      {dado.tipo}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
-              <FormGroup label='Número: *' htmlFor='inputNumero'>
+              <FormGroup label={<strong>Número: *</strong>} htmlFor='inputNumero'>
                 <input
                   type='number'
                   id='inputNumero'
@@ -146,30 +152,34 @@ function CadastroQuarto(){
                   onChange={(e) => setNumero(e.target.value)}
                 />
               </FormGroup>
-              <script>
-                /*
-              <FormGroup label='Tipo de Quarto: *' htmlFor='selectTipoQuarto'>
-                
+              <FormGroup label={<strong>Situação: *</strong>} htmlFor='inputSituacao'>
+                <input
+                  type='text'
+                  id='inputSituacao'
+                  value={situacao}
+                  className='form-control'
+                  name='situacao'
+                  onChange={(e) => setSituacao(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                 <select
-                  
-                  id='selectTipoQuarto'
-                  //value={idTipoQuarto}
+                  id='selectHotel'
+                  value={hotel}
                   className='form-select'
-                  //name='idTipoQuarto'
-                  //onChange={(e) => setIdTipoQuarto(e.target.value)}
+                  name='Hotel'
+                  onChange={(e) => setHotel(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
-                  {dadosTipoQuarto.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
-                      {dado.tipo}
+                  {dadosHoteis.map((dado) => (
+                    <option key={dado.id} value={dado.nome}>
+                      {dado.nome}
                     </option>
                   ))}
                 </select>
               </FormGroup>
-                */ 
-                </script>
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

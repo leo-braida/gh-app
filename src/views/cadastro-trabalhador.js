@@ -9,44 +9,49 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/trabalhadores`;
-const baseURLHotel = `${BASE_URL2}/hoteis`;
+const baseURL = `${BASE_URL}/trabalhadores`;
+const baseURLHotel = `${BASE_URL}/hoteis`;
+const baseURLCargo = `${BASE_URL}/cargos`;
 
-function CadastroTrabalhador(){
-    const {idParam} = useParams();
+function CadastroTrabalhador() {
+    const { idParam } = useParams();
 
     const navigate = useNavigate();
 
     const [id, setId] = useState('');
     const [nome, setNome] = useState('');
+    const [telefone, setTelefone] = useState('');
     const [cargo, setCargo] = useState('');
-    const [idHotel, setIdHotel] = useState('');
+    const [hotel, setHotel] = useState('');
 
     const [dados, setDados] = useState([]);
 
-    function inicializar(){
-        if (idParam == null){
+    function inicializar() {
+        if (idParam == null) {
             setId('');
             setNome('');
+            setTelefone('');
             setCargo('');
-            setIdHotel('');
+            setHotel('');
         }
-        else{
+        else {
             setId(dados.id);
             setNome(dados.nome);
+            setTelefone(dados.telefone);
             setCargo(dados.cargo);
-            setIdHotel(dados.idHotel);
+            setHotel(dados.hotel);
         }
     }
 
-    async function salvar(){
-        let data={
+    async function salvar() {
+        let data = {
             id,
             nome,
+            telefone,
             cargo,
-            idHotel,
+            hotel,
         };
         data = JSON.stringify(data);
         if (idParam == null) {
@@ -55,7 +60,7 @@ function CadastroTrabalhador(){
                 headers: { 'Content-Type': 'application/json' },
               })
               .then(function (response) {
-                mensagemSucesso(`Trabalhador: ${id} cadastrado com sucesso!`)
+                mensagemSucesso(`Trabalhador ${nome} cadastrado com sucesso!`)
                 navigate(`/listagem-trabalhadores`);
             }) 
               .catch(function (error) {
@@ -68,124 +73,141 @@ function CadastroTrabalhador(){
                 headers: { 'Content-Type': 'application/json' },
               })
               .then(function (response) {
-                mensagemSucesso(`Trabalhador: ${id} alterado com sucesso!`);
+                mensagemSucesso(`Trabalhador ${nome} alterado com sucesso!`);
                 navigate(`/listagem-trabalhadores`);
               })
               .catch(function (error) {
                 mensagemErro(error.response.data);
             });
         }
-        
+
     }
 
-    async function buscar(){
-        if (idParam != null){
+    async function buscar() {
+        if (idParam != null) {
             await axios.get(`${baseURL}/${idParam}`).then((response) => {
                 setDados(response.data);
             });
             setId(dados.id);
             setNome(dados.nome);
+            setTelefone(dados.telefone?.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
             setCargo(dados.cargo);
-            setIdHotel(dados.idHotel);
+            setHotel(dados.hotel);
         }
     }
 
-const [dadosHotel, setDadosHotel] = useState(null);
+    const [dadosHotel, setDadosHotel] = useState(null);
+    const [dadosCargos, setDadosCargos] = useState(null);
 
-useEffect(() => {
-    axios.get(baseURLHotel).then((response) => {
-        setDadosHotel(response.data);
-    });
-}, []);
+    useEffect(() => {
+        axios.get(baseURLHotel).then((response) => {
+            setDadosHotel(response.data);
+        });
+    }, []);
 
-useEffect(() => {
-  buscar();
-}, [id]);
+    useEffect(() => {
+        axios.get(baseURLCargo).then((response) => {
+            setDadosCargos(response.data);
+        });
+    }, []);
 
-if (!dados) return null;
-if (!dadosHotel) return null;
+    useEffect(() => {
+        buscar();
+    }, [id]);
 
-    return(
+    if (!dados) return null;
+    if (!dadosHotel) return null;
+    if (!dadosCargos) return null;
+
+    return (
         <div className='container'>
             <Card title='Cadastro de Trabalhador'>
                 <div className='row'>
                     <div className='col-lg-12'>
                         <div className='bs-component'>
-                            <FormGroup label='Nome: *' htmlFor='inputQuantidadeTotal'>
+                            <FormGroup label={<strong>Nome: *</strong>} htmlFor='inputNome'>
                                 <input
-                                type='text'
-                                id='inputNome'
-                                value={nome}
-                                className='form-control'
-                                name='nome'
-                                onChange={(e) => setNome(e.target.value)}
+                                    type='text'
+                                    id='inputNome'
+                                    value={nome}
+                                    className='form-control'
+                                    name='nome'
+                                    onChange={(e) => setNome(e.target.value)}
                                 />
                             </FormGroup>
-                            {/* <FormGroup label='Cargo: *' htmlFor='inputCargo'>
+                            <FormGroup label={<strong>Telefone: *</strong>} htmlFor='inputTelefone'>
                                 <input
-                                type='text'
-                                id='inputCargo'
-                                value={cargo}
+                                type='tel'
+                                id='inputTelefone'
+                                value={telefone}
                                 className='form-control'
-                                name='cargo'
-                                onChange={(e) => setCargo(e.target.value)}
+                                placeholder="(00) 00000-0000"
+                                name='telefone'
+                                onChange={(e) => {
+                                    const valor = (e.target.value.replace(/\D/g, ""));
+                                    if (valor.length <= 2) {
+                                    return setTelefone(valor);
+                                    }
+                                    if (valor.length <= 7) {
+                                    return setTelefone(valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2"));
+                                    } else {
+                                    return setTelefone(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
+                                    }
+                                    }
+                                }
                                 />
-                            </FormGroup>          */}
-                            <FormGroup label='Cargo: *' htmlFor='selectCargo'>
+                            </FormGroup>
+                            <FormGroup label={<strong>Cargo: *</strong>} htmlFor='selectCargo'>
                                 <select
-                                id='selectHotel'
-                                value={cargo}
-                                className='form-select'
-                                name='cargo'
-                                onChange={(e) => setCargo(e.target.value)}
+                                    id='selectCargo'
+                                    value={cargo}
+                                    className='form-select'
+                                    name='cargo'
+                                    onChange={(e) => setCargo(e.target.value)}
                                 >
-                                <option key='0' value='0'>
-                                    {' '}
-                                </option>
-                                <option key='1' value='funcionario'>
-                                    {'funcionario'}
-                                </option>
-                                <option key='2' value='gerente'>
-                                    {'gerente'}
-                                </option>
-                                <option key='3' value='admin'>
-                                    {'admin'}
-                                </option>
+                                    <option key='0' value='0'>
+                                        {' '}
+                                    </option>
+                                    {dadosCargos.map((dado) => (
+                                        <option key={dado.id} value={dado.nome}>
+                                            {dado.nome}
+                                        </option>
+                                    ))}
                                 </select>
                             </FormGroup>
-                            <FormGroup label='Hotel: *' htmlFor='selectHotel'>
+                            <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                                 <select
-                                id='selectHotel'
-                                value={idHotel}
-                                className='form-select'
-                                name='idHotel'
-                                onChange={(e) => setIdHotel(e.target.value)}
+                                    id='selectHotel'
+                                    value={hotel}
+                                    className='form-select'
+                                    name='hotel'
+                                    onChange={(e) => setHotel(e.target.value)}
                                 >
-                                <option key='0' value='0'>
-                                    {' '}
-                                </option>
-                                {dadosHotel.map((dado) => (
-                                    <option key={dado.id} value={dado.id}>
-                                    {dado.nome}
+                                    <option key='0' value='0'>
+                                        {' '}
                                     </option>
-                                ))}
+                                    {dadosHotel.map((dado) => (
+                                        <option key={dado.id} value={dado.nome}>
+                                            {dado.nome}
+                                        </option>
+                                    ))}
                                 </select>
                             </FormGroup>
 
                             <Stack spacing={1} padding={1} direction='row'>
                                 <button
-                                onClick={salvar}
-                                type='button'
-                                className='btn btn-success'
+                                    onClick={salvar}
+                                    type='button'
+                                    className='btn btn-success'
                                 >
-                                Salvar
+                                    Salvar
                                 </button>
                                 <button
-                                onClick={inicializar}
-                                type='button'
-                                className='btn btn-danger'
+                                    onClick={inicializar}
+                                    type='button'
+                                    className='btn btn-danger'
                                 >
-                                Cancelar
+                                    Cancelar
                                 </button>
                             </Stack>
                         </div>

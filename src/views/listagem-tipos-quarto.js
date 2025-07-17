@@ -12,10 +12,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
 
-const baseURL = `${BASE_URL3}/tipoDequartos`;
+const baseURL = `${BASE_URL}/tiposDeQuarto`;
 
 function ListagemTiposQuarto() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function ListagemTiposQuarto() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Serviço excluído com sucesso!`); //*CORRIGIR
+      mensagemSucesso(`Tipo de quarto excluído com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -47,7 +47,7 @@ function ListagemTiposQuarto() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir serviço`);//*CORRIGIR
+      mensagemErro(`Erro ao excluir tipo de quarto`);
     });
   }
   
@@ -95,7 +95,7 @@ function ListagemTiposQuarto() {
                     <tr key={dado.id}>
                       <td>{dado.tipo}</td>
                       <td>{dado.quantidadeTotal}</td>
-                      <td>{dado.preco}</td>
+                      <td>{dado.preco.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</td>
                       <td>
                         {dado.camas.split("\n").map((linha, index) => (
                           <p key={index}>{linha}</p>

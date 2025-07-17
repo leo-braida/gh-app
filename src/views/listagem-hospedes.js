@@ -46,7 +46,7 @@ function ListagemHospedes() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir tipo de cama`);
+      mensagemErro(`Erro ao excluir hóspede`);
     });
   }
 
@@ -97,8 +97,10 @@ function ListagemHospedes() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.genero}</td>
-                      <td>{dado.dataNasc}</td>
-                      <td>{dado.telefone}</td>
+                      <td>{new Date(dado.dataNasc.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
+                      <td>
+                        {dado.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}
+                      </td>
                       <td>{dado.email}</td>
                       <td>{dado.cpf}</td>
                       <td>{dado.estado}</td>

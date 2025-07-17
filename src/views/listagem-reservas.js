@@ -46,31 +46,16 @@ function ListagemReservas() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir Reserva`);
+      mensagemErro(`Erro ao excluir reserva`);
     });
   }
 
-  const [hospedes, setHospedes] = React.useState(null);
-  const [hospedesNaReserva, setHospedesNaReserva] = React.useState(null);
-  const [tipoDeQuartosNaReserva, setTipoDeQuartosNaReserva] = React.useState(null);
-  const [tipoDeQuartos, setTipoDeQuarto] = React.useState(null);
-  const [hotel, setHotel] = React.useState(null);
-
   React.useEffect(() => {
     Promise.all([
-    axios.get(baseURL),
-    /*axios.get(baseURLHospede),
-    axios.get(baseURLHospedeNaReserva),
-    axios.get(baseURLTipoDeQuartoNaReserva),
-    axios.get(baseURLTipoDeQuarto)*/
-    
+    axios.get(baseURL),   
     ])
     .then((responses) => {
         setDados(responses[0].data);
-        /*setHospedes(responses[1].data);
-        setHospedesNaReserva(responses[2].data);
-        setTipoDeQuartosNaReserva(responses[3].data);
-        setTipoDeQuarto(responses[4].data)*/;
       })
   }, []);
 
@@ -95,8 +80,10 @@ function ListagemReservas() {
                     <th scope='col'>Data de chegada</th>
                     <th scope='col'>Data de saída</th>
                     <th scope='col'>Hóspedes na Reserva</th>
-                    <th scope='col'>Tipo de quarto</th>
+                    <th scope='col'>Tipos de quartos</th>
                     <th scope='col'>Hotel</th>
+                    <th scope='col'>Itens pedidos</th>
+                    <th scope='col'>Camas extras</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -104,33 +91,38 @@ function ListagemReservas() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.dataChegada}</td>
-                      <td>{dado.dataSaida}</td>
-                      <td>{dado.hospede}
-                        {/*hospedesNaReserva
-                          .filter((hospedeNaReserva) => hospedeNaReserva.idReserva === dado.id)
-                          .map((hospedeNaReserva) => {
-                            const hospede = hospedes.find((h) => h.id === hospedeNaReserva.idHospede);
-                            return (
-                              <div key={hospedeNaReserva.id}>
-                                {hospede.nome}
-                              </div>
-                            );
-                          })*/}
+                      <td>{new Date(dado.chegada).toLocaleDateString("pt-br")} {new Date(dado.chegada).toLocaleTimeString("pt-br", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
                       </td>
-                      <td>{dado.tipoDeQuarto}
-                        {/*tipoDeQuartosNaReserva
-                          .filter((tipoReserva) => tipoReserva.idReserva === dado.id)
-                          .map((tipoReserva) => {
-                            const tipoQuarto = tipoDeQuartos.find((tq) => tq.id === tipoReserva.idTipoDeQuarto);
-                            return (
-                              <div key={tipoReserva.id}>
-                                {tipoQuarto.tipo}
-                              </div>
-                            );
-                          })*/}
+                      <td>{new Date(dado.saida).toLocaleDateString("pt-br")} {new Date(dado.saida).toLocaleTimeString("pt-br", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                      </td>
+                      <td>{dado.hospede}</td>
+                      <td>
+                        {dado.tiposDeQuarto?.split("\n").map((linha, index) => (
+                          <p key={index}>{linha}</p>
+                          )
+                        )}
                       </td>
                       <td>{dado.hotel}</td>
+                      <td>
+                        {dado.itensExtras !== undefined && (
+                          dado.itensExtras.split("\n").map((linha, index) => (
+                          <p key={index}>{linha}</p>
+                          ))
+                        )}
+                      </td>
+                      <td>
+                        {dado.camasExtras !== undefined && (
+                          dado.camasExtras.split("\n").map((linha, index) => (
+                            <p key={index}>{linha}</p>
+                          ))
+                        )}
+                      </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

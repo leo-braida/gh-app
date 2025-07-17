@@ -9,10 +9,14 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL2, BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/agendamentos`;
-const baseURLServicos = `${BASE_URL2}/servicos`;
+const baseURL = `${BASE_URL}/agendamentos`;
+const baseURLServicos = `${BASE_URL}/servicos`;
+const baseURLHotel = `${BASE_URL}/hoteis`;
+const baseURLTrabalhador = `${BASE_URL}/trabalhadores`;
+const baseURLHospedeRegistrado = `${BASE_URL}/hospedes`;
+const baseURLQuarto = `${BASE_URL}/quartos`;
 
 function CadastroAgendamento(){
   const { idParam } = useParams();
@@ -20,46 +24,48 @@ function CadastroAgendamento(){
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
-  const [horarioInicio, setHorarioInicio] = useState('');
-  const [idServicos, setIdServicos] = useState('');
-  const [data, setData] = useState('');
-  const [funcionario, setFuncionario] = useState("");
-  const [quarto, setQuarto] = useState("");
-  const [hospede, setHospede] = useState("");
+  const [reserva, setReserva] = useState('');
+  const [servico, setServico] = useState('');
+  const [funcionario, setFuncionario] = useState('');
+  const [quarto, setQuarto] = useState(0);
+  const [hospedeRegistrado, setHospedeRegistrado] = useState('');
+  const [hotel, setHotel] = useState('');
 
   const [dados, setDados] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setHorarioInicio('');
-      setIdServicos('');
-      setData('');
+      setReserva('');
+      setServico('');
       setFuncionario('');
-      setQuarto('');
-      setHospede('');
+      setQuarto(0);
+      setHospedeRegistrado('');
+      setHotel('');
+      
     } 
     else {
         setId(dados.id);
-        setHorarioInicio(dados.horario);
-        setIdServicos(dados.idServicos);
-        setData(dados.data);
+        setReserva(dados.horario);
+        setServico(dados.servico);
         setFuncionario(dados.funcionario);
         setQuarto(dados.quarto);
-        setHospede(dados.hospede);
+        setHospedeRegistrado(dados.hospedeRegistrado);
+        setHotel(dados.hotel);
     } 
   }
 
     async function salvar() {
     let data = {
       id,
-      horarioInicio,
-      idServicos,
-      data,
+      reserva,
+      servico,
       funcionario,
       quarto,
-      hospede,
+      hospedeRegistrado,
+      hotel,
     };
+    
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -80,7 +86,7 @@ function CadastroAgendamento(){
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Agendamento: ${id} alterado com sucesso!`);
+          mensagemSucesso(`Agendamento ${id} alterado com sucesso!`);
           navigate(`/listagem-agendamentos`);
         })
         .catch(function (error) {
@@ -95,12 +101,20 @@ function CadastroAgendamento(){
         setDados(response.data);
       });
       setId(dados.id);
-      setHorarioInicio(dados.horarioInicio);
-      setIdServicos(dados.idServicos);
+      setReserva(dados.reserva);
+      setServico(dados.servico);
+      setFuncionario(dados.funcionario);
+      setHospedeRegistrado(dados.hospedeRegistrado);
+      setQuarto(dados.quarto);
+      setHotel(dados.hotel);
     }
   }
 
 const [dadosServicos, setDadosServicos] = useState(null);
+const [dadosTrabalhador, setDadosTrabalhador] = useState(null);
+const [dadosHospedeRegistrado, setDadosHospedeRegistrado] = useState(null);
+const [dadosQuartos, setDadosQuartos] = useState(null);
+const [dadosHotel, setDadosHotel] = useState(null);
 
 useEffect(() => {
     axios.get(baseURLServicos).then((response) => {
@@ -109,11 +123,39 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
+  axios.get(baseURLTrabalhador).then((response) => {
+    setDadosTrabalhador(response.data);
+  });
+}, []);
+
+useEffect(() => {
+  axios.get(baseURLHospedeRegistrado).then((response) => {
+    setDadosHospedeRegistrado(response.data);
+  });
+}, []);
+
+useEffect(() => {
+  axios.get(baseURLQuarto).then((response) => {
+    setDadosQuartos(response.data);
+  });
+}, []);
+
+useEffect(() => {
+  axios.get(baseURLHotel).then((response) => {
+    setDadosHotel(response.data);
+  });
+}, []);
+
+useEffect(() => {
   buscar();
 }, [id]);
 
 if (!dados) return null;
 if (!dadosServicos) return null;
+if (!dadosTrabalhador) return null;
+if (!dadosHospedeRegistrado) return null;
+if (!dadosQuartos) return null;
+if (!dadosHotel) return null;
 
 return (
     <div className='container'>
@@ -121,99 +163,106 @@ return (
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Horário: *' htmlFor='inputHorarioInicio'>
+              <FormGroup label={<strong>Reserva: *</strong>} htmlFor='inputReserva'>
                 <input
-                  type='text'
-                  id='inputHorarioInicio'
-                  value={horarioInicio}
+                  type='datetime-local'
+                  id='inputReserva'
+                  value={reserva}
                   className='form-control'
-                  name='horarioInicio'
-                  onChange={(e) => setHorarioInicio(e.target.value)}
+                  name='reserva'
+                  onChange={(e) => setReserva(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Serviço: *' htmlFor='selectServicos'>
+              <FormGroup label={<strong>Serviço: *</strong>} htmlFor='selectServicos'>
                 <select
                   id='selectServicos'
-                  value={idServicos}
+                  value={servico}
                   className='form-select'
-                  name='idServicos'
-                  onChange={(e) => setIdServicos(e.target.value)}
+                  name='servico'
+                  onChange={(e) => setServico(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosServicos.map((dado) => (
-                    <option key={dado.id} value={dado.id}>
+                    <option key={dado.id} value={dado.nome}>
                       {dado.nome}
                     </option>
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label='Data: *' htmlFor='inputData'>
-                <input
-                  type='date'
-                  id='inputData'
-                  value={data}
-                  className='form-control'
-                  name='data'
-                  onChange={(e) => setData(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup label='Funcionário: *' htmlFor='inputFuncionario'>
-                <input
-                  type='text'
-                  id='inputFuncionario'
+              <FormGroup label={<strong>Trabalhador: *</strong>} htmlFor='selectTrabalhador'>
+                <select
+                  id='selectTrabalhador'
                   value={funcionario}
-                  className='form-control'
-                  name='funcionario'
+                  className='form-select'
+                  name='trabalhador'
                   onChange={(e) => setFuncionario(e.target.value)}
-                />
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosTrabalhador.map((dado) => (
+                    <option key={dado.id} value={dado.nome}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
-              <FormGroup label='Quarto: *' htmlFor='inputQuarto'>
-                <input
-                  type='text'
-                  id='inputQuarto'
+              <FormGroup label={<strong>Hospede: *</strong>} htmlFor='selectHospedeRegistrado'>
+                  <select
+                    id='selectHospedeRegistrado'
+                    value={hospedeRegistrado}
+                    className='form-select'
+                    name='hospede'
+                    onChange={(e) => setHospedeRegistrado(e.target.value)}
+                  >
+                    <option key='0' value='0'>
+                      {' '}
+                    </option>
+                    {dadosHospedeRegistrado.map((dado) => (
+                      <option key={dado.id} value={dado.nome}>
+                        {dado.nome}
+                      </option>
+                    ))}
+                  </select>
+                </FormGroup>         
+              <FormGroup label={<strong>Quarto: *</strong>} htmlFor='selectQuarto'>
+                <select
+                  id='selectQuarto'
                   value={quarto}
-                  className='form-control'
+                  className='form-select'
                   name='quarto'
                   onChange={(e) => setQuarto(e.target.value)}
-                />
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosQuartos.map((dado) => (
+                    <option key={dado.id} value={dado.numero}>
+                      {dado.numero}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
-              <FormGroup label='Hóspede: *' htmlFor='inputHospede'>
-                <input
-                  type='text'
-                  id='inputHospede'
-                  value={hospede}
-                  className='form-control'
-                  name='hospede'
-                  onChange={(e) => setHospede(e.target.value)}
-                />
-
-                {/* <input
-                  type='hidden'
-                  id='inputId'
-                  value={id}
-                  className='form-control'
-                  name='id'
-                /> */}
-
-                {/* <input
-                  type='hidden'
-                  id='inputData'
-                  value={data}
-                  className='form-control'
-                  name='data'
-                /> */}
-
-                {/* <input
-                  type='hidden'
-                  id='inputFuncionario'
-                  value={funcionario}
-                  className='form-control'
-                  name='funcionario'
-                /> */}
+              <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
+                <select
+                  id='selectHotel'
+                  value={hotel}
+                  className='form-select'
+                  name='hotel'
+                  onChange={(e) => setHotel(e.target.value)}
+                >
+                  <option key='0' value='0'>
+                    {' '}
+                  </option>
+                  {dadosHotel.map((dado) => (
+                    <option key={dado.id} value={dado.nome}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
- 
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

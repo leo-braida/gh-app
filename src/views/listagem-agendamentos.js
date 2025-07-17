@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL3 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL3}/agendamentos`;
+const baseURL = `${BASE_URL}/agendamentos`;
 
 function ListagemAgendamentos() {
   const navigate = useNavigate();
@@ -78,12 +78,12 @@ function ListagemAgendamentos() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Horário início</th>
-                    <th scope='col'>Data</th>
+                    <th scope='col'>Reserva</th>
                     <th scope='col'>Serviço</th>
                     <th scope='col'>Funcionário</th>
                     <th scope='col'>Hóspede</th>
                     <th scope='col'>Quarto</th>
+                    <th scope='col'>Hotel</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -91,12 +91,16 @@ function ListagemAgendamentos() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.horarioInicio}</td>
-                      <td>{dado.data}</td>
+                      <td>{new Date(dado.reserva).toLocaleDateString("pt-br")} {new Date(dado.reserva).toLocaleTimeString("pt-br", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                      </td>
                       <td>{dado.servico}</td>
                       <td>{dado.funcionario}</td>
                       <td>{dado.hospedeRegistrado}</td>
                       <td>{dado.quarto}</td>
+                      <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

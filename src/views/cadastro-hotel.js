@@ -9,9 +9,9 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/hoteis`;
+const baseURL = `${BASE_URL}/hoteis`;
 
 function CadastroHotel() {
   const { idParam } = useParams();
@@ -53,8 +53,8 @@ function CadastroHotel() {
         setBairro(dados.bairro);
         setLogradouro(dados.logradouro);
         setNumero(dados.numero);
-        setTelefone(dados.telefone);
-        setCelular(dados.celular);
+        setTelefone(dados.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
+        setCelular(dados.celular.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
         setEmail(dados.email);
     }
   }
@@ -80,7 +80,7 @@ function CadastroHotel() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-          mensagemSucesso(`Hotel ${nome} cadastrada com sucesso!`)
+          mensagemSucesso(`Hotel ${nome} cadastrado com sucesso!`)
           navigate(`/listagem-hoteis`);
       }) 
         .catch(function (error) {
@@ -115,8 +115,8 @@ function CadastroHotel() {
         setBairro(dados.bairro);
         setLogradouro(dados.logradouro);
         setNumero(dados.numero);
-        setTelefone(dados.telefone);
-        setCelular(dados.celular);
+        setTelefone(dados.telefone?.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
+        setCelular(dados.celular?.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"));
         setEmail(dados.email);
     }
   }
@@ -133,7 +133,7 @@ function CadastroHotel() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Nome: *' htmlFor='inputNome'>
+              <FormGroup label={<strong> Nome: *</strong>} htmlFor='inputNome'>
                 <input
                   type='text'
                   id='inputNome'
@@ -143,7 +143,7 @@ function CadastroHotel() {
                   onChange={(e) => setNome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Estado: *' htmlFor='inputEstado'>
+              <FormGroup label={<strong> Estado: *</strong>} htmlFor='inputEstado'>
                 <input
                   type='text'
                   id='inputEstado'
@@ -153,7 +153,7 @@ function CadastroHotel() {
                   onChange={(e) => setEstado(e.target.value)}
                 />
               </FormGroup>         
-              <FormGroup label='Cidade: *' htmlFor='inputCidade'>
+              <FormGroup label={<strong> Cidade: *</strong>} htmlFor='inputCidade'>
                 <input
                   type='text'
                   id='inputCidade'
@@ -164,7 +164,7 @@ function CadastroHotel() {
                 />
               </FormGroup>
               
-              <FormGroup label='Cep: *' htmlFor='inputCep'>
+              <FormGroup label={<strong> Cep: *</strong>} htmlFor='inputCep'>
                 <input
                   type='text'
                   id='inputCep'
@@ -174,7 +174,7 @@ function CadastroHotel() {
                   onChange={(e) => setCep(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Bairro: *' htmlFor='inputBairro'>
+              <FormGroup label={<strong> Bairro: *</strong>} htmlFor='inputBairro'>
                 <input
                   type='text'
                   id='inputBairro'
@@ -184,7 +184,7 @@ function CadastroHotel() {
                   onChange={(e) => setBairro(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Logradouro: *' htmlFor='inputLogradouro'>
+              <FormGroup label={<strong> Logradouro: *</strong>} htmlFor='inputLogradouro'>
                 <input
                   type='text'
                   id='inputLogradouro'
@@ -194,7 +194,7 @@ function CadastroHotel() {
                   onChange={(e) => setLogradouro(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Número: *' htmlFor='inputNumero'>
+              <FormGroup label={<strong> Número: *</strong>} htmlFor='inputNumero'>
                 <input
                   type='text'
                   id='inputNumero'
@@ -204,27 +204,50 @@ function CadastroHotel() {
                   onChange={(e) => setNumero(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+              <FormGroup label={<strong> Telefone: *</strong>} htmlFor='inputTelefone'>
                 <input
-                  type='text'
+                  type='tel'
                   id='inputTelefone'
                   value={telefone}
                   className='form-control'
+                  placeholder="(00) 00000-0000"
                   name='telefone'
-                  onChange={(e) => setTelefone(e.target.value)}
+                  onChange={(e) => {
+                    const valor = (e.target.value.replace(/\D/g, ""));
+                    if (valor.length <= 2) {
+                      return setTelefone(valor);
+                    }
+                    if (valor.length <= 7) {
+                      return setTelefone(valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2"));
+                    } else {
+                      return setTelefone(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
+                    }
+                    }
+                  }
                 />
               </FormGroup>
-              <FormGroup label='Celular: *' htmlFor='inputCelular'>
+              <FormGroup label={<strong> Celular: *</strong>} htmlFor='inputCelular'>
                 <input
                   type='text'
                   id='inputCelular'
                   value={celular}
                   className='form-control'
                   name='celular'
-                  onChange={(e) => setCelular(e.target.value)}
+                  onChange={(e) => {
+                    const valor = (e.target.value.replace(/\D/g, ""));
+                    if (valor.length <= 2) {
+                      return setCelular(valor);
+                    }
+                    if (valor.length <= 7) {
+                      return setCelular(valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2"));
+                    } else {
+                      return setCelular(valor.substring(0, 11).replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3"));
+                    }
+                    }
+                  }
                 />
               </FormGroup>
-              <FormGroup label='Email: *' htmlFor='inputEmail'>
+              <FormGroup label={<strong> Email: *</strong>} htmlFor='inputEmail'>
                 <input
                   type='text'
                   id='inputEmail'

@@ -12,9 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL3 } from '../config/axios';
+import { BASE_URL} from '../config/axios';
 
-const baseURL = `${BASE_URL3}/hospedagens`;
+const baseURL = `${BASE_URL}/hospedagens`;
 
 function ListagemHospedagens() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function ListagemHospedagens() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Hospedagem excluído com sucesso!`);
+      mensagemSucesso(`Hospedagem excluída com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -85,23 +85,49 @@ function ListagemHospedagens() {
                     <th scope='col'>Crianças</th>
                     <th scope='col'>Quartos</th>
                     <th scope='col'>Serviços</th>
-                    <th scope='col'>Itens usados</th>
                     <th scope='col'>Fez reserva?</th>
+                    <th scope='col'>Hotel</th>
+                    <th scope='col'>Camas Extras</th>
+                    <th scope='col'>Itens Extras</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.checkIn}</td>
-                      <td>{dado.checkOut}</td>
+                      <td>
+                        {new Date(dado.checkIn).toLocaleDateString("pt-br")} {new Date(dado.checkIn).toLocaleTimeString("pt-br", {
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
+                      </td>
+                      <td>
+                        {new Date(dado.checkOut).toLocaleDateString("pt-br")} {new Date(dado.checkOut).toLocaleTimeString("pt-br", {
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
+                      </td>
                       <td>{dado.hospede}</td>
                       <td>{dado.adultos}</td>
                       <td>{dado.criancas}</td>
                       <td>{dado.quarto}</td> 
                       <td>{dado.servicos}</td>
-                      <td>{dado.itens}</td>
                       <td>{dado.reserva}</td>
+                      <td>{dado.hotel}</td>
+                      <td>
+                      {dado.camasExtras !== undefined && (
+                          dado.camasExtras.split("\n").map((linha, index) => (
+                          <p key={index}>{linha}</p>
+                          ))
+                        )}
+                      </td>
+                      <td>
+                      {dado.itensExtras !== undefined && (
+                          dado.itensExtras.split("\n").map((linha, index) => (
+                          <p key={index}>{linha}</p>
+                          ))
+                        )}
+                      </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

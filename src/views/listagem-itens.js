@@ -38,7 +38,7 @@ function ListagemItens() {
         headers: { 'Content-Type': 'application/json' },
     })
     .then(function (response) {
-      mensagemSucesso(`Tipo de cama excluído com sucesso!`);
+      mensagemSucesso(`Item excluído com sucesso!`);
       setDados(
         dados.filter((dado) => {
           return dado.id !== id;
@@ -46,7 +46,7 @@ function ListagemItens() {
       );
     })
     .catch(function (error) {
-      mensagemErro(`Erro ao excluir tipo de cama`);
+      mensagemErro(`Erro ao excluir item`);
     });
   }
 
@@ -77,6 +77,7 @@ function ListagemItens() {
                     <th scope='col'>Nome</th>
                     <th scope='col'>Quantidade</th>
                     <th scope='col'>Preço</th>
+                    <th scope='col'>Hotel</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -86,7 +87,8 @@ function ListagemItens() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.quantidadeEmEstoque}</td>
-                      <td>{dado.preco}</td>
+                      <td>{dado.preco.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</td>
+                      <td>{dado.hotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
