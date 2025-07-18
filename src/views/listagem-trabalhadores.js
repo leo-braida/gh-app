@@ -96,9 +96,9 @@ function ListagemTrabalhadores() {
                       <td>
                         {dado.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}
                       </td>
-                      <td>{dado.hotel}
+                      <td>{dado.nomeHotel}
                       </td>
-                      <td>{dado.cargo}</td>
+                      <td>{dado.nomeCargo}</td>
 
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>

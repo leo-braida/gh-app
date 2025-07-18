@@ -79,50 +79,35 @@ function ListagemReservas() {
                   <tr>
                     <th scope='col'>Data de chegada</th>
                     <th scope='col'>Data de saída</th>
-                    <th scope='col'>Hóspedes na Reserva</th>
+                    <th scope='col'>Hóspede responsável</th>
                     <th scope='col'>Tipos de quartos</th>
                     <th scope='col'>Hotel</th>
-                    <th scope='col'>Itens pedidos</th>
-                    <th scope='col'>Camas extras</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
-                  
+
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{new Date(dado.chegada).toLocaleDateString("pt-br")} {new Date(dado.chegada).toLocaleTimeString("pt-br", {
+                      <td>{new Date(dado.dataChegada).toLocaleDateString("pt-br")} {new Date(dado.dataChegada).toLocaleTimeString("pt-br", {
                         hour: "2-digit",
                         minute: "2-digit"
                       })}
                       </td>
-                      <td>{new Date(dado.saida).toLocaleDateString("pt-br")} {new Date(dado.saida).toLocaleTimeString("pt-br", {
+                      <td>{new Date(dado.dataSaida).toLocaleDateString("pt-br")} {new Date(dado.dataSaida).toLocaleTimeString("pt-br", {
                         hour: "2-digit",
                         minute: "2-digit"
                       })}
                       </td>
-                      <td>{dado.hospede}</td>
+                      <td>{dado.nomeHospedeResponsavel}</td>
                       <td>
-                        {dado.tiposDeQuarto?.split("\n").map((linha, index) => (
-                          <p key={index}>{linha}</p>
-                          )
-                        )}
+                        {dado.quartosNaReserva.map((quarto, index) => (
+                            <div key={index}>
+                            {quarto}
+                            </div>
+                        ))}
                       </td>
                       <td>{dado.hotel}</td>
-                      <td>
-                        {dado.itensExtras !== undefined && (
-                          dado.itensExtras.split("\n").map((linha, index) => (
-                          <p key={index}>{linha}</p>
-                          ))
-                        )}
-                      </td>
-                      <td>
-                        {dado.camasExtras !== undefined && (
-                          dado.camasExtras.split("\n").map((linha, index) => (
-                            <p key={index}>{linha}</p>
-                          ))
-                        )}
-                      </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -131,7 +116,7 @@ function ListagemReservas() {
                           >
                             <EditIcon />
                           </IconButton>
-                          
+
                           <IconButton
                             aria-label='delete'
                             onClick={() => excluir(dado.id)}
