@@ -85,10 +85,10 @@ function ListagemQuartos() {
                   
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.tipoDeQuarto}</td>
+                      <td>{dado.nomeTipoDeQuarto}</td>
                       <td>{dado.numero}</td>
                       <td>{dado.situacao}</td>
-                      <td>{dado.hotel}</td>
+                      <td>{dado.nomeHotel}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

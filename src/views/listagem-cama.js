@@ -77,8 +77,6 @@ function ListagemCama() {
                     <th scope='col'>Tipo</th>
                     <th scope='col'>Quantidade de camas</th>
                     <th scope='col'>Hotel</th>
-                    <th scope='col'>Quantidade de adultos</th>
-                    <th scope='col'>Quantidade de crianças</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -89,8 +87,6 @@ function ListagemCama() {
                       <td>{dado.tipo}</td>
                       <td>{dado.quantidade}</td>
                       <td>{dado.hotel}</td>
-                      <td>{dado.quantidadeAdultos}</td>
-                      <td>{dado.quantidadeCriancas}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

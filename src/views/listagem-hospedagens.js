@@ -84,11 +84,8 @@ function ListagemHospedagens() {
                     <th scope='col'>Adultos</th>
                     <th scope='col'>Crianças</th>
                     <th scope='col'>Quartos</th>
-                    <th scope='col'>Serviços</th>
                     <th scope='col'>Fez reserva?</th>
                     <th scope='col'>Hotel</th>
-                    <th scope='col'>Camas Extras</th>
-                    <th scope='col'>Itens Extras</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -111,23 +108,8 @@ function ListagemHospedagens() {
                       <td>{dado.adultos}</td>
                       <td>{dado.criancas}</td>
                       <td>{dado.quarto}</td> 
-                      <td>{dado.servicos}</td>
-                      <td>{dado.reserva}</td>
+                      <td>{dado.reserva ? "Sim" : "Não"}</td>
                       <td>{dado.hotel}</td>
-                      <td>
-                      {dado.camasExtras !== undefined && (
-                          dado.camasExtras.split("\n").map((linha, index) => (
-                          <p key={index}>{linha}</p>
-                          ))
-                        )}
-                      </td>
-                      <td>
-                      {dado.itensExtras !== undefined && (
-                          dado.itensExtras.split("\n").map((linha, index) => (
-                          <p key={index}>{linha}</p>
-                          ))
-                        )}
-                      </td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

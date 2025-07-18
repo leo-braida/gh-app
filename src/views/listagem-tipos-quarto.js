@@ -84,7 +84,6 @@ function ListagemTiposQuarto() {
                     <th scope='col'>Quantidade Total</th>
                     <th scope='col'>Preço</th>
                     <th scope='col'>Camas</th>
-                    <th scope='col'>Itens</th>
                     <th scope='col'>Quantidade de adultos</th>
                     <th scope='col'>Quantidade de crianças</th>
                     <th scope='col'>Ações</th>
@@ -97,12 +96,7 @@ function ListagemTiposQuarto() {
                       <td>{dado.quantidadeTotal}</td>
                       <td>{dado.preco.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</td>
                       <td>
-                        {dado.camas.split("\n").map((linha, index) => (
-                          <p key={index}>{linha}</p>
-                        ))}
-                      </td>
-                      <td>
-                        {dado.itens.split("\n").map((linha, index) => (
+                        {dado.quantidadeCamas.split("\n").map((linha, index) => (
                           <p key={index}>{linha}</p>
                         ))}
                       </td>

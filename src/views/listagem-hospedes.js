@@ -76,18 +76,9 @@ function ListagemHospedes() {
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Gênero</th>
                     <th scope='col'>Data de Nascimento</th>
                     <th scope='col'>Telefone</th>
                     <th scope='col'>E-mail</th>
-                    <th scope='col'>CPF</th>
-                    <th scope='col'>Estado</th>
-                    <th scope='col'>Cidade</th>
-                    <th scope='col'>CEP</th>
-                    <th scope='col'>Bairro</th>
-                    <th scope='col'>Logradouro</th>
-                    <th scope='col'>Número</th>
-                    <th scope='col'>Complemento</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -96,20 +87,11 @@ function ListagemHospedes() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.genero}</td>
-                      <td>{new Date(dado.dataNasc.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
+                      <td>{new Date(dado.dataNascimento.replace(/-/g, "/")).toLocaleDateString("pt-BR")}</td>
                       <td>
                         {dado.telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")}
                       </td>
                       <td>{dado.email}</td>
-                      <td>{dado.cpf}</td>
-                      <td>{dado.estado}</td>
-                      <td>{dado.cidade}</td>
-                      <td>{dado.cep}</td>
-                      <td>{dado.bairro}</td>
-                      <td>{dado.logradouro}</td>
-                      <td>{dado.numero}</td>
-                      <td>{dado.complemento}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

@@ -12,7 +12,6 @@ import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/itens`;
-const baseURLHotel = `${BASE_URL}/hoteis`
 
 function CadastroItem() {
   const { idParam } = useParams();
@@ -20,39 +19,25 @@ function CadastroItem() {
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
-  const [quantidadeEmEstoque, setQuantidadeEmEstoque] = useState(0);
   const [nome, setNome] = useState('');
-  const [preco, setPreco] = useState(0);
-  const [hotel, setHotel] = useState('');
 
   const [dados, setDados] = useState([]);
   
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setQuantidadeEmEstoque(0);
       setNome('');
-      setPreco(0);
-      setHotel('');
-      setSelectedHotel('');
     } 
     else {
         setId(dados.id);
-        setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
-        setPreco(`R$ ${dados.preco}`);
-        setHotel(dados.hotel);
-        setSelectedHotel(processarSelecionados(dados.hotel));
     }
   }
 
   async function salvar() {
     let data = {
       id,
-      quantidadeEmEstoque,
       nome,
-      preco,
-      hotel,
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -89,10 +74,7 @@ function CadastroItem() {
         setDados(response.data);
       });
         setId(dados.id);
-        setQuantidadeEmEstoque(dados.quantidadeEmEstoque);
         setNome(dados.nome);
-        setPreco(`R$ ${dados.preco}`);
-        setHotel(dados.hotel);
     }
   }
 
@@ -100,43 +82,11 @@ function CadastroItem() {
       buscar();
     }, [id]);
 
-  const [dadosHoteis, setDadosHoteis] = useState(null);
-
-  const [selectedHotel, setSelectedHotel] = useState({});
-
-  const processarSelecionados = (dadosString) => {
-    if (!dadosString) return {};
-
-    return dadosString.split("\n").reduce((acc, item) => {
-      const match = item.match(/(\d+)x (.+)/);
-      if (match) {
-        const quantidade = parseInt(match[1], 10);
-        const nome = match[2].trim();
-        acc[nome] = { quantidade };
-      }
-      return acc;
-    }, {});
-  };
-
-  useEffect(() => {
-    axios.get(baseURLHotel).then((response) => {
-      setDadosHoteis(response.data);
-    });
-  }, []);
-
-  useEffect(() => {
-      if (dados) {
-        setSelectedHotel(processarSelecionados(dados.hotel));
-      }
-    }, [dados]);
-
   useEffect(() => {
     buscar();
   }, [id]);
 
   if (!dados) return null;
-  if (!dadosHoteis) return null;
- 
 
   return (
     <div className='container'>
@@ -153,49 +103,6 @@ function CadastroItem() {
                   name='nome'
                   onChange={(e) => setNome(e.target.value)}
                 />
-              </FormGroup>
-              <FormGroup label={<strong>Quantidade Em Estoque: *</strong>} htmlFor='inputQuantidadeEmEstoque'>
-                <input
-                  type='number'
-                  id='inputQuantidadeEmEstoque'
-                  value={quantidadeEmEstoque}
-                  className='form-control'
-                  name='quantidade em estoque'
-                  onChange={(e) => setQuantidadeEmEstoque(e.target.value)}
-                />
-              </FormGroup>         
-              <FormGroup label={<strong>Preço: *</strong>} htmlFor='inputPreco'>
-                <input
-                  type='text'
-                  id='inputPreco'
-                  value={preco}
-                  className='form-control'
-                  name='preco'
-                  onChange={(e) => {
-                      let valor = (e.target.value.replace(/[^\d,]/g, ""));
-                      valor = `R$ ${valor}`;
-                      setPreco(valor);
-                      }}
-                />
-              </FormGroup>
-              <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
-                
-                <select
-                  id='selectHotel'
-                  value={hotel}
-                  className='form-select'
-                  name='hotel'
-                  onChange={(e) => setHotel(e.target.value)}
-                >
-                  <option key='0' value='0'>
-                    {' '}
-                  </option>
-                  {dadosHoteis.map((dado) => (
-                    <option key={dado.id} value={dado.nome}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
               </FormGroup>
 
               <Stack spacing={1} padding={1} direction='row'>

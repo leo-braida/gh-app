@@ -21,37 +21,37 @@ function CadastroQuarto(){
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
-  const [tipoDeQuarto, setTipoDeQuarto] = useState('');
+  const [idTipoDeQuarto, setIdTipoDeQuarto] = useState('');
   const [situacao, setSituacao] = useState('');
   const [numero, setNumero] = useState('');
-  const [hotel, setHotel] = useState('');
+  const [idHotel, setIdHotel] = useState('');
 
   const [dados, setDados] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
       setId('');
-      setTipoDeQuarto('');
+      setIdTipoDeQuarto(0);
       setSituacao('');
       setNumero(0);
-      setHotel('');
+      setIdHotel(0);
     } 
     else {
       setId(dados.id);
-      setTipoDeQuarto(dados.tipoDeQuarto);
+      setIdTipoDeQuarto(dados.idTipoDeQuarto);
       setSituacao(dados.situacao);
       setNumero(dados.numero);
-      setHotel(dados.hotel);
+      setIdHotel(dados.IdHotel);
     } 
   }
 
     async function salvar() {
     let data = {
       id,
-      tipoDeQuarto,
+      idTipoDeQuarto,
       situacao,
       numero,
-      hotel
+      idHotel
     };
     data = JSON.stringify(data);
     if (idParam == null) {
@@ -88,10 +88,10 @@ function CadastroQuarto(){
         setDados(response.data);
       });
       setId(dados.id);
-      setTipoDeQuarto(dados.tipoDeQuarto);
+      setIdTipoDeQuarto(dados.idTipoDeQuarto);
       setNumero(dados.numero);
       setSituacao(dados.situacao);
-      setHotel(dados.hotel);
+      setIdHotel(dados.idHotel);
     }
   }
   
@@ -127,16 +127,16 @@ function CadastroQuarto(){
             <FormGroup label={<strong>Tipo de Quarto: *</strong>} htmlFor='selectTipoQuarto'>
                 <select
                   id='selectTipoQuarto'
-                  value={tipoDeQuarto}
+                  value={idTipoDeQuarto}
                   className='form-select'
                   name='idTipoQuarto'
-                  onChange={(e) => setTipoDeQuarto(e.target.value)}
+                  onChange={(e) => setIdTipoDeQuarto(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosTipoQuarto.map((dado) => (
-                    <option key={dado.id} value={dado.tipo}>
+                    <option key={dado.id} value={dado.id}>
                       {dado.tipo}
                     </option>
                   ))}
@@ -165,16 +165,16 @@ function CadastroQuarto(){
               <FormGroup label={<strong>Hotel: *</strong>} htmlFor='selectHotel'>
                 <select
                   id='selectHotel'
-                  value={hotel}
+                  value={idHotel}
                   className='form-select'
-                  name='Hotel'
-                  onChange={(e) => setHotel(e.target.value)}
+                  name='idHotel'
+                  onChange={(e) => setIdHotel(e.target.value)}
                 >
                   <option key='0' value='0'>
                     {' '}
                   </option>
                   {dadosHoteis.map((dado) => (
-                    <option key={dado.id} value={dado.nome}>
+                    <option key={dado.id} value={dado.id}>
                       {dado.nome}
                     </option>
                   ))}
