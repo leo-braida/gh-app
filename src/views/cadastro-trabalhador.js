@@ -9,8 +9,10 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
+import api from '../config/api';
 import { inputClasses } from '@mui/material';
+
+import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/trabalhadores`;
 const baseURLHotel = `${BASE_URL}/hoteis`;

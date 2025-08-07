@@ -27,11 +27,12 @@ import CadastroHospedagem from './views/cadastro-hospedagem';
 import CadastroCargo from './views/cadastro-cargo';
 import CadastroCama from './views/cadastro-cama';
 
+import Login from './views/login';
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
 
 function Rotas(props){
-  return (
+    return (
     <BrowserRouter>
       <Routes>
         <Route
@@ -83,7 +84,7 @@ function Rotas(props){
           path='/cadastro-itens/:idParam?'
           element={<CadastroItem />}
         />
-        
+
         <Route
           path='cadastro-hospede/:idParam?'
           element={<CadastroHospede />}
@@ -156,6 +157,10 @@ function Rotas(props){
         <Route
           path='/listagem-hoteis/:idParam?'
           element={<ListagemHoteis />}
+        />
+        <Route
+          path='/login'
+          element={<Login />}
         />
       </Routes>
     </BrowserRouter>

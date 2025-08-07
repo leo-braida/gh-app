@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
+import api from '../config/api';
 import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/agendamentos`;

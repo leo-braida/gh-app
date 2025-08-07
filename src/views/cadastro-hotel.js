@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
@@ -9,11 +9,11 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
+//import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/hoteis`;
-
 function CadastroHotel() {
+    const token = localStorage.getItem('token');
     const { idParam } = useParams();
 
     const navigate = useNavigate();
@@ -77,7 +77,7 @@ function CadastroHotel() {
         if (idParam == null) {
             await axios
             .post(baseURL, data, {
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             })
             .then(function (response) {
                 mensagemSucesso(`Hotel ${nome} cadastrado com sucesso!`)
@@ -90,7 +90,7 @@ function CadastroHotel() {
         else {
             await axios
             .put(`${baseURL}/${idParam}`, data, {
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             })
             .then(function (response) {
                 mensagemSucesso(`Hotel ${nome} alterado com sucesso!`);
@@ -104,7 +104,8 @@ function CadastroHotel() {
 
     async function buscar() {
         if (idParam != null){
-            await axios.get(`${baseURL}/${idParam}`).then((response) => {
+            await axios.get(`${baseURL}/${idParam}`, 
+                {headers: {'Authorization': `Bearer ${token}`}}).then((response) => {
                 setDados(response.data);
             });
             setId(dados.id);
@@ -282,4 +283,4 @@ function CadastroHotel() {
 
 }
 
-export default CadastroHotel;
+export default CadastroHotel;*/

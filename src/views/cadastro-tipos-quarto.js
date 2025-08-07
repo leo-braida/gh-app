@@ -8,12 +8,13 @@ import FormGroup from '../components/form-group';
 
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
-import axios from 'axios';
+import api from '../config/api';
 import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/tiposDeQuarto`;
 const baseURLCamas = `${BASE_URL}/tiposDeCama`;
 const baseURLItens = `${BASE_URL}/itens`;
+
 function CadastroTipoQuarto() {
     const { idParam } = useParams();
 
@@ -67,7 +68,7 @@ function CadastroTipoQuarto() {
         };
         data = JSON.stringify(data);
         if (idParam == null) {
-            await axios
+            await api
             .post(baseURL, data, {
                 headers: { 'Content-Type': 'application/json' },
             })
@@ -80,7 +81,7 @@ function CadastroTipoQuarto() {
             });
         }
         else {
-            await axios
+            await api
             .put(`${baseURL}/${idParam}`, data, {
                 headers: { 'Content-Type': 'application/json' },
             })
@@ -96,7 +97,7 @@ function CadastroTipoQuarto() {
 
     async function buscar() {
         if (idParam != null){
-            await axios.get(`${baseURL}/${idParam}`).then((response) => {
+            await api.get(`${baseURL}/${idParam}`).then((response) => {
                 setDados(response.data);
             });
             setId(dados.id);
@@ -167,13 +168,13 @@ function CadastroTipoQuarto() {
     }
 
     useEffect(() => {
-        axios.get(baseURLCamas).then((response) => {
+        api.get(baseURLCamas).then((response) => {
             setDadosCamas(response.data);
         });
     }, []);
 
     useEffect(() => {
-        axios.get(baseURLItens).then((response) => {
+        api.get(baseURLItens).then((response) => {
             setDadosItens(response.data);
         });
     }, []);

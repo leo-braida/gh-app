@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
@@ -9,8 +9,8 @@ import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
-
+//import { BASE_URL } from '../config/axios';
+/*
 const baseURL = `${BASE_URL}/agendamentos`;
 const baseURLServicos = `${BASE_URL}/servicos`;
 const baseURLHotel = `${BASE_URL}/hoteis`;
@@ -288,3 +288,4 @@ return (
 }
 
 export default CadastroAgendamento;
+*/

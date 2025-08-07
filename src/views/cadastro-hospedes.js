@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
@@ -10,7 +10,7 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 
 import axios from 'axios';
-import { BASE_URL } from '../config/axios';
+//import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/hospedes`;
 
@@ -360,3 +360,4 @@ function CadastroHospede() {
 }
 
 export default CadastroHospede;
+*/
